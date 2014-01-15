@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  
+  <servlet>
+    <servlet-name>greetServlet</servlet-name>
+    <servlet-class>com.hdm.stundenplantool2.server.VerwaltungImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>greetServlet</servlet-name>
+    <url-pattern>/stundenplantool2/verwaltung</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>report</servlet-name>
+    <servlet-class>com.hdm.stundenplantool2.server.report.ReportImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>report</servlet-name>
+    <url-pattern>/stundenplantool2/report</url-pattern>
+  </servlet-mapping>
+  
+  
+  <welcome-file-list>
+    <welcome-file>stundenplantool2.html</welcome-file>
+  </welcome-file-list>
+</web-app>
