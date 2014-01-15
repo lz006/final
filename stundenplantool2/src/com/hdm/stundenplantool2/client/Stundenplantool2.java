@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.hdm.stundenplantool2.shared.*;
 
+//blabla
 public class Stundenplantool2 implements EntryPoint {
 	
 	private final VerwaltungAsync verwaltung = GWT.create(Verwaltung.class);
@@ -99,7 +100,7 @@ public class Stundenplantool2 implements EntryPoint {
 		}		
 	}
 	
-	
+	//test
 	public void setDozentFormToMain() {
 		dF = new DozentForm(verwaltung);
 		dtvm.setDozentForm(dF);
