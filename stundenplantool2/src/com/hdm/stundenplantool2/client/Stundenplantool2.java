@@ -99,7 +99,6 @@ public class Stundenplantool2 implements EntryPoint {
 			return;
 		}		
 	}
-	
 	//test
 	public void setDozentFormToMain() {
 		dF = new DozentForm(verwaltung);
