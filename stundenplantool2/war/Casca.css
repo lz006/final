@@ -37,6 +37,15 @@ h1 {
  -moz-border-radius: 3px;
 }
 
+.gwt-ListBox { 
+	size: 200px;
+	
+}
+
+.gwt-Label {
+	size: 200px;
+}
+
 .foot {
 	width: 100%;
 	padding: 10px;
