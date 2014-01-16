@@ -26,6 +26,7 @@ public class Stundenplantool2 implements EntryPoint {
 	private CellTree cellTree;
 	private DozentTreeViewModel dtvm;
 	private DockLayoutPanel p;
+	private Image image;
 	private ScrollPanel navi;
 	private VerticalPanel footPanel;
 
@@ -64,7 +65,7 @@ public class Stundenplantool2 implements EntryPoint {
 		dtvm.setRootNode(cellTree.getRootTreeNode());
 		dtvm.setCellTree(cellTree);
 	
-	    Image image = new Image();
+	    image = new Image();
 		image.setUrl("http://www.abload.de/img/widmlogo-frei8qjj3.png");
 		image.setHeight("10em");
 		image.setAltText("WI-Logo");
