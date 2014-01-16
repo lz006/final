@@ -67,7 +67,7 @@ public class Stundenplantool2 implements EntryPoint {
 		
 		footPanel = new VerticalPanel();
 		footPanel.add(visibilityTreeButton);
-		footPanel.add(new Label("Footer"));
+		footPanel.add(new Label("IT-Projekt 4. Semester von Timm Roth(tr047), Tobias Moser(tm066), Lucas Zanella(lz006), Stefan Sonntag(ss305), Gino Sidney(gk024) und Mathias Zimmermann(mz048)"));
 		footPanel.addStyleName("foot");
 		
 		p.addNorth(new Label("Head"), 3);
