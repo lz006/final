@@ -69,7 +69,7 @@ public class Stundenplantool2 implements EntryPoint {
 		image.setUrl("http://www.abload.de/img/widmlogo-frei8qjj3.png");
 		image.setHeight("10em");
 		image.setAltText("WI-Logo");
-
+//blubb
 		
 		p = new DockLayoutPanel(Unit.EM);
 		
