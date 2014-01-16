@@ -92,7 +92,17 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 			
 		}
 		
-		return new HTMLReportWriter().getHTMLString(sPlan);
+		StringBuffer  x = new StringBuffer();
+		x.append("<p>");
+		x.append(sv.getJahrgang());
+		x.append(sv.getStudiengang().getBezeichnung());
+		x.append("</p>");
+		
+		String tempHtml = new HTMLReportWriter().getHTMLString(sPlan);
+		
+		x.append(tempHtml);
+		
+		return x.toString();
 	}
 	
 	public Vector<Studiengang> auslesenAlleStudiengaengeOhneSVuLV() throws RuntimeException {
