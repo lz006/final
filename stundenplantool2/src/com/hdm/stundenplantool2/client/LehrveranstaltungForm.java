@@ -30,20 +30,20 @@ public class LehrveranstaltungForm extends VerticalPanel {
 	
 	Lehrveranstaltung shownLehrveranstaltung = null;
 	
-	Label bezeichnungLabel = new Label("Bezeichnung");
+	Label bezeichnungLabel = new Label("Bezeichnung:");
 	TextBox lvBezeichnungTb = new TextBox();
 	
-	Label studiensemesterLabel = new Label("Studiensemester");
+	Label studiensemesterLabel = new Label("Studiensemester:");
 	ListBox studiensemesterListBox = new ListBox();
 	
-	Label umfangLabel = new Label("Umfang in SWS");
+	Label umfangLabel = new Label("Umfang in SWS:");
 	ListBox umfangListBox = new ListBox();
 	
-	Label dozentLabel = new Label("Dozenten");
+	Label dozentLabel = new Label("Dozenten:");
 	ListBox dozentListBox = new ListBox();
 	Button dozentHinzufuegenButton = new Button("Hinzufügen");
 	
-	Label studiengangLabel = new Label("Studiengänge");
+	Label studiengangLabel = new Label("Studiengänge:");
 	ListBox studiengangListBox = new ListBox();
 	Button studiengangHinzufuegenButton = new Button("Hinzufügen");
 	
@@ -85,17 +85,17 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		obenGrid.setWidget(2, 0, umfangLabel);
 		obenGrid.setWidget(2, 1, umfangListBox);
 		
-		studiensemesterListBox.addItem("1.Sem");
-		studiensemesterListBox.addItem("2.Sem");
-		studiensemesterListBox.addItem("3.Sem");
-		studiensemesterListBox.addItem("4.Sem");
-		studiensemesterListBox.addItem("5.Sem");
-		studiensemesterListBox.addItem("6.Sem");
-		studiensemesterListBox.addItem("7.Sem");
-		studiensemesterListBox.addItem("8.Sem");
-		studiensemesterListBox.addItem("9.Sem");
-		studiensemesterListBox.addItem("10.Sem");
-		studiensemesterListBox.addItem("11.Sem");
+		studiensemesterListBox.addItem("1.Semester");
+		studiensemesterListBox.addItem("2.Semester");
+		studiensemesterListBox.addItem("3.Semester");
+		studiensemesterListBox.addItem("4.Semester");
+		studiensemesterListBox.addItem("5.Semester");
+		studiensemesterListBox.addItem("6.Semester");
+		studiensemesterListBox.addItem("7.Semester");
+		studiensemesterListBox.addItem("8.Semester");
+		studiensemesterListBox.addItem("9.Semester");
+		studiensemesterListBox.addItem("10.Semester");
+		studiensemesterListBox.addItem("11.Semester");
 		
 		umfangListBox.addItem("2");
 		umfangListBox.addItem("4");

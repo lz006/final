@@ -34,7 +34,7 @@ public class StudiengangForm extends VerticalPanel {
 	Label kuerzelLabel = new Label("Kürzel :");
 	TextBox kuerzelTb = new TextBox();
 	
-	Label lvLabel = new Label("Lehreranstaltungen");
+	Label lvLabel = new Label("Lehreranstaltungen:");
 	ListBox lvListBox;
 	
 	Label gesamtStudentenLabel = new Label("Gesamtzahl Studierender: ");

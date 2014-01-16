@@ -9,6 +9,7 @@ h1 {
   text-align: center;
 }
 
+
 .sendButton {
   display: block;
   font-size: 30pt;
@@ -1044,7 +1045,7 @@ select {
   border-top: 1px solid #999;
   font-size: small;
   font-family: Arial Unicode MS, Arial, sans-serif;
-  width: 150px;
+  width: 190px;
 }
 .gwt-TextBox-readonly {
   color: #888;

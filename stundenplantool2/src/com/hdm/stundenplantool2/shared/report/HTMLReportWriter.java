@@ -5,7 +5,7 @@ public class HTMLReportWriter {
 	StringBuffer result = new StringBuffer();
 	
 	public String getHTMLString(SimpleReport plan) {
-		result.append("<table>");
+		result.append("<table style=\"border:1px solid silver\">");
 		for (int i = 0; i < 9; i++) {
 			result.append("<tr>");
 			for (int j = 0; j < 9; j++) {
