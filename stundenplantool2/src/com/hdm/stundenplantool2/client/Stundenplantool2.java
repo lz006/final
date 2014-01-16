@@ -2,6 +2,7 @@ package com.hdm.stundenplantool2.client;
 
 
 
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -18,7 +19,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.hdm.stundenplantool2.shared.*;
 
-//blabla
 public class Stundenplantool2 implements EntryPoint {
 	
 	private final VerwaltungAsync verwaltung = GWT.create(Verwaltung.class);
@@ -28,6 +28,7 @@ public class Stundenplantool2 implements EntryPoint {
 	private DockLayoutPanel p;
 	private ScrollPanel navi;
 	private VerticalPanel footPanel;
+	private Image image;
 	
 	private DozentForm dF;
 	private BelegungForm bF;
@@ -62,6 +63,9 @@ public class Stundenplantool2 implements EntryPoint {
 		navi.add(cellTree);
 		dtvm.setRootNode(cellTree.getRootTreeNode());
 		dtvm.setCellTree(cellTree);
+	
+	    image.setUrl("http://www7.pic-upload.de/16.01.14/9c3sbxek86x.png");
+
 		
 		p = new DockLayoutPanel(Unit.EM);
 		
@@ -70,7 +74,7 @@ public class Stundenplantool2 implements EntryPoint {
 		footPanel.add(new Label("IT-Projekt 4. Semester von Timm Roth(tr047), Tobias Moser(tm066), Lucas Zanella(lz006), Stefan Sonntag(ss305), Gino Sidney(gk024) und Mathias Zimmermann(mz048)"));
 		footPanel.addStyleName("foot");
 		
-		p.addNorth(new Label("Head"), 3);
+		p.addNorth(image, 10);
 		p.addSouth(footPanel, 5);
 		p.addWest(navi, 30);
 		p.add(mainPanel);
@@ -100,7 +104,6 @@ public class Stundenplantool2 implements EntryPoint {
 		}		
 	}
 	
-	//test
 	public void setDozentFormToMain() {
 		dF = new DozentForm(verwaltung);
 		dtvm.setDozentForm(dF);
