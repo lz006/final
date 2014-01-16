@@ -77,6 +77,9 @@ public class RaumForm extends VerticalPanel {
 		
 		speichernAnlegenButton.addClickHandler(new ClickHandler() {
 			public void onClick (ClickEvent event) {
+				speichernAnlegenButton.setEnabled(false);
+				loeschenButton.setEnabled(false);
+				
 				shownRaum.setBezeichnung(bezeichnungTextBox.getText());
 				try {
 					shownRaum.setKapazitaet(Integer.parseInt(kapazitaetTextBox.getText()));
@@ -93,15 +96,21 @@ public class RaumForm extends VerticalPanel {
 							public void onFailure(Throwable caught) {
 								DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 								Window.alert(caught.getMessage());
+								speichernAnlegenButton.setEnabled(true);
+								loeschenButton.setEnabled(true);
 							}
 							public void onSuccess(Vector<Raum> result) {
-								dtvm.setSelectedRaum(result.elementAt(0));							
+								dtvm.setSelectedRaum(result.elementAt(0));	
+								speichernAnlegenButton.setEnabled(true);
+								loeschenButton.setEnabled(true);
 							}
 						});
 					}
 					public void onSuccess(Raum result) {
 						Window.alert("Der Raum wurde erfolgreich geändert");
 						dtvm.updateRaum(result);
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
 					}
 				});
 			}
@@ -112,15 +121,21 @@ public class RaumForm extends VerticalPanel {
 		
 		loeschenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				speichernAnlegenButton.setEnabled(false);
+				loeschenButton.setEnabled(false);
 							
 				verwaltung.loeschenRaum(shownRaum, new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
 						
 					}
 					public void onSuccess(Void result) {
 						Window.alert("Raum wurde erfolgreich gelöscht");
 						dtvm.loeschenRaum(shownRaum);
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
 						clearForm();
 					}
 				});
@@ -134,14 +149,17 @@ public class RaumForm extends VerticalPanel {
 		
 		speichernAnlegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				speichernAnlegenButton.setEnabled(false);
 				
 				verwaltung.anlegenRaum(bezeichnungTextBox.getText(), kapazitaetTextBox.getText(), new AsyncCallback<Raum>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
+						speichernAnlegenButton.setEnabled(true);
 					}
 					public void onSuccess(Raum result) {
 						Window.alert("Raum wurde erfolgreich angelegt");
 						dtvm.addRaum(result);
+						speichernAnlegenButton.setEnabled(true);
 						clearForm();
 					}
 				});

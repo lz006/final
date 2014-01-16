@@ -441,6 +441,15 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	 */
 	
 	public Semesterverband aendernSemesterverband(Semesterverband semesterverband) throws RuntimeException {
+				
+		if(new Integer(semesterverband.getAnzahlStudenten()).toString() == null || new Integer(semesterverband.getAnzahlStudenten()).toString().length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie die Anzahl der Studenten an");
+		}
+		
+		if (semesterverband.getJahrgang() == null || semesterverband.getJahrgang().length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie den Jahrgang an");
+		}
+		
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(semesterverband.getId());
 		
@@ -448,7 +457,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		boolean check = true;
 		
-		// Zunöchst wird geprüft ob zu dem gemeinten Semesterverband Belegungen bestehen
+		// Zunächst wird geprüft ob zu dem gemeinten Semesterverband Belegungen bestehen
 		
 		if (altSemesterverband.elementAt(0).getBelegungen() != null && altSemesterverband.elementAt(0).getBelegungen().size() > 0) {
 			check = false;
@@ -468,7 +477,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		// Pröfung ob die Anzahl der Studenten korrekt angegeben wurde
 		
-		if (!new Integer(semesterverband.getAnzahlStudenten()).toString().matches("[0-9]{1}|[0-9]*")) {
+		if (!new Integer(semesterverband.getAnzahlStudenten()).toString().matches("[1-999]")) {
 			throw new IllegalArgumentException("Bitten geben Sie die Anzahl der Studenten an");
 		}
 		
@@ -561,9 +570,9 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		
 		// Pröfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt
-		
-		if (!dozent.getVorname().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\ö\\\"\\!\\^\\ö\\<\\>\\|\\;\\:\\#\\~\\@\\ö\\?\\(\\)\\ö\\ö]*") || 
-				!dozent.getNachname().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\ö\\\"\\!\\^\\ö\\<\\>\\|\\;\\:\\#\\~\\@\\ö\\?\\(\\)\\ö\\ö]*")) {
+				
+		if (!dozent.getVorname().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*") || 
+				!dozent.getNachname().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
 			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen im Vor- bzw. Nachnamen");
 		}
 		
@@ -1276,7 +1285,11 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	
 	public Raum aendernRaum(Raum raum) throws RuntimeException {
 		
-		if (!raum.getBezeichnung().matches("[W]{1}[0-9]{3}|[W-N]{1}[0-9]{3}|[N]{1}[0-9]{3}")) {
+		if (raum.getBezeichnung() == null || raum.getBezeichnung().length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie eine Bezeichnung ein");
+		}
+		
+		if (!raum.getBezeichnung().matches("[W]{1}[0-9]{3}|[W]{1}[-]{1}[N]{1}[0-9]{3}|[N]{1}[0-9]{3}")) {
 			throw new IllegalArgumentException("Die Bezeichnung entspricht nicht den Vorgaben");
 		}
 		
@@ -1339,10 +1352,19 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	 */
 	
 	public Semesterverband anlegenSemesterverband (String anzahlStudenten, String jahrgang, Studiengang studiengang) throws RuntimeException {
+		
+		if (anzahlStudenten == null || anzahlStudenten.length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie die Anzahl der Studenten an");
+		}
+		
+		if (jahrgang == null || jahrgang.length() == 0) {
+			throw new IllegalArgumentException("Bitte geben Sie den Jahrgang an");
+		}
+		
 		StringBuffer tempJahrgang = new StringBuffer();
 		tempJahrgang.append(jahrgang);
 		
-		// Es wird gepröft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde
+		// Es wird geprüft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde
 		
 		if (!tempJahrgang.substring(0,2).equals("SS") && !tempJahrgang.substring(0,2).equals("WS") || !tempJahrgang.substring(2,4).equals("20")) {
 			throw new IllegalArgumentException("Ihre Jahrgangsangabe entspricht nicht den Vorgaben\nBeachten Sie auch die Gross-/Kleinschreibweise");			
@@ -1379,7 +1401,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		// Prüfung ob das Feld "anzahlStudenten" nur Zahlen enthält
 		
-		if (!anzahlStudenten.matches("[0-9]{1}|[0-9]*")) {
+		if (!anzahlStudenten.matches("[1-999]*")) {
 			throw new IllegalArgumentException("Bitten geben Sie die Anzahl der Studenten an");
 		}
 		
@@ -1421,8 +1443,8 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		// Pröfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt
 		
-		if (!vorname.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\ö\\\"\\!\\^\\ö\\<\\>\\|\\;\\:\\#\\~\\@\\ö\\?\\(\\)\\ö\\ö]*") || 
-				!nachname.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\ö\\\"\\!\\^\\ö\\<\\>\\|\\;\\:\\#\\~\\@\\ö\\?\\(\\)\\ö\\ö]*")) {
+		if (!vorname.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*") || 
+				!nachname.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
 			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen im Vor- bzw. Nachnamen");
 		}
 				
@@ -1486,7 +1508,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		
 		//Prüfung ob die Bezeichnung der Lehrveranstaltung syntaktisch korrekt ist
-		if (!bezeichnung.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
+		if (!bezeichnung.matches("[^,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
 			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen in der Bezeichnung");
 		}
 		
@@ -1839,18 +1861,18 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	
 	public Raum anlegenRaum(String bezeichnung, String kapazitaet) throws RuntimeException {
 		
-		// Prüfung ob Bezeichung und Kapazität angegeben wurden
+		// Prüfung ob Bezeichung und Kapazität angegeben wurden		
+					
+		if (((bezeichnung == null) || (bezeichnung.length() == 0)) || ((kapazitaet == null) || (kapazitaet.length() == 0))) {
+			throw new IllegalArgumentException("Bitte geben Sie die Bezeichnung und die Kapazität an");
+		}
 		
 		StringBuffer tempBezeichnung = new StringBuffer();
 		tempBezeichnung.append(bezeichnung);
 		StringBuffer tempKapazitaet = new StringBuffer();
 		tempKapazitaet.append(kapazitaet);
-				
-		if ((tempBezeichnung.length() == 0) || (tempKapazitaet.length() == 0)) {
-			throw new IllegalArgumentException("Bitte geben Sie die Bezeichnung und die Kapazität an");
-		}
 		
-		if (!bezeichnung.matches("[W]{1}[0-9]{3}|[W-N]{1}[0-9]{3}|[N]{1}[0-9]{3}")) {
+		if (!bezeichnung.matches("[W]{1}[0-9]{3}|[W]{1}[-]{1}[N]{1}[0-9]{3}|[N]{1}[0-9]{3}")) {
 			throw new IllegalArgumentException("Die Bezeichnung entspricht nicht den Vorgaben");
 		}
 		

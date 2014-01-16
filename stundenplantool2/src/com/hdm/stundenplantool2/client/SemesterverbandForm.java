@@ -118,7 +118,11 @@ public class SemesterverbandForm extends VerticalPanel {
 		speichernAnlegenButton.setText("Speichern");
 		
 		speichernAnlegenButton.addClickHandler(new ClickHandler() {
+			
 			public void onClick (ClickEvent event) {
+				speichernAnlegenButton.setEnabled(false);
+				loeschenButton.setEnabled(false);
+				
 				shownSemesterverband.setJahrgang(jahrgangTextBox.getText());
 				try {
 					shownSemesterverband.setAnzahlStudenten(Integer.parseInt(anzahlStudentenTextBox.getText()));
@@ -135,15 +139,21 @@ public class SemesterverbandForm extends VerticalPanel {
 							public void onFailure(Throwable caught) {
 								DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 								Window.alert(caught.getMessage());
+								speichernAnlegenButton.setEnabled(true);
+								loeschenButton.setEnabled(true);
 							}
 							public void onSuccess(Vector<Semesterverband> result) {
-								dtvm.setSelectedSemesterverband(result.elementAt(0));							
+								dtvm.setSelectedSemesterverband(result.elementAt(0));
+								speichernAnlegenButton.setEnabled(true);
+								loeschenButton.setEnabled(true);
 							}
 						});
 					}
 					public void onSuccess(Semesterverband result) {
 						Window.alert("Der Semesterverband wurde erfolgreich geändert");
 						dtvm.updateSemesterverband(result);
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
 					}
 				});
 			}
@@ -154,15 +164,21 @@ public class SemesterverbandForm extends VerticalPanel {
 		
 		loeschenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				speichernAnlegenButton.setEnabled(false);
+				loeschenButton.setEnabled(false);
 							
 				verwaltung.loeschenSemesterverband(shownSemesterverband, new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
 						
 					}
 					public void onSuccess(Void result) {
 						Window.alert("Semesterverband wurde erfolgreich gelöscht");
 						dtvm.loeschenSemesterverband(shownSemesterverband);
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
 						clearForm();
 					}
 				});
@@ -176,15 +192,18 @@ public class SemesterverbandForm extends VerticalPanel {
 		
 		speichernAnlegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				speichernAnlegenButton.setEnabled(false);
 				
 				verwaltung.anlegenSemesterverband(anzahlStudentenTextBox.getText(), jahrgangTextBox.getText(), studiengangVector.elementAt(studiengangListBox.getSelectedIndex()), 
 						new AsyncCallback<Semesterverband>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
+						speichernAnlegenButton.setEnabled(true);
 					}
 					public void onSuccess(Semesterverband result) {
 						Window.alert("Semesterverband wurde erfolgreich angelegt");
 						dtvm.addSemesterverband(result);
+						speichernAnlegenButton.setEnabled(true);
 						clearForm();
 					}
 				});

@@ -73,6 +73,8 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		
 		this.verwaltung = verwaltungA;
 		
+		studiensemesterListBox.addStyleName("customListBox");
+		
 		obenPanel = new VerticalPanel();
 		
 		obenGrid = new Grid(3, 2);

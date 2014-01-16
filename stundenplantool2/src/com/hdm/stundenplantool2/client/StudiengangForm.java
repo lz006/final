@@ -278,6 +278,9 @@ public class StudiengangForm extends VerticalPanel {
 		
 		speichernAnlegenButton.addClickHandler(new ClickHandler() {
 			public void onClick (ClickEvent event) {
+				speichernAnlegenButton.setEnabled(false);
+				loeschenButton.setEnabled(false);
+				
 				shownStudiengang.setBezeichnung(bezeichnungTb.getText());
 				shownStudiengang.setKuerzel(kuerzelTb.getText());
 				
@@ -289,17 +292,23 @@ public class StudiengangForm extends VerticalPanel {
 							public void onFailure(Throwable caught) {
 								DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 								Window.alert(caught.getMessage());
+								speichernAnlegenButton.setEnabled(true);
+								loeschenButton.setEnabled(true);
 							}
 							public void onSuccess(Vector<Studiengang> result) {
 								lvTable.clear();
 								svTable.clear();
-								dtvm.setSelectedStudiengang(result.elementAt(0));							
+								dtvm.setSelectedStudiengang(result.elementAt(0));	
+								speichernAnlegenButton.setEnabled(true);
+								loeschenButton.setEnabled(true);
 							}
 						});
 					}
 					public void onSuccess(Studiengang result) {
 						Window.alert("Der Studiengang wurde erfolgreich geändert");
 						dtvm.updateStudiengang(result);
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
 					}
 				});
 			}
@@ -310,15 +319,21 @@ public class StudiengangForm extends VerticalPanel {
 		
 		loeschenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				speichernAnlegenButton.setEnabled(false);
+				loeschenButton.setEnabled(false);
 							
 				verwaltung.loeschenStudiengang(shownStudiengang, new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
 						
 					}
 					public void onSuccess(Void result) {
 						Window.alert("Studiengang wurde erfolgreich gelöscht");
 						dtvm.loeschenStudiengang(shownStudiengang);
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
 						clearForm();
 					}
 				});
@@ -334,16 +349,19 @@ public class StudiengangForm extends VerticalPanel {
 		
 		speichernAnlegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				speichernAnlegenButton.setEnabled(false);
 				
 				if (lvVonNeuemSGVector != null && lvVonNeuemSGVector.size() > 0) {
 					verwaltung.anlegenStudiengang(bezeichnungTb.getText(), kuerzelTb.getText(), lvVonNeuemSGVector, new AsyncCallback<Studiengang>() {
 						public void onFailure(Throwable caught) {
 							Window.alert(caught.getMessage());
+							speichernAnlegenButton.setEnabled(true);
 							
 						}
 						public void onSuccess(Studiengang result) {
 							Window.alert("Studiengang wurde erfolgreich angelegt");
 							dtvm.addStudiengang(shownStudiengang);
+							speichernAnlegenButton.setEnabled(true);
 							clearForm();
 						}
 					});
@@ -351,12 +369,14 @@ public class StudiengangForm extends VerticalPanel {
 				else {
 					verwaltung.anlegenStudiengang(bezeichnungTb.getText(), kuerzelTb.getText(), new AsyncCallback<Studiengang>() {
 						public void onFailure(Throwable caught) {
+							speichernAnlegenButton.setEnabled(true);
 							Window.alert(caught.getMessage());
 							
 						}
 						public void onSuccess(Studiengang result) {
 							Window.alert("Studiengang wurde erfolgreich angelegt");
 							dtvm.addStudiengang(result);
+							speichernAnlegenButton.setEnabled(true);
 							clearForm();
 						}
 					});

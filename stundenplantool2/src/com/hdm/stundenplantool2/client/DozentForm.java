@@ -65,6 +65,8 @@ public class DozentForm extends VerticalPanel {
 		aendernButton = new Button("Ändern");
 		aendernButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				aendernButton.setEnabled(false);
+				dozentLoeschenButton.setEnabled(false);
 				aendernGewaehlterDozent();
 			}
 		});
@@ -72,17 +74,23 @@ public class DozentForm extends VerticalPanel {
 		dozentLoeschenButton = new Button("Dozent löschen");
 		dozentLoeschenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				aendernButton.setEnabled(false);
+				dozentLoeschenButton.setEnabled(false);
 				DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "wait");
 				verwaltung.loeschenDozent(shownDozent, new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
-						Window.alert(caught.getMessage());						
+						Window.alert(caught.getMessage());
+						aendernButton.setEnabled(true);
+						dozentLoeschenButton.setEnabled(true);
 					}
 					
 					public void onSuccess(Void result) {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 						dtvm.loeschenDozent(shownDozent);
 						Window.alert("Dozent wurde gelöscht");
+						aendernButton.setEnabled(true);
+						dozentLoeschenButton.setEnabled(true);
 						clearForm();
 					}
 				});
@@ -94,14 +102,17 @@ public class DozentForm extends VerticalPanel {
 		dozentAnlegenButton = new Button("Anlegen");
 		dozentAnlegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				dozentAnlegenButton.setEnabled(false);
 				verwaltung.anlegenDozent(vornameTb.getText(), nachnameTb.getText(), personalNummerTb.getText(), LVvonNeuerDozent, new AsyncCallback<Dozent>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
+						dozentAnlegenButton.setEnabled(true);
 					}
 					public void onSuccess(Dozent result) {
 						dtvm.addDozent(result);
 						clearForm();
 						Window.alert("Dozent wurde angelegt");
+						dozentAnlegenButton.setEnabled(true);
 					}
 				});
 			}
@@ -245,7 +256,12 @@ public class DozentForm extends VerticalPanel {
 		
 		shownDozent.setVorname(this.vornameTb.getText());
 		shownDozent.setNachname(this.nachnameTb.getText());
-		shownDozent.setPersonalnummer(Integer.parseInt(this.personalNummerTb.getValue()));
+		try {
+			shownDozent.setPersonalnummer(Integer.parseInt(this.personalNummerTb.getValue()));
+		}
+		catch (NumberFormatException e) {
+			Window.alert("Bitte geben Sie nur Zahlen bei Personalnummer ein");
+		}
 		
 		DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "wait");
 		verwaltung.aendernDozent(shownDozent, new AsyncCallback<Dozent>() {
@@ -256,11 +272,15 @@ public class DozentForm extends VerticalPanel {
 					public void onFailure(Throwable caught) {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 						Window.alert(caught.getMessage());
+						aendernButton.setEnabled(true);
+						dozentLoeschenButton.setEnabled(true);
 					}
 					public void onSuccess(Vector<Dozent> result) {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 						lvTable.clear();
 						dtvm.setSelectedDozent(result.elementAt(0));
+						aendernButton.setEnabled(true);
+						dozentLoeschenButton.setEnabled(true);
 						
 					}
 				});
@@ -271,6 +291,8 @@ public class DozentForm extends VerticalPanel {
 				DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 				dtvm.updateDozent(shownDozent);
 				Window.alert("Dozent wurde geändert");
+				aendernButton.setEnabled(true);
+				dozentLoeschenButton.setEnabled(true);
 			}
 		});
 		
