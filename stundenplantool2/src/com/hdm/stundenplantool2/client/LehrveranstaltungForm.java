@@ -443,8 +443,6 @@ public class LehrveranstaltungForm extends VerticalPanel {
 						Window.alert("Lehrveranstaltung wurde erfolgreich gelöscht");
 						dtvm.loeschenLehrveranstaltung(shownLehrveranstaltung);
 						clearForm();
-						speichernAnlegenButton.setEnabled(true);
-						loeschenButton.setEnabled(true);
 					}
 				});
 			}

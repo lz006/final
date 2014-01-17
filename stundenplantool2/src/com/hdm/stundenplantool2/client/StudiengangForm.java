@@ -332,8 +332,6 @@ public class StudiengangForm extends VerticalPanel {
 					public void onSuccess(Void result) {
 						Window.alert("Studiengang wurde erfolgreich gelöscht");
 						dtvm.loeschenStudiengang(shownStudiengang);
-						speichernAnlegenButton.setEnabled(true);
-						loeschenButton.setEnabled(true);
 						clearForm();
 					}
 				});

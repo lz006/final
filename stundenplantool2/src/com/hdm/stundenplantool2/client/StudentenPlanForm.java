@@ -40,6 +40,8 @@ public class StudentenPlanForm extends VerticalPanel {
 	public StudentenPlanForm(ReportAsync reportA) {
 		this.report = reportA;
 		
+		svListBox.setEnabled(false);
+		
 		studiengaengeLaden();
 		
 		grid = new Grid(2, 2);
@@ -51,13 +53,19 @@ public class StudentenPlanForm extends VerticalPanel {
 		
 		generateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				sgListBox.setEnabled(false);
+				svListBox.setEnabled(false);
 				generateButton.setEnabled(false);
 				report.createStudentenplan(svVector.elementAt(svListBox.getSelectedIndex()), new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
+						sgListBox.setEnabled(true);
+						svListBox.setEnabled(true);
 						generateButton.setEnabled(true);
 					}
 					public void onSuccess(String result) {
+						sgListBox.setEnabled(true);
+						svListBox.setEnabled(true);
 						generateButton.setEnabled(true);
 						if (result != null && result.length() > 1) {
 							reportPanel.clear();
@@ -76,6 +84,7 @@ public class StudentenPlanForm extends VerticalPanel {
 			public void onChange(ChangeEvent event) {
 				generateButton.setEnabled(false);
 				sgListBox.setEnabled(false);
+				svListBox.setEnabled(false);
 				svListBox.clear();
 				ladenSemesterverbaende();
 			}
@@ -118,6 +127,7 @@ public class StudentenPlanForm extends VerticalPanel {
 			public void onSuccess(Vector<Semesterverband> result) {
 				generateButton.setEnabled(true);
 				sgListBox.setEnabled(true);
+				svListBox.setEnabled(true);
 				svListBox.clear();
 				
 				if (result != null && result.size() > 0) {

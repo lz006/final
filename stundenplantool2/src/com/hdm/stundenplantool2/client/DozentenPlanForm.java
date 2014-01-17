@@ -43,13 +43,16 @@ public class DozentenPlanForm extends VerticalPanel{
 		
 		generateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				dozentListBox.setEnabled(false);
 				generateButton.setEnabled(false);
 				report.createDozentenplan(dozentenVector.elementAt(dozentListBox.getSelectedIndex()), new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
 						generateButton.setEnabled(true);
+						dozentListBox.setEnabled(true);
 					}
 					public void onSuccess(String result) {
+						dozentListBox.setEnabled(true);
 						generateButton.setEnabled(true);
 						if (result != null && result.length() > 1) {
 							reportPanel.clear();

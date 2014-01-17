@@ -43,13 +43,16 @@ private ReportAsync report = null;
 		
 		generateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				raumListBox.setEnabled(false);
 				generateButton.setEnabled(false);
 				report.createRaumplan(raumVector.elementAt(raumListBox.getSelectedIndex()), new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
 						generateButton.setEnabled(true);
+						raumListBox.setEnabled(true);
 					}
 					public void onSuccess(String result) {
+						raumListBox.setEnabled(true);
 						generateButton.setEnabled(true);
 						if (result != null && result.length() > 1) {
 							reportPanel.clear();

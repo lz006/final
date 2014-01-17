@@ -177,8 +177,6 @@ public class SemesterverbandForm extends VerticalPanel {
 					public void onSuccess(Void result) {
 						Window.alert("Semesterverband wurde erfolgreich gelöscht");
 						dtvm.loeschenSemesterverband(shownSemesterverband);
-						speichernAnlegenButton.setEnabled(true);
-						loeschenButton.setEnabled(true);
 						clearForm();
 					}
 				});

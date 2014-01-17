@@ -281,22 +281,25 @@ public class DozentMapper {
 			dozent.setId(rs.getInt("maxid"));
 		}
 		
+		/*
+		 * Das Hinzufügen von Belegungen ist mit der Anlegung eines Dozenten nicht im gleichen Schritt möglich,
+		 * daher wurde die Funktion deaktiviert - Stand 17.01.2014
+		 * 
 		if(dozent.getBelegungen() != null) {
 			for ( int i = 0; i < dozent.getBelegungen().size(); i++) {
 				sql = "INSERT INTO Dozentenbelegung_ZWT (`DozentID`, `BelegungID`) VALUES ('"+dozent.getId()+"', '"+dozent.getBelegungen().elementAt(i).getId()+"');";
 				stmt.executeUpdate(sql);
 			}
 		}
+		*/
 		
 		if(dozent.getLehrveranstaltungen() != null) {
-			for ( int i = 0; i < dozent.getBelegungen().size(); i++) {
+			for ( int i = 0; i < dozent.getLehrveranstaltungen().size(); i++) {
 				sql = "INSERT INTO Dozentenzugehörigkeit_ZWT (`LehrveranstaltungID`, `DozentID`) VALUES ('"+dozent.getLehrveranstaltungen().elementAt(i).getId()+"', '"+dozent.getId()+"');";
 				stmt.executeUpdate(sql);
 			}
 		}
 		
-		
-		//con.close();
 		}
 		catch (SQLException e1) {
 			throw new RuntimeException("Datenbankbankproblem");

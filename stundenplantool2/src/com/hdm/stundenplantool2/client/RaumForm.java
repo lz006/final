@@ -134,8 +134,6 @@ public class RaumForm extends VerticalPanel {
 					public void onSuccess(Void result) {
 						Window.alert("Raum wurde erfolgreich gelöscht");
 						dtvm.loeschenRaum(shownRaum);
-						speichernAnlegenButton.setEnabled(true);
-						loeschenButton.setEnabled(true);
 						clearForm();
 					}
 				});

@@ -477,8 +477,8 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		// Pröfung ob die Anzahl der Studenten korrekt angegeben wurde
 		
-		if (!new Integer(semesterverband.getAnzahlStudenten()).toString().matches("[1-999]")) {
-			throw new IllegalArgumentException("Bitten geben Sie die Anzahl der Studenten an");
+		if (!new Integer(semesterverband.getAnzahlStudenten()).toString().matches("[1-9]|[1-9][0-9]|[1-9][0-9][0-9]")) {
+			throw new IllegalArgumentException("Die Anzahl der Studenten kann sich von 1 bis 999 bewegen\n(Bitte auch keine führende Null angeben)");
 		}
 		
 		// Prüfen ob dieser Jahrgang in dem Studiengang bereits vorhanden ist
@@ -555,17 +555,18 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	}
 	
 	public Dozent aendernDozent(Dozent dozent) throws RuntimeException {
+							
+		// Prüfung ob Vor- und Nachname angegeben wurden
 		
-		// Pröfung ob Vor- und Nachname angegeben wurden
-		
-		StringBuffer tempVorname = new StringBuffer();
-		tempVorname.append(dozent.getVorname());
-		StringBuffer tempNachname = new StringBuffer();
-		tempNachname.append(dozent.getNachname());
-		
-						
-		if ((tempVorname.length() == 0) || (tempNachname.length() == 0)) {
+		if ((dozent.getVorname() == null ||dozent.getVorname().length() == 0) || (dozent.getNachname() == null || dozent.getNachname().length() == 0)) {
 			throw new IllegalArgumentException("Bitte geben Sie Vor- und Nachname an");
+		}
+			
+		// Prüfung ob am Ende der Vor- oder Nachnamens ein Leerzeichen ist
+				
+		if (dozent.getVorname().substring(0, 1).equals(" ") || dozent.getVorname().lastIndexOf(" ") == dozent.getVorname().length() - 1 ||
+				dozent.getNachname().substring(0, 1).equals(" ") || dozent.getNachname().lastIndexOf(" ") == dozent.getNachname().length() - 1) {
+			throw new IllegalArgumentException("Es dürfen sich vor dem Vor-bzw.Nachname keine Leerzeichen befinden");
 		}
 		
 		
@@ -1218,9 +1219,9 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new IllegalArgumentException("Das Kürzel darf nicht aus reinen Zahlen bestehen");
 		}
 		
-		if (!studiengang.getKuerzel().matches("[A-Z]{2,4}[1-20]{0,1}")) {
+		if (!studiengang.getKuerzel().matches("[A-Z]{2,4}|[A-Z]{2,4}[-][1-20]")) {
 			throw new IllegalArgumentException("Das Kürzel muss anfangs 2 bis 4 Großbuchstaben enthalten und darf am Ende eine Zahl"
-					+ " von 1 bis 20 enthalten");
+					+ " von 1 bis 20 mit vorhergehendem Bindestrich enthalten\nUmlaute sind nicht gestattet");
 		}
 		
 		// Prüfen ob die Bezeichnung und/oder das Kürzel bereits vergeben sind
@@ -1296,6 +1297,10 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		if (raum.getKapazitaet() == 0) {
 			throw new IllegalArgumentException("Die Kapazität darf nicht 0 sein");
+		}
+		
+		if (!new Integer(raum.getKapazitaet()).toString().matches("[1-9]|[1-9][0-9]|[1-9][0-9][0-9]")) {
+			throw new IllegalArgumentException("Die Kapazität muss 1 bis 999 betragen");
 		}
 		
 		
@@ -1401,8 +1406,8 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		// Prüfung ob das Feld "anzahlStudenten" nur Zahlen enthält
 		
-		if (!anzahlStudenten.matches("[1-999]*")) {
-			throw new IllegalArgumentException("Bitten geben Sie die Anzahl der Studenten an");
+		if (!anzahlStudenten.matches("[1-9]|[1-9][0-9]|[1-9][0-9][0-9]")) {
+			throw new IllegalArgumentException("Die Anzahl der Studenten kann sich von 1 bis 999 bewegen\n(Bitte auch keine führende Null angeben)");
 		}
 		
 		if (studiengang == null) {
@@ -1429,26 +1434,28 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	
 	public Dozent anlegenDozent(String vorname, String nachname, String personalnummer, Vector<Lehrveranstaltung> lehrveranstaltungen) throws RuntimeException {
 		
-		// Pröfung ob Vor- und Nachname angegeben wurden
-		
-		StringBuffer tempVorname = new StringBuffer();
-		tempVorname.append(vorname);
-		StringBuffer tempNachname = new StringBuffer();
-		tempNachname.append(nachname);
+		// Prüfung ob Vor- und Nachname angegeben wurden
 				
-		if ((tempVorname.length() == 0) || (tempNachname.length() == 0)) {
+		if ((vorname == null ||vorname.length() == 0) || (nachname == null || nachname.length() == 0)) {
 			throw new IllegalArgumentException("Bitte geben Sie Vor- und Nachname an");
 		}
 		
+		// Prüfung ob am Ende der Vor- oder Nachnamens ein Leerzeichen ist
 		
-		// Pröfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt
+		if (vorname.substring(0, 1).equals(" ") || vorname.lastIndexOf(" ") == vorname.length() - 1 ||
+				nachname.substring(0, 1).equals(" ") || nachname.lastIndexOf(" ") == nachname.length() - 1) {
+			throw new IllegalArgumentException("Es dürfen sich vor dem Vor-bzw.Nachname keine Leerzeichen befinden");
+		}
+		
+		
+		// Prüfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt
 		
 		if (!vorname.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*") || 
 				!nachname.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
 			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen im Vor- bzw. Nachnamen");
 		}
 				
-		// Pröfung der Personalnummer auf fünfstellige Ziffernfolge
+		// Prüfung der Personalnummer auf fünfstellige Ziffernfolge
 				
 		if (!personalnummer.matches("[0-9]{5}")) {
 			throw new IllegalArgumentException("Die Personalnummer ist nicht fünfstellig\noder es befinden sich darin nicht erlaubte Zeichen");
@@ -1798,7 +1805,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 				}
 			}
 			if (belegung.getLehrveranstaltung().getUmfang() < (countSWS + 2)) {
-				throw new RuntimeException("Der vorgesehene Umfang (SWS) der Lehrveranstaltung wurde für Semesterverband " + belegung.getSemesterverbaende().elementAt(i).getStudiengang().getKuerzel() + " " + belegung.getSemesterverbaende().elementAt(i).getJahrgang());
+				throw new RuntimeException("Der vorgesehene Umfang (SWS) der Lehrveranstaltung wurde für Semesterverband " + belegung.getSemesterverbaende().elementAt(i).getStudiengang().getKuerzel() + " " + belegung.getSemesterverbaende().elementAt(i).getJahrgang() + " wurde bereits erreicht");
 			}
 		}
 		
@@ -1823,9 +1830,9 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new IllegalArgumentException("Das Kürzel darf nicht aus reinen Zahlen bestehen");
 		}
 		
-		if (!kuerzel.matches("[A-Z]{2,4}[1-20]{0,1}")) {
+		if (!kuerzel.matches("[A-Z]{2,4}|[A-Z]{2,4}[-][1-20]")) {
 			throw new IllegalArgumentException("Das Kürzel muss anfangs 2 bis 4 Großbuchstaben enthalten und darf am Ende eine Zahl"
-					+ " von 1 bis 20 enthalten");
+					+ " von 1 bis 20 mit vorhergehendem Bindestrich enthalten\nUmlaute sind nicht gestattet");
 		}
 		
 		// Prüfen ob die Bezeichnung und/oder das Kürzel bereits vergeben sind
@@ -1883,6 +1890,10 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		catch (NumberFormatException e) {
 			throw new IllegalArgumentException("Bitte geben Sie nur Zahlen für die Kapazität ein");
+		}
+		
+		if (!new Integer(Integer.parseInt(kapazitaet)).toString().matches("[1-9]|[1-9][0-9]|[1-9][0-9][0-9]")) {
+			throw new IllegalArgumentException("Die Kapazität muss 1 bis 999 betragen");
 		}
 		
 		Raum neuRaum = new Raum();

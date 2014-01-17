@@ -89,8 +89,6 @@ public class DozentForm extends VerticalPanel {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 						dtvm.loeschenDozent(shownDozent);
 						Window.alert("Dozent wurde gelöscht");
-						aendernButton.setEnabled(true);
-						dozentLoeschenButton.setEnabled(true);
 						clearForm();
 					}
 				});
