@@ -29,6 +29,7 @@ public class Stundenplantool2 implements EntryPoint {
 	private Image image;
 	private ScrollPanel navi;
 	private VerticalPanel footPanel;
+	private Label copyright;
 
 	
 	private DozentForm dF;
@@ -72,9 +73,13 @@ public class Stundenplantool2 implements EntryPoint {
 
 		p = new DockLayoutPanel(Unit.EM);
 		
+		copyright = new Label("IT-Projekt 4. Semester von Timm Roth(tr047), Tobias Moser(tm066), Lucas Zanella(lz006), Stefan Sonntag(ss305), Gino Sidney(gk024) und Mathias Zimmermann(mz048)");
+		copyright.addStyleName("cpLabel");
+		
+		
 		footPanel = new VerticalPanel();
 		footPanel.add(visibilityTreeButton);
-		footPanel.add(new Label("IT-Projekt 4. Semester von Timm Roth(tr047), Tobias Moser(tm066), Lucas Zanella(lz006), Stefan Sonntag(ss305), Gino Sidney(gk024) und Mathias Zimmermann(mz048)"));
+		footPanel.add(copyright);
 		footPanel.addStyleName("foot");
 		
 		p.addNorth(image, 10);

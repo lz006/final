@@ -208,6 +208,10 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		}
 		
 		StringBuffer  htmld = new StringBuffer();
+		htmld.append("<p style=\"font-size: 26; font-weight: bold\">");
+		htmld.append("Lehrveranstaltungsplan für: </br>");
+		htmld.append("</p>");
+
 		htmld.append("<p style=\"font-size: 40; font-weight: bold\">");
 		htmld.append(dozent.getNachname());
 		htmld.append(" ");

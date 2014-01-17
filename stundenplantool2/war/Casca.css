@@ -71,6 +71,9 @@ h1 {
 
 
 }
+.cpLabel{
+	width: 100%;
+}
 
 body, table td, select, button {
   font-family: Arial Unicode MS, Arial, sans-serif;
