@@ -143,14 +143,6 @@ public class BelegungForm extends VerticalPanel{
 				studiengangListBox.setEnabled(false);
 				semesterverbandListBox.setEnabled(false);
 				
-				//Styling der Listboxen
-				anlegenTagListBox.addStyleName("BListBox");
-				anlegenLVListBox.addStyleName("BListBox");
-				anlegenRaumListBox.addStyleName("BListBox");
-				anlegenDozent1ListBox.addStyleName("BListBox");
-				anlegenDozent2ListBox.addStyleName("BListBox");
-				anlegenDozent3ListBox.addStyleName("BListBox");
-				anlegenUhrzeitListBox.addStyleName("BListBox");
 			}
 		});
 		
