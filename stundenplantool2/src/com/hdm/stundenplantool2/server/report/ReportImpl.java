@@ -28,11 +28,10 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		sPlan.getPlan().elementAt(0).set(1, "<b>08:15 - 09:45</b>");
 		sPlan.getPlan().elementAt(0).set(2, "<b>10:00 - 11:30</b>");
 		sPlan.getPlan().elementAt(0).set(3, "<b>11:45 - 13:15</b>");
-		sPlan.getPlan().elementAt(0).set(4, "<b>13:15 - 14:15</b>");
-		sPlan.getPlan().elementAt(0).set(5, "<b>14:15 - 15:45</b>");
-		sPlan.getPlan().elementAt(0).set(6, "<b>16:00 - 17:30</b>");
-		sPlan.getPlan().elementAt(0).set(7, "<b>17:45 - 19:15</b>");
-		sPlan.getPlan().elementAt(0).set(8, "<b>19:30 - 21:00</b>");
+		sPlan.getPlan().elementAt(0).set(4, "<b>14:15 - 15:45</b>");
+		sPlan.getPlan().elementAt(0).set(5, "<b>16:00 - 17:30</b>");
+		sPlan.getPlan().elementAt(0).set(6, "<b>17:45 - 19:15</b>");
+		sPlan.getPlan().elementAt(0).set(7, "<b>19:30 - 21:00</b>");
 		
 		sPlan.getPlan().elementAt(1).set(0, "<b>Montag</b>");
 		sPlan.getPlan().elementAt(2).set(0, "<b>Dienstag</b>");
@@ -41,14 +40,6 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		sPlan.getPlan().elementAt(5).set(0, "<b>Freitag</b>");
 		sPlan.getPlan().elementAt(6).set(0, "<b>Samstag</b>");
 		sPlan.getPlan().elementAt(7).set(0, "<b>Sonntag</b>");
-				
-		sPlan.getPlan().elementAt(1).set(4, "Pause");
-		sPlan.getPlan().elementAt(2).set(4, "Pause");
-		sPlan.getPlan().elementAt(3).set(4, "Pause");
-		sPlan.getPlan().elementAt(4).set(4, "Pause");
-		sPlan.getPlan().elementAt(5).set(4, "Pause");
-		sPlan.getPlan().elementAt(6).set(4, "Pause");
-		sPlan.getPlan().elementAt(7).set(4, "Pause");
 		
 
 		

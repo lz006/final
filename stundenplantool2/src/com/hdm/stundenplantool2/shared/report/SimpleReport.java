@@ -13,9 +13,9 @@ public class SimpleReport extends Report{
 	}
 	
 	public void init() {
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 8; i++) {
 			Vector<String> tempColumn = new Vector<String>();
-			for (int j = 0; j < 9; j++) {
+			for (int j = 0; j < 8; j++) {
 				tempColumn.add("");
 			}
 			plan.add(tempColumn);
