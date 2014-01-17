@@ -133,22 +133,22 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		Dozentenplan dPlan = new Dozentenplan();
 		dPlan.init();
 		
-		dPlan.getPlan().elementAt(0).set(0, "Uhrzeit/ Wochentag");
-		dPlan.getPlan().elementAt(0).set(1, "08:15 - 09:45");
-		dPlan.getPlan().elementAt(0).set(2, "10:00 - 11:30");
-		dPlan.getPlan().elementAt(0).set(3, "11:45 - 13:15");
-		dPlan.getPlan().elementAt(0).set(4, "14:15 - 15:45");
-		dPlan.getPlan().elementAt(0).set(5, "16:00 - 17:30");
-		dPlan.getPlan().elementAt(0).set(6, "17:45 - 19:15");
-		dPlan.getPlan().elementAt(0).set(7, "19:30 - 21:00");
+		dPlan.getPlan().elementAt(0).set(0, "<b>Uhrzeit/<br/>Wochentag");
+		dPlan.getPlan().elementAt(0).set(1, "<b>08:15 - 09:45</b>");
+		dPlan.getPlan().elementAt(0).set(2, "<b>10:00 - 11:30</b>");
+		dPlan.getPlan().elementAt(0).set(3, "<b>11:45 - 13:15</b>");
+		dPlan.getPlan().elementAt(0).set(4, "<b>14:15 - 15:45</b>");
+		dPlan.getPlan().elementAt(0).set(5, "<b>16:00 - 17:30</b>");
+		dPlan.getPlan().elementAt(0).set(6, "<b>17:45 - 19:15</b>");
+		dPlan.getPlan().elementAt(0).set(7, "<b>19:30 - 21:00</b>");
 		
-		dPlan.getPlan().elementAt(1).set(0, "Montag");
-		dPlan.getPlan().elementAt(2).set(0, "Dienstag");
-		dPlan.getPlan().elementAt(3).set(0, "Mittwoch");
-		dPlan.getPlan().elementAt(4).set(0, "Donnerstag");
-		dPlan.getPlan().elementAt(5).set(0, "Freitag");
-		dPlan.getPlan().elementAt(6).set(0, "Samstag");
-		dPlan.getPlan().elementAt(7).set(0, "Sonntag");
+		dPlan.getPlan().elementAt(1).set(0, "<b>Montag</b>");
+		dPlan.getPlan().elementAt(2).set(0, "<b>Dienstag</b>");
+		dPlan.getPlan().elementAt(3).set(0, "<b>Mittwoch</b>");
+		dPlan.getPlan().elementAt(4).set(0, "<b>Donnerstag</b>");
+		dPlan.getPlan().elementAt(5).set(0, "<b>Freitag</b>");
+		dPlan.getPlan().elementAt(6).set(0, "<b>Samstag</b>");
+		dPlan.getPlan().elementAt(7).set(0, "<b>Sonntag</b>");
 		
 		for (int i = 0; i < dozentBelegungen.size(); i++) {
 			
@@ -225,22 +225,22 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		Studentenplan rPlan = new Studentenplan();
 		rPlan.init();
 		
-		rPlan.getPlan().elementAt(0).set(0, "Uhrzeit/ Wochentag");
-		rPlan.getPlan().elementAt(0).set(1, "08:15 - 09:45");
-		rPlan.getPlan().elementAt(0).set(2, "10:00 - 11:30");
-		rPlan.getPlan().elementAt(0).set(3, "11:45 - 13:15");
-		rPlan.getPlan().elementAt(0).set(4, "14:15 - 15:45");
-		rPlan.getPlan().elementAt(0).set(5, "16:00 - 17:30");
-		rPlan.getPlan().elementAt(0).set(6, "17:45 - 19:15");
-		rPlan.getPlan().elementAt(0).set(7, "19:30 - 21:00");
+		rPlan.getPlan().elementAt(0).set(0, "<b>Uhrzeit/<br/>Wochentag");
+		rPlan.getPlan().elementAt(0).set(1, "<b>08:15 - 09:45</b>");
+		rPlan.getPlan().elementAt(0).set(2, "<b>10:00 - 11:30</b>");
+		rPlan.getPlan().elementAt(0).set(3, "<b>11:45 - 13:15</b>");
+		rPlan.getPlan().elementAt(0).set(4, "<b>14:15 - 15:45</b>");
+		rPlan.getPlan().elementAt(0).set(5, "<b>16:00 - 17:30</b>");
+		rPlan.getPlan().elementAt(0).set(6, "<b>17:45 - 19:15</b>");
+		rPlan.getPlan().elementAt(0).set(7, "<b>19:30 - 21:00</b>");
 		
-		rPlan.getPlan().elementAt(1).set(0, "Montag");
-		rPlan.getPlan().elementAt(2).set(0, "Dienstag");
-		rPlan.getPlan().elementAt(3).set(0, "Mittwoch");
-		rPlan.getPlan().elementAt(4).set(0, "Donnerstag");
-		rPlan.getPlan().elementAt(5).set(0, "Freitag");
-		rPlan.getPlan().elementAt(6).set(0, "Samstag");
-		rPlan.getPlan().elementAt(7).set(0, "Sonntag");
+		rPlan.getPlan().elementAt(1).set(0, "<b>Montag</b>");
+		rPlan.getPlan().elementAt(2).set(0, "<b>Dienstag</b>");
+		rPlan.getPlan().elementAt(3).set(0, "<b>Mittwoch</b>");
+		rPlan.getPlan().elementAt(4).set(0, "<b>Donnerstag</b>");
+		rPlan.getPlan().elementAt(5).set(0, "<b>Freitag</b>");
+		rPlan.getPlan().elementAt(6).set(0, "<b>Samstag</b>");
+		rPlan.getPlan().elementAt(7).set(0, "<b>Sonntag</b>");
 		
 		for (int i = 0; i < raumBelegungen.size(); i++) {
 			
