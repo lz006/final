@@ -24,22 +24,33 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		Studentenplan sPlan = new Studentenplan();
 		sPlan.init();
 		
-		sPlan.getPlan().elementAt(0).set(0, "Zeiten");
-		sPlan.getPlan().elementAt(0).set(1, "08:15 - 09:45");
-		sPlan.getPlan().elementAt(0).set(2, "10:00 - 11:30");
-		sPlan.getPlan().elementAt(0).set(3, "11:45 - 13:15");
-		sPlan.getPlan().elementAt(0).set(4, "14:15 - 15:45");
-		sPlan.getPlan().elementAt(0).set(5, "16:00 - 17:30");
-		sPlan.getPlan().elementAt(0).set(6, "17:45 - 19:15");
-		sPlan.getPlan().elementAt(0).set(7, "19:30 - 21:00");
+		sPlan.getPlan().elementAt(0).set(0, "<b>Uhrzeit/<br/>Wochentag");
+		sPlan.getPlan().elementAt(0).set(1, "<b>08:15 - 09:45</b>");
+		sPlan.getPlan().elementAt(0).set(2, "<b>10:00 - 11:30</b>");
+		sPlan.getPlan().elementAt(0).set(3, "<b>11:45 - 13:15</b>");
+		sPlan.getPlan().elementAt(0).set(4, "<b>13:15 - 14:15</b>");
+		sPlan.getPlan().elementAt(0).set(5, "<b>14:15 - 15:45</b>");
+		sPlan.getPlan().elementAt(0).set(6, "<b>16:00 - 17:30</b>");
+		sPlan.getPlan().elementAt(0).set(7, "<b>17:45 - 19:15</b>");
+		sPlan.getPlan().elementAt(0).set(8, "<b>19:30 - 21:00</b>");
 		
-		sPlan.getPlan().elementAt(1).set(0, "Montag");
-		sPlan.getPlan().elementAt(2).set(0, "Dienstag");
-		sPlan.getPlan().elementAt(3).set(0, "Mittwoch");
-		sPlan.getPlan().elementAt(4).set(0, "Donnerstag");
-		sPlan.getPlan().elementAt(5).set(0, "Freitag");
-		sPlan.getPlan().elementAt(6).set(0, "Samstag");
-		sPlan.getPlan().elementAt(7).set(0, "Sonntag");
+		sPlan.getPlan().elementAt(1).set(0, "<b>Montag</b>");
+		sPlan.getPlan().elementAt(2).set(0, "<b>Dienstag</b>");
+		sPlan.getPlan().elementAt(3).set(0, "<b>Mittwoch</b>");
+		sPlan.getPlan().elementAt(4).set(0, "<b>Donnerstag</b>");
+		sPlan.getPlan().elementAt(5).set(0, "<b>Freitag</b>");
+		sPlan.getPlan().elementAt(6).set(0, "<b>Samstag</b>");
+		sPlan.getPlan().elementAt(7).set(0, "<b>Sonntag</b>");
+				
+		sPlan.getPlan().elementAt(1).set(4, "Pause");
+		sPlan.getPlan().elementAt(2).set(4, "Pause");
+		sPlan.getPlan().elementAt(3).set(4, "Pause");
+		sPlan.getPlan().elementAt(4).set(4, "Pause");
+		sPlan.getPlan().elementAt(5).set(4, "Pause");
+		sPlan.getPlan().elementAt(6).set(4, "Pause");
+		sPlan.getPlan().elementAt(7).set(4, "Pause");
+		
+
 		
 		for (int i = 0; i < svBelegungen.size(); i++) {
 			
@@ -82,10 +93,16 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 			tempSB.append("<br />");
 			
 			for (int j = 0; j < svBelegungen.elementAt(i).getDozenten().size() - 1; j++) {
+				tempSB.append("Prof. ");
+				tempSB.append(svBelegungen.elementAt(i).getDozenten().elementAt(j).getVorname());
+				tempSB.append(" ");
 				tempSB.append(svBelegungen.elementAt(i).getDozenten().elementAt(j).getNachname());
 				tempSB.append("<br />");
 			}
 			
+			tempSB.append("Prof. ");
+			tempSB.append(svBelegungen.elementAt(i).getDozenten().elementAt(svBelegungen.elementAt(i).getDozenten().size() -1).getVorname());
+			tempSB.append(" ");
 			tempSB.append(svBelegungen.elementAt(i).getDozenten().elementAt(svBelegungen.elementAt(i).getDozenten().size() -1).getNachname());
 			
 			sPlan.getPlan().elementAt(columnPointer).set(rowPointer, tempSB.toString());
@@ -94,8 +111,9 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		
 		StringBuffer  x = new StringBuffer();
 		x.append("<p>");
-		x.append(sv.getJahrgang());
 		x.append(sv.getStudiengang().getBezeichnung());
+		x.append(" ");
+		x.append(sv.getJahrgang());
 		x.append("</p>");
 		
 		String tempHtml = new HTMLReportWriter().getHTMLString(sPlan);
@@ -124,7 +142,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		Dozentenplan dPlan = new Dozentenplan();
 		dPlan.init();
 		
-		dPlan.getPlan().elementAt(0).set(0, "Zeiten");
+		dPlan.getPlan().elementAt(0).set(0, "Uhrzeit/ Wochentag");
 		dPlan.getPlan().elementAt(0).set(1, "08:15 - 09:45");
 		dPlan.getPlan().elementAt(0).set(2, "10:00 - 11:30");
 		dPlan.getPlan().elementAt(0).set(3, "11:45 - 13:15");
@@ -216,7 +234,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		Studentenplan rPlan = new Studentenplan();
 		rPlan.init();
 		
-		rPlan.getPlan().elementAt(0).set(0, "Zeiten");
+		rPlan.getPlan().elementAt(0).set(0, "Uhrzeit/ Wochentag");
 		rPlan.getPlan().elementAt(0).set(1, "08:15 - 09:45");
 		rPlan.getPlan().elementAt(0).set(2, "10:00 - 11:30");
 		rPlan.getPlan().elementAt(0).set(3, "11:45 - 13:15");
