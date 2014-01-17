@@ -73,7 +73,8 @@ public class Stundenplantool2 implements EntryPoint {
 
 		p = new DockLayoutPanel(Unit.EM);
 		
-		copyright = new Label("IT-Projekt 4. Semester von Timm Roth(tr047), Tobias Moser(tm066), Lucas Zanella(lz006), Stefan Sonntag(ss305), Gino Sidney(gk024) und Mathias Zimmermann(mz048)");
+		copyright = new Label("IT-Projekt im 4. Semester");
+		copyright = new Label("Timm Roth(tr047), Tobias Moser(tm066), Lucas Zanella(lz006), Stefan Sonntag(ss305), Gino Sidney(gk024) und Mathias Zimmermann(mz048)");
 		copyright.addStyleName("cpLabel");
 		
 		
