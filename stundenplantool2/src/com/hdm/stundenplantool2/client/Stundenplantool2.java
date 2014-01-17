@@ -81,10 +81,12 @@ public class Stundenplantool2 implements EntryPoint {
 		p.addSouth(footPanel, 5);
 		p.addWest(navi, 30);
 		p.add(mainPanel);
-		
+		p.addStyleName("DocStyle");
 		
 		RootLayoutPanel rlp = RootLayoutPanel.get();
 		rlp.add(p);
+		rlp.setStyleName("RootLayout");
+
 		RootPanel.get().add(rlp);
 		
 		dtvm.setStundenplantool2(this);

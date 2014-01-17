@@ -72,6 +72,8 @@ public class BelegungForm extends VerticalPanel{
 	VerticalPanel anlegenPanel;
 	VerticalPanel anlegenWSVPanel;
 	
+	
+	
 	Button weitereSV;
 	
 	Label studiengangAnlegen;
@@ -141,6 +143,14 @@ public class BelegungForm extends VerticalPanel{
 				studiengangListBox.setEnabled(false);
 				semesterverbandListBox.setEnabled(false);
 				
+				//Styling der Listboxen
+				anlegenTagListBox.addStyleName("BListBox");
+				anlegenLVListBox.addStyleName("BListBox");
+				anlegenRaumListBox.addStyleName("BListBox");
+				anlegenDozent1ListBox.addStyleName("BListBox");
+				anlegenDozent2ListBox.addStyleName("BListBox");
+				anlegenDozent3ListBox.addStyleName("BListBox");
+				anlegenUhrzeitListBox.addStyleName("BListBox");
 			}
 		});
 		
@@ -489,6 +499,9 @@ public class BelegungForm extends VerticalPanel{
 			tempGrid.setWidget(0, 3, new Label("Dozent"));
 			tempGrid.setWidget(0, 4, new Label("Dozent"));
 			tempGrid.setWidget(0, 5, new Label("Dozent"));
+			
+			
+			
 			
 			for (int j = AnfangsWochentagZaehler; j <= EndWochentagZaehler; j++) {
 				int azStunde = zeitslotsVectorForListBox.elementAt(j).getAnfangszeit() / 60;

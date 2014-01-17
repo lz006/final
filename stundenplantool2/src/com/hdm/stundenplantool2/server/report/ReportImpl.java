@@ -319,7 +319,6 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 			
 		}
 		
-		
 		StringBuffer  htmlr = new StringBuffer();
 		htmlr.append("<p style=\"font-size: 40; font-weight: bold;\">");
 		htmlr.append(raum.getBezeichnung());
