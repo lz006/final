@@ -478,7 +478,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Pröfung ob die Anzahl der Studenten korrekt angegeben wurde
 		
 		if (!new Integer(semesterverband.getAnzahlStudenten()).toString().matches("[1-9]|[1-9][0-9]|[1-9][0-9][0-9]")) {
-			throw new IllegalArgumentException("Die Anzahl der Studenten kann sich von 1 bis 999 bewegen\n(Bitte auch keine führende Null angeben)");
+			throw new IllegalArgumentException("Die Anzahl der Studenten kann eine natürliche Zahl von 1 bis 999 sein.\n(Bitte auch keine führende Null angeben)");
 		}
 		
 		// Prüfen ob dieser Jahrgang in dem Studiengang bereits vorhanden ist
@@ -513,7 +513,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		
 		if (!jahrgang.substring(0,2).equals("SS") && !jahrgang.substring(0,2).equals("WS") || !jahrgang.substring(2,4).equals("20")) {
-			throw new IllegalArgumentException("Ihre Jahrgangsangabe entspricht nicht den Vorgaben\nBeachten Sie auch die Gross-/Kleinschreibweise");			
+			throw new IllegalArgumentException("Ihre Jahrgangsangabe entspricht nicht den Vorgaben\nBeachten Sie auch die Gross-/Kleinschreibung");			
 		}
 		
 		if ((jahrgang.substring(0,2).equals("SS") && jahrgang.length() != 6) || (jahrgang.substring(0,2).equals("WS") && jahrgang.length() != 9) ||
@@ -589,7 +589,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		for (Dozent d : alleDozenten) {
 			if (dozent.getPersonalnummer() == d.getPersonalnummer() && d.getId() != dozent.getId()) {
-				throw new IllegalArgumentException("Die Personalnummer ist bereits vergeben");
+				throw new IllegalArgumentException("Diese Personalnummer ist bereits vergeben");
 			}
 		}
 		
@@ -630,10 +630,10 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		Boolean check = true;
 		
-		StringBuffer eText = new StringBuffer("Die nicht mehr gehaltenen Lehrveranstaltungen können nicht gelöscht werden.\nFolgende Belegungen muessen zuerst "
+		StringBuffer eText = new StringBuffer("Die nicht mehr gehaltenen Lehrveranstaltungen können nicht gelöscht werden.\nFolgende Belegungen müssen zuerst "
 				+ "entfernt oder von einem anderen Dozenten übernommen werden: \n\nID\t\t\tWochentag\t\t\tZeit\t\t\tLV\n");
 		
-		// Zuerst wird gepröft, ob der Dozent bestimmte Lehrveranstaltungen nun nicht mehr hält		
+		// Zuerst wird geprüft, ob der Dozent bestimmte Lehrveranstaltungen nun nicht mehr hält		
 		if (tempLehrveranstalungIDs.size() > 0) {
 			// Die Lehrveranstaltungen, die der Dozent nicht halten soll bzw. wird, werden nun geladen
 			Vector<Lehrveranstaltung> tempLehrveranstalungen = this.lehrveranstaltungMapper.findByKey(tempLehrveranstalungIDs, true);
@@ -720,28 +720,28 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Prüfung ob min ein Studiengang angegeben wurde
 		
 		if (lehrveranstaltung.getStudiengaenge() == null || lehrveranstaltung.getStudiengaenge().size() == 0) {
-			throw new IllegalArgumentException("Bitten geben Sie mindestens einen Studiengang an");
+			throw new IllegalArgumentException("Bitten geben Sie mindestens einen Studiengang an!");
 		}
 		
 		// Prüfen ob eine Bezeichnung angegeben wurde
 		
 		if (lehrveranstaltung.getBezeichnung() == null || lehrveranstaltung.getBezeichnung().length() == 0) {
-			throw new IllegalArgumentException("Bitten geben Sie eine Bezeichnung an");
+			throw new IllegalArgumentException("Bitten geben Sie eine Bezeichnung an!");
 		}
 		
 		
 		//Prüfung ob die Bezeichnung der Lehrveranstaltung syntaktisch korrekt ist
 		if (!lehrveranstaltung.getBezeichnung().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
-			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen in der Bezeichnung");
+			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen in der Bezeichnung!");
 		}
 		
 		//Prüfung ob die Bezeichnung der Lehrveranstaltung syntaktisch korrekt ist
 		if (lehrveranstaltung.getBezeichnung().matches("[0-9]*") || lehrveranstaltung.getBezeichnung().substring(0, 1).matches("[0-9]{1}")) {
-			throw new IllegalArgumentException("Die Bezeichnung darf keine Zahl sein oder mit einer beginnen");
+			throw new IllegalArgumentException("Die Bezeichnung darf keine Zahl sein oder mit einer beginnen!");
 		}
 				
 		if (lehrveranstaltung.getBezeichnung().substring(0, 1).matches("[ ]{1}") || lehrveranstaltung.getBezeichnung().substring(0, 1).matches("[/]{1}") || lehrveranstaltung.getBezeichnung().substring(0, 1).matches("[-]{1}")) {
-			throw new IllegalArgumentException("Die Bezeichnung darf mit keinem Leerzeichen oder Sonderzeichen beginnen");
+			throw new IllegalArgumentException("Die Bezeichnung darf mit keinem Leerzeichen oder Sonderzeichen beginnen!");
 		}
 		
 		// Prüfung ob die Bezichung mit einem Buchstabe beginnt und ob am ende nur eine Ziffer verwendet wurde
@@ -754,7 +754,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Prüfung ob am Ende ein Lehrzeichen steht
 				
 		if (lehrveranstaltung.getBezeichnung().lastIndexOf(" ") == lehrveranstaltung.getBezeichnung().length() - 1) {
-			throw new IllegalArgumentException("Bitte entfernen Sie das Leerzeichen am Ende der Bezeichnung");
+			throw new IllegalArgumentException("Bitte entfernen Sie alle Leerzeichen am Ende der Bezeichnung!");
 		}
 		
 		// Laden der "alten" Version der Lehrveranstaltung
@@ -768,7 +768,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		for (Lehrveranstaltung l : alleLVs) {
 			if (lehrveranstaltung.getBezeichnung().equals(l.getBezeichnung()) && lehrveranstaltung.getId() != l.getId()) {
-				throw new IllegalArgumentException("Die Bezeichnung ist bereits vergeben, bitte ändern Sie diese");
+				throw new IllegalArgumentException("Diese Bezeichnung ist bereits vergeben, bitte ändern Sie diese!");
 			}
 		}
 		
@@ -937,7 +937,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Prüfung ob ein Dozent ausgwählt wurde
 		
 		if(belegung.getDozenten().size() <= 0) {
-			throw new RuntimeException("Bitte fügen Sie einen Dozenten hinzu");
+			throw new RuntimeException("Bitte fügen Sie einen Dozenten hinzu!");
 		}
 		
 		// Prüfung ob ein Dozent mehrmals ausgewählt wurde
@@ -951,7 +951,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 					}
 				}
 				if(multiplzitaetDozent > 1) {
-					throw new RuntimeException("Bitte fögen Sie einen Dozenten nur einfach zur Belegung");
+					throw new RuntimeException("Bitte fügen Sie jeden Dozenten nur einfach zu einer Belegung hinzu");
 				}
 			}
 		}
@@ -1041,19 +1041,19 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		if (semesterNeu == null || semesterNeu == 0) {
 			if (belegung.getLehrveranstaltung().getStudiensemester() != semesterAlt) {
-				throw new RuntimeException("Die Lehrveranstaltung ist för ein anderes Studiensemester vorgesehen");
+				throw new RuntimeException("Diese Lehrveranstaltung ist für ein anderes Studiensemester vorgesehen");
 			}
 		}
 		
 		else if (semesterAlt == null || semesterAlt == 0) {
 			if (belegung.getLehrveranstaltung().getStudiensemester() != semesterNeu) {
-				throw new RuntimeException("Die Lehrveranstaltung ist för ein anderes Studiensemester vorgesehen");
+				throw new RuntimeException("Diese Lehrveranstaltung ist für ein anderes Studiensemester vorgesehen");
 			}
 		}		
 		
 		else {
 			if ((belegung.getLehrveranstaltung().getStudiensemester() != semesterAlt) && (belegung.getLehrveranstaltung().getStudiensemester() != semesterNeu)) {
-				throw new RuntimeException("Die Lehrveranstaltung ist för ein anderes Studiensemester vorgesehen");
+				throw new RuntimeException("Diese Lehrveranstaltung ist für ein anderes Studiensemester vorgesehen");
 		}
 		}
 				
@@ -1143,12 +1143,12 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 				}
 			}
 			else {
-				throw new RuntimeException("Die Lehrveranstaltung ist keinem Studiengang zugeordnet");
+				throw new RuntimeException("Diese Lehrveranstaltung ist keinem Studiengang zugeordnet!");
 			}
 		}
 		
 		if (!check) {
-			throw new RuntimeException("Lehrveranstaltung und Semesterverband befinden sich nicht im gleichen Studiengang");
+			throw new RuntimeException("Diese Lehrveranstaltung und dieser Semesterverband befinden sich nicht im gleichen Studiengang");
 		}
 			
 		// Pröfung ob der Umfang (SWS) einer Lehrveranstaltung für einen Semesterverband bereits erreicht wurde
@@ -1163,7 +1163,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 					}
 				}
 				if (belegung.getLehrveranstaltung().getUmfang() < (countSWS + 2)) {
-					throw new RuntimeException("Der vorgesehene Umfang (SWS) der Lehrveranstaltung wurde für Semesterverband " + belegung.getSemesterverbaende().elementAt(i).getStudiengang().getKuerzel() + " " + belegung.getSemesterverbaende().elementAt(i).getJahrgang());
+					throw new RuntimeException("Der vorgesehene Umfang (SWS) der Lehrveranstaltung wurde für Semesterverband " + belegung.getSemesterverbaende().elementAt(i).getStudiengang().getKuerzel() + " " + belegung.getSemesterverbaende().elementAt(i).getJahrgang() + "bereits erreicht!");
 				}
 			}
 		}
@@ -1212,11 +1212,11 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		kuerzel.append(studiengang.getKuerzel());
 		
 		if ((bezeichnung.length() == 0) || (kuerzel.length() == 0)) {
-			throw new IllegalArgumentException("Bitte geben Sie die Bezeichnung und das Kürzel an");
+			throw new IllegalArgumentException("Bitte geben Sie eine Bezeichnung und das Kürzel an");
 		}
 		
 		if (studiengang.getKuerzel().matches("[0-9]*")) {
-			throw new IllegalArgumentException("Das Kürzel darf nicht aus reinen Zahlen bestehen");
+			throw new IllegalArgumentException("Das Kürzel darf nicht nur aus Zahlen bestehen!");
 		}
 		
 		if (!studiengang.getKuerzel().matches("[A-Z]{2,4}|[A-Z]{2,4}[-][1-20]")) {
@@ -1230,7 +1230,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 				
 		for (Studiengang s : alleSGs) {
 			if((bezeichnung.equals(s.getBezeichnung()) || kuerzel.equals(s.getKuerzel())) && studiengang.getId() != s.getId()) {
-				throw new IllegalArgumentException("Die Bezeichnung und/oder das Kürzel bereits sind vergeben");
+				throw new IllegalArgumentException("Diese Bezeichnung und/oder das Kürzel sind bereits vergeben");
 			}
 		}
 		
@@ -1273,7 +1273,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			Vector<Lehrveranstaltung> lostLV = this.lehrveranstaltungMapper.findByKey(tempLehrveranstaltungIDs, true);
 			for (Lehrveranstaltung lv : lostLV) {
 				if (lv.getStudiengaenge().size() == 1) {
-					throw new RuntimeException("Die Lehrveranstaltung" + lv.getBezeichnung() + "kann nicht entfernt werden, da sie durch keinen anderen Studiengang referenziert wird\n"
+					throw new RuntimeException("Diese Lehrveranstaltung" + lv.getBezeichnung() + "kann nicht entfernt werden, da sie durch keinen anderen Studiengang referenziert wird\n"
 							+ "Bei Bedarf löschen Sie bitte diese Lehrveranstaltung oder weisen ihr einen anderen Studiengang zu");
 				}
 			}
@@ -1339,7 +1339,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		for (Raum r : alleRaeume) {
 			if (raum.getBezeichnung().equals(r.getBezeichnung()) && raum.getId() != r.getId()) {
-				throw new IllegalArgumentException("Bitte wählen Sie eine andere Bezeichung, dieser Raum existiert bereits");
+				throw new IllegalArgumentException("Bitte wählen Sie eine andere Bezeichung, dieser Raum existiert bereits!");
 			}
 		}
 
@@ -1347,7 +1347,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			return this.raumMapper.update(raum);
 		}
 		else {
-			throw new RuntimeException("Die Kapazität ist för Semesterverbönde, welche bereits Lehrveranstaltungen in diesem Raum zugeordnet sind, zu klein");
+			throw new RuntimeException("Die Kapazität ist für Semesterverbände, welche bereits Lehrveranstaltungen in diesem Raum zugeordnet sind, ist zu klein");
 		}
 
 	}
@@ -1359,11 +1359,11 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	public Semesterverband anlegenSemesterverband (String anzahlStudenten, String jahrgang, Studiengang studiengang) throws RuntimeException {
 		
 		if (anzahlStudenten == null || anzahlStudenten.length() == 0) {
-			throw new IllegalArgumentException("Bitte geben Sie die Anzahl der Studenten an");
+			throw new IllegalArgumentException("Bitte geben Sie die Anzahl der Studenten an!");
 		}
 		
 		if (jahrgang == null || jahrgang.length() == 0) {
-			throw new IllegalArgumentException("Bitte geben Sie den Jahrgang an");
+			throw new IllegalArgumentException("Bitte geben Sie den Jahrgang an!");
 		}
 		
 		StringBuffer tempJahrgang = new StringBuffer();
@@ -1372,7 +1372,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Es wird geprüft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde
 		
 		if (!tempJahrgang.substring(0,2).equals("SS") && !tempJahrgang.substring(0,2).equals("WS") || !tempJahrgang.substring(2,4).equals("20")) {
-			throw new IllegalArgumentException("Ihre Jahrgangsangabe entspricht nicht den Vorgaben\nBeachten Sie auch die Gross-/Kleinschreibweise");			
+			throw new IllegalArgumentException("Ihre Jahrgangsangabe entspricht nicht den Vorgaben\nBeachten Sie auch die Gross-/Kleinschreibung");			
 		}
 		
 		if ((tempJahrgang.substring(0,2).equals("SS") && tempJahrgang.length() != 6) || (tempJahrgang.substring(0,2).equals("WS") && tempJahrgang.length() != 9) ||
@@ -1467,7 +1467,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 				
 		for (Dozent d : alleDozenten) {
 			if (new Integer(personalnummer) == d.getPersonalnummer()) {
-				throw new IllegalArgumentException("Die Personalnummer ist bereits vergeben");
+				throw new IllegalArgumentException("Diese Personalnummer ist bereits vergeben");
 			}
 		}
 		
@@ -1539,7 +1539,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Prüfung ob am Ende ein Lehrzeichen steht
 		
 		if (bezeichnung.lastIndexOf(" ") == bezeichnung.length() - 1) {
-			throw new IllegalArgumentException("Bitte entfernen Sie das Leerzeichen am Ende der Bezeichnung");
+			throw new IllegalArgumentException("Bitte entfernen Sie alle Leerzeichen am Ende der Bezeichnung");
 		}
 		
 		/* Prüfungen deaktiviert, da keine freie Eingabe mehr möglich
@@ -1619,7 +1619,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 					}
 				}
 				if(multiplzitaetDozent > 1) {
-					throw new RuntimeException("Bitte fügen Sie einen Dozenten nur einfach zur Belegung");
+					throw new RuntimeException("Bitte fügen Sie jeden Dozenten nur einmal zu einer Belegung");
 				}
 			}
 		}
@@ -1709,19 +1709,19 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		if (semesterNeu == null || semesterNeu == 0) {
 			if (belegung.getLehrveranstaltung().getStudiensemester() != semesterAlt) {
-				throw new RuntimeException("Die Lehrveranstaltung ist för ein anderes Studiensemester vorgesehen");
+				throw new RuntimeException("Diese Lehrveranstaltung ist für ein anderes Studiensemester vorgesehen");
 			}
 		}
 		
 		else if (semesterAlt == null || semesterAlt == 0) {
 			if (belegung.getLehrveranstaltung().getStudiensemester() != semesterNeu) {
-				throw new RuntimeException("Die Lehrveranstaltung ist för ein anderes Studiensemester vorgesehen");
+				throw new RuntimeException("Diese Lehrveranstaltung ist für ein anderes Studiensemester vorgesehen");
 			}
 		}		
 		
 		else {
 			if ((belegung.getLehrveranstaltung().getStudiensemester() != semesterAlt) && (belegung.getLehrveranstaltung().getStudiensemester() != semesterNeu)) {
-				throw new RuntimeException("Die Lehrveranstaltung ist för ein anderes Studiensemester vorgesehen");
+				throw new RuntimeException("Diese Lehrveranstaltung ist für ein anderes Studiensemester vorgesehen");
 			}
 		}
 				
@@ -1805,7 +1805,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 				}
 			}
 			if (belegung.getLehrveranstaltung().getUmfang() < (countSWS + 2)) {
-				throw new RuntimeException("Der vorgesehene Umfang (SWS) der Lehrveranstaltung wurde für Semesterverband " + belegung.getSemesterverbaende().elementAt(i).getStudiengang().getKuerzel() + " " + belegung.getSemesterverbaende().elementAt(i).getJahrgang() + " wurde bereits erreicht");
+				throw new RuntimeException("Der vorgesehene Umfang (SWS) der Lehrveranstaltung wurde für Semesterverband " + belegung.getSemesterverbaende().elementAt(i).getStudiengang().getKuerzel() + " " + belegung.getSemesterverbaende().elementAt(i).getJahrgang() + " bereits erreicht");
 			}
 		}
 		
@@ -1841,7 +1841,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		for (Studiengang s : alleSGs) {
 			if(bezeichnung.equals(s.getBezeichnung()) || kuerzel.equals(s.getKuerzel())) {
-				throw new IllegalArgumentException("Die Bezeichnung und/oder das Kürzel bereits sind vergeben");
+				throw new IllegalArgumentException("Die Bezeichnung und/oder das Kürzel sind bereits vergeben");
 			}
 		}
 		
@@ -1871,7 +1871,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Prüfung ob Bezeichung und Kapazität angegeben wurden		
 					
 		if (((bezeichnung == null) || (bezeichnung.length() == 0)) || ((kapazitaet == null) || (kapazitaet.length() == 0))) {
-			throw new IllegalArgumentException("Bitte geben Sie die Bezeichnung und die Kapazität an");
+			throw new IllegalArgumentException("Bitte geben Sie eine Bezeichnung und die Kapazität an");
 		}
 		
 		StringBuffer tempBezeichnung = new StringBuffer();
@@ -1880,7 +1880,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		tempKapazitaet.append(kapazitaet);
 		
 		if (!bezeichnung.matches("[W]{1}[0-9]{3}|[W]{1}[-]{1}[N]{1}[0-9]{3}|[N]{1}[0-9]{3}")) {
-			throw new IllegalArgumentException("Die Bezeichnung entspricht nicht den Vorgaben");
+			throw new IllegalArgumentException("Diese Bezeichnung entspricht nicht den Vorgaben");
 		}
 		
 		try {
