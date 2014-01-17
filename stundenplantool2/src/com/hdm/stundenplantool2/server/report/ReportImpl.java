@@ -100,18 +100,18 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 			
 		}
 		
-		StringBuffer  html = new StringBuffer();
-		html.append("<p>");
-		html.append(sv.getStudiengang().getBezeichnung());
-		html.append(" ");
-		html.append(sv.getJahrgang());
-		html.append("</p>");
+		StringBuffer  htmlSV = new StringBuffer();
+		htmlSV.append("<p style=\"font-size: 40; font-weight: bold; text-decoration: blink\">");
+		htmlSV.append(sv.getStudiengang().getBezeichnung());
+		htmlSV.append(" ");
+		htmlSV.append(sv.getJahrgang());
+		htmlSV.append("</p>");
 		
 		String tempHtml = new HTMLReportWriter().getHTMLString(sPlan);
 		
-		html.append(tempHtml);
+		htmlSV.append(tempHtml);
 		
-		return html.toString();
+		return htmlSV.toString();
 	}
 	
 	public Vector<Studiengang> auslesenAlleStudiengaengeOhneSVuLV() throws RuntimeException {
@@ -207,7 +207,21 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 			
 		}
 		
-		return new HTMLReportWriter().getHTMLString(dPlan);
+		StringBuffer  htmld = new StringBuffer();
+		htmld.append("<p style=\"font-size: 40; font-weight: bold\">");
+		htmld.append(dozent.getNachname());
+		htmld.append(" ");
+		htmld.append(dozent.getVorname());
+		htmld.append("</p>");
+		
+		String tempHtml = new HTMLReportWriter().getHTMLString(dPlan);
+		
+		htmld.append(tempHtml);
+		
+		return htmld.toString();
+	
+		
+	
 	}
 	
 	public Vector<Dozent> auslesenAlleDozenten() throws RuntimeException {
@@ -305,7 +319,22 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 			
 		}
 		
-		return new HTMLReportWriter().getHTMLString(rPlan);
+		
+		StringBuffer  htmlr = new StringBuffer();
+		htmlr.append("<p style=\"font-size: 40; font-weight: bold;\">");
+		htmlr.append(raum.getBezeichnung());
+		htmlr.append("<br/>");
+		htmlr.append("Kapazität: ");
+		htmlr.append(raum.getKapazitaet());
+		htmlr.append("</p>");
+		
+		String tempHtml = new HTMLReportWriter().getHTMLString(rPlan);
+		
+		htmlr.append(tempHtml);
+		
+		return htmlr.toString();
+	
+
 	}
 	
 	public Vector<Raum> auslesenAlleRaeume() throws RuntimeException {
