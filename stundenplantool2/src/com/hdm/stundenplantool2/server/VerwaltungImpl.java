@@ -31,7 +31,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	// ------------------------------------------------------------------------------------------------------------------------------------
 	
 	/*
-	 * Auslesen der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * Auslesen der Business-Objekte ---------------------------------------------------------------------------------------------------------------------------
 	 */
 	
 	public Vector<Semesterverband> auslesenAlleSemesterverbaende() throws RuntimeException {
@@ -1347,7 +1347,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			return this.raumMapper.update(raum);
 		}
 		else {
-			throw new RuntimeException("Die Kapazität ist für Semesterverbände, welche bereits Lehrveranstaltungen in diesem Raum zugeordnet sind, ist zu klein");
+			throw new RuntimeException("Die Kapazität ist für Semesterverbände, welche bereits Lehrveranstaltungen in diesem Raum zugeordnet sind, zu klein");
 		}
 
 	}
@@ -1536,7 +1536,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 					+ "Bitte verwenden Sie nur ein Leerzeichen in Folge\nBitte benutzen Sie nur eine Ziffer in Folge");
 		}
 		*/
-		// Prüfung ob am Ende ein Lehrzeichen steht
+		// Prüfung ob am Ende ein Leerzeichen steht
 		
 		if (bezeichnung.lastIndexOf(" ") == bezeichnung.length() - 1) {
 			throw new IllegalArgumentException("Bitte entfernen Sie alle Leerzeichen am Ende der Bezeichnung");
@@ -1558,7 +1558,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new IllegalArgumentException("Der Umfang muss durch 2 teilbar sein");
 		}
 		
-		// Pröfung ob das Feld "Studiensemester" nur Zahlen enthölt und nicht leer ist
+		// Prüfung ob das Feld "Studiensemester" nur Zahlen enthölt und nicht leer ist
 		
 		if (!new Integer(umfang).toString().matches("[0-9]{1}|[0-9]*")) {
 			throw new IllegalArgumentException("Bitten geben Sie das Studiensemester an");
@@ -1624,7 +1624,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Pröfung ob das Studiensemester der gewünschten Lehrveranstaltung mit dem der Semesterverbände vereinbar ist
+		// Prüfung ob das Studiensemester der gewünschten Lehrveranstaltung mit dem der Semesterverbände vereinbar ist
 		
 		Integer semesterAlt = null;
 		Integer semesterNeu = null;
@@ -1727,10 +1727,10 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 				
 		
 		
-		// Pröfen ob der Raum zum gewönschten Zeitslot schon noch verfögbar ist
+		// Prüfen ob der Raum zum gewünschten Zeitslot schon noch verfügbar ist
 		
 		/*
-		 * Pröfung deaktiviert, da dem Client nur freie Röume zur Verfögung gestellt werden
+		 * Pröfung deaktiviert, da dem Client nur freie Rüume zur Verfögung gestellt werden
 		 * Stand: 07.01.2014
 		
 		Vector<Belegung> raumBelegungen = this.belegungMapper.findByRaum(belegung.getRaum());
@@ -1756,7 +1756,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Pröfen ob der Dozent zum gewönschten Zeitslot verfögbar ist
+		// Pröfen ob der Dozent zum gewönschten Zeitslot verfügbar ist
 		
 		for (int i = 0; i < belegung.getDozenten().size(); i++) {
 			Vector<Belegung> dozentenBelegungen = this.belegungMapper.findByDozent(belegung.getDozenten().elementAt(i));
