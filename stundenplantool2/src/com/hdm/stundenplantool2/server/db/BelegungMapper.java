@@ -8,6 +8,16 @@ import java.util.Vector;
 
 import com.hdm.stundenplantool2.shared.bo.*;
 
+/**
+ * Mapper-Klasse, die <code>Belegung</code>-Objekte auf eine relationale
+ * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+ * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+ * gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+ * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+ * 
+ * @see DozentMapper, LehrveranstaltungMapper, RaumMapper, SemesterverbandMapper, StudiengangMapper, ZeitslotMapper
+ * @author Thies (implement: Zimmermann, Klatt, Roth)
+ */
 public class BelegungMapper {
 	
 	private static BelegungMapper belegungMapper = null;
@@ -24,32 +34,37 @@ public class BelegungMapper {
 	    return belegungMapper;
 	   }
 	
-	/*
-	 * Methode um eine beliebige Anzahl an Dozenten anhand Ihrerer ID's aus der
+	/**
+	 * Methode um eine beliebige Anzahl an Belegungen anhand Ihrerer ID's aus der
 	 * DB auszulesen
+	 * 
+	 * @param	id Primärschlüsselattribut(e) (->DB)
+	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
+	 * @return	Vector mit Belegungen, die den Primärschlüsselattributen entsprechen
 	 */
 	public Vector<Belegung> findByKey(Vector<Integer> keys, Boolean loop) throws RuntimeException {
 		StringBuffer ids = new StringBuffer();
 		
 		String sql;
-		//Erstellung des dynamischen Teils des SQL-Querys
 		
+		//Erstellung des dynamischen Teils des SQL-Querys		
 		if (keys.size() > 1) {
-		for (int i = 0; i < keys.size()-1; i++) {
-			ids.append(keys.elementAt(i));	
-			ids.append(",");
-		}
+			for (int i = 0; i < keys.size()-1; i++) {
+				ids.append(keys.elementAt(i));	
+				ids.append(",");
+			}
 		}
 			
 		ids.append(keys.elementAt(keys.size()-1));			
 			
-		//Einholen einer DB-Verbindung und
-		
+		//Einholen einer DB-Verbindung und		
 		Connection con = DBConnection.connection();
 		Statement stmt;
 		ResultSet rs;
 		Vector<Belegung> belegungen = new Vector<Belegung>();
 		try{
+			// Ausführung des SQL-Querys
 			stmt = con.createStatement();
 			sql = "SELECT * FROM Belegung WHERE ID IN (" + ids.toString() + ")";
 			rs = stmt.executeQuery(sql);
@@ -77,29 +92,29 @@ public class BelegungMapper {
 			throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByKey-1");
 		}
 			
-		try{	
-		// Einfügen der zugehörigen Dozenten in die einzelenen Belegungen des "Belegung-Vectors"
-		
-		if (loop == true) {
-			for (int i = 0; i < belegungen.size(); i++) {
-				sql = "SELECT DozentID FROM Dozentenbelegung_ZWT WHERE BelegungID = "+ belegungen.elementAt(i).getId();
-				stmt = con.createStatement();
-				rs = stmt.executeQuery(sql);
+		try{
+			
+		// Einfügen der zugehörigen Dozenten in die einzelenen Belegungen des "Belegung-Vectors"		
+			if (loop == true) {
+				for (int i = 0; i < belegungen.size(); i++) {
+					sql = "SELECT DozentID FROM Dozentenbelegung_ZWT WHERE BelegungID = "+ belegungen.elementAt(i).getId();
+					stmt = con.createStatement();
+					rs = stmt.executeQuery(sql);
 					
-				DozentMapper dMapper = DozentMapper.dozentMapper();
-				Vector<Integer> vi = new Vector<Integer>();
+					DozentMapper dMapper = DozentMapper.dozentMapper();
+					Vector<Integer> vi = new Vector<Integer>();
 					
 					while(rs.next()){
 						
 						vi.add(rs.getInt("DozentID")); 
 						
-						}
+					}
 					
 					if (vi.size() > 0) {
 						belegungen.elementAt(i).setDozenten(dMapper.findByKey(vi, false));
 					}					
 				}
-		}
+			}
 		}
 		catch(SQLException e1) {
 			throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByKey-2");
@@ -138,16 +153,21 @@ public class BelegungMapper {
 		return belegungen;
 	}
 	
-	// Alle Belegungen aus der DB auslesen
-	
+	/**
+	 * Methode um alle Belegungen aus der DB auszulesen
+	 * 
+	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
+	 * @return	Vector mit Belegungen
+	 */	
 	public Vector<Belegung> findAll(Boolean loop) throws RuntimeException {
 		
-		//Einholen einer DB-Verbindung und
-		
+		//Einholen einer DB-Verbindung und		
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		Vector<Belegung> belegungen = new Vector<Belegung>();
 		try{
+			// Ausführung des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT Belegung.ID, Belegung.RaumID, Raum.Kapazitaet, Raum.Bezeichnung, Belegung.ZeitslotID, "
 					+ "Zeitslot.Anfangszeit, Zeitslot.Endzeit, Zeitslot.Wochentag, Belegung.LehrveranstaltungID, "
@@ -186,68 +206,69 @@ public class BelegungMapper {
 	          }
 			
 			
-		// Einfügen der zugehörigen Dozenten in die einzelenen Belegungen des "Belegung-Vectors"
-		
-		if (loop == true) {
-			for (int i = 0; i < belegungen.size(); i++) {
-				sql = "SELECT DozentID FROM Dozentenbelegung_ZWT WHERE BelegungID = "+ belegungen.elementAt(i).getId();
-				rs = stmt.executeQuery(sql);
+			// Einfügen der zugehörigen Dozenten in die einzelenen Belegungen des "Belegung-Vectors"		
+			if (loop == true) {
+				for (int i = 0; i < belegungen.size(); i++) {
+					sql = "SELECT DozentID FROM Dozentenbelegung_ZWT WHERE BelegungID = "+ belegungen.elementAt(i).getId();
+					rs = stmt.executeQuery(sql);
 					
-				DozentMapper dMapper = DozentMapper.dozentMapper();
-				Vector<Integer> vi = new Vector<Integer>();
+					DozentMapper dMapper = DozentMapper.dozentMapper();
+					Vector<Integer> vi = new Vector<Integer>();
 					
 					while(rs.next()){
 						
 						vi.add(rs.getInt("DozentID")); 
 						
-						}
+					}
 					if (vi.size() > 0) {
 						belegungen.elementAt(i).setDozenten(dMapper.findByKey(vi, false));
 					}					 
 				}
-		}
+			}
 			
-		// Einfügen der zugehörigen Semesterverbände in die einzelenen Belegungen des "Belegung-Vectors"
-		
-		if (loop == true) {
-			for (int i = 0; i < belegungen.size(); i++) {
-				sql = "SELECT SemesterverbandID FROM Semesterverbandszugehörigkeit_ZWT WHERE BelegungID = "+ belegungen.elementAt(i).getId();
-				rs = stmt.executeQuery(sql);
+			// Einfügen der zugehörigen Semesterverbände in die einzelenen Belegungen des "Belegung-Vectors"		
+			if (loop == true) {
+				for (int i = 0; i < belegungen.size(); i++) {
+					sql = "SELECT SemesterverbandID FROM Semesterverbandszugehörigkeit_ZWT WHERE BelegungID = "+ belegungen.elementAt(i).getId();
+					rs = stmt.executeQuery(sql);
+				
+					SemesterverbandMapper svMapper = SemesterverbandMapper.semesterverbandMapper();
+					Vector<Integer> vi = new Vector<Integer>();
 					
-				SemesterverbandMapper svMapper = SemesterverbandMapper.semesterverbandMapper();
-				Vector<Integer> vi = new Vector<Integer>();
-					
-					while(rs.next()){
-						
-						vi.add(rs.getInt("SemesterverbandID")); 
-						
-						}
+					while(rs.next()){						
+						vi.add(rs.getInt("SemesterverbandID"));						
+					}
+				
 					if (vi.size() > 0) {
 						belegungen.elementAt(i).setSemesterverbaende(svMapper.findByKey(vi, false));
 					}					 
 					
 				}
+			}					
+		
 		}
-					
-			//con.close();
-			}
-			catch (SQLException e1) {
+		catch (SQLException e1) {
 				throw new RuntimeException("Datenbankbankproblem");				
-			}
-		
-		return belegungen;
 		}
-	
-	// Auslesen aller Belegungen die in einem Raum stattfinden
-	
-	public Vector<Belegung> findByRaum(Raum raum) throws RuntimeException {
-		//Einholen einer DB-Verbindung und
 		
+	return belegungen;
+	}
+	
+	/**
+	 * Methode um alle Belegungen anhand eines Raum-Objekts aus der DB auszulesen
+	 * 
+	 * @param	Raum-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @return	Vector mit Belegungen
+	 */	
+	public Vector<Belegung> findByRaum(Raum raum) throws RuntimeException {
+		
+		//Einholen einer DB-Verbindung und		
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		Vector<Integer> vi = new Vector<Integer>();
 		
 		try{
+			// Ausführung des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT ID FROM Belegung WHERE RaumID = "+ raum.getId();
 			rs = stmt.executeQuery(sql);
@@ -268,8 +289,12 @@ public class BelegungMapper {
 		else return null;			
 		}
 	
-	// Auslesen aller Belegungen die zu einem Zeitslot stattfinden
-	
+	/**
+	 * Methode um alle Belegungen anhand eines Zeitslot-Objekt aus der DB auszulesen
+	 * 
+	 * @param	Zeitslot-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @return	Vector mit Belegungen
+	 */	
 	public Vector<Belegung> findByZeitslot(Zeitslot zs) throws RuntimeException {
 		//Einholen einer DB-Verbindung und
 			
@@ -278,6 +303,7 @@ public class BelegungMapper {
 		Vector<Integer> vi = new Vector<Integer>();
 			
 		try{
+			// Ausführung des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT ID FROM Belegung WHERE ZeitslotID = "+ zs.getId();
 			rs = stmt.executeQuery(sql);
@@ -298,16 +324,21 @@ public class BelegungMapper {
 		else return null;			
 		}
 	
-	// Auslesen aller Belegungen die einen Dozenten betreffen
-	
+	/**
+	 * Methode um alle Belegungen anhand eines Dozent-Objekts aus der DB auszulesen
+	 * 
+	 * @param	Dozent-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @return	Vector mit Belegungen
+	 */
 	public Vector<Belegung> findByDozent(Dozent dozent) throws RuntimeException {
-		//Einholen einer DB-Verbindung und
 		
+		//Einholen einer DB-Verbindung 		
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		Vector<Integer> vi = new Vector<Integer>();
 		
 		try{
+			// Ausführung des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT BelegungID FROM Dozentenbelegung_ZWT WHERE DozentID = "+ dozent.getId();
 			rs = stmt.executeQuery(sql);
@@ -328,24 +359,27 @@ public class BelegungMapper {
 		else return null;			
 		}
 	
-	// Auslesen aller Belegungen die in einen Semesterverband betreffen
-	
+	/**
+	 * Methode um alle Belegungen anhand eines Semesterverband-Objekts aus der DB auszulesen
+	 * 
+	 * @param	Semesterverband-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @return	Vector mit Belegungen
+	 */
 	public Vector<Belegung> findBySemesterverband(Semesterverband semesterverband) throws RuntimeException {
-		//Einholen einer DB-Verbindung und
 		
+		//Einholen einer DB-Verbindung		
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		Vector<Integer> vi = new Vector<Integer>();
 		
 		try{
+			// Ausführung des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT BelegungID FROM Semesterverbandszugehörigkeit_ZWT WHERE SemesterverbandID = "+ semesterverband.getId();
 			rs = stmt.executeQuery(sql);
-			//System.out.println(semesterverband.getId());
 			while(rs.next()){
 				
-				vi.add(rs.getInt("BelegungID")); 
-				//System.out.println(rs.getInt("BelegungID"));
+				vi.add(rs.getInt("BelegungID"));
 				}
 			}
 		
@@ -356,82 +390,83 @@ public class BelegungMapper {
 			return this.findByKey(vi, true);
 		}
 		else return null;			
-		}
+	}
 	
-	// Auslesen aller Belegungen die in einee Lehrveranstaltung betreffen
-	
-		public Vector<Belegung> findByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
-			//Einholen einer DB-Verbindung und
-			
-			Connection con = DBConnection.connection();
-			ResultSet rs;
-			Vector<Integer> vi = new Vector<Integer>();
-			
-			try{
-				Statement stmt = con.createStatement();
-				String sql = "SELECT ID FROM Belegung WHERE LehrveranstaltungID = "+ lehrveranstaltung.getId();
-				rs = stmt.executeQuery(sql);
-				
-				while(rs.next()){
-					
-					vi.add(rs.getInt("ID")); 
-					
-					}
-				}
-			
-			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByLehrveranstaltung");			
-			}
-			if (vi.size() > 0) {
-				return this.findByKey(vi, true);
-			}
-			else return null;			
-			}
-	
-	/*
-	 * Methode um eine bestehende Belegung in der DB zu aktualisieren
+	/**
+	 * Methode um alle Belegungen anhand eines Lehrveranstaltung-Objekts aus der DB auszulesen
+	 * 
+	 * @param	Lehrveranstaltung-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @return	Vector mit Belegungen
 	 */
+	public Vector<Belegung> findByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
+		
+		//Einholen einer DB-Verbindung			
+		Connection con = DBConnection.connection();
+		ResultSet rs;
+		Vector<Integer> vi = new Vector<Integer>();
+			
+		try{
+			// Ausführung des SQL-Querys
+			Statement stmt = con.createStatement();
+			String sql = "SELECT ID FROM Belegung WHERE LehrveranstaltungID = "+ lehrveranstaltung.getId();
+			rs = stmt.executeQuery(sql);
+				
+			while(rs.next()){
+					
+				vi.add(rs.getInt("ID")); 
+					
+				}
+			}
+			
+		catch (SQLException e1) {
+			throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByLehrveranstaltung");			
+		}
+		if (vi.size() > 0) {
+			return this.findByKey(vi, true);
+		}
+		else return null;			
+	}
 	
+	/**
+	 * Methode um eine Belegung in der DB zu aktualisieren
+	 * 
+	 * @param	Belegung-Objekt welches aktualisiert werden soll 			
+	 * @return	Belegung-Objekt
+	 */
 	public Belegung update(Belegung belegung) throws RuntimeException {
 		Connection con = DBConnection.connection();
 		
-		// Aktualisierung der Belegung-Entität in der DB
-		
+		// Aktualisierung der Belegung-Entität in der DB		
 		try{
-		Statement stmt = con.createStatement();
-		String sql = "UPDATE Belegung SET RaumID='"+belegung.getRaum().getId()+"', ZeitslotID='"+belegung.getZeitslot().getId()+"', LehrveranstaltungID='"+belegung.getLehrveranstaltung().getId()+"' WHERE ID="+belegung.getId()+";";
-		stmt.executeUpdate(sql);
-		
-		// Löschen der "Dozenten-Belegung" (die m zu n Beziehung zwischen Dozent und Belegungen)
-		
-		sql = "DELETE FROM Dozentenbelegung_ZWT WHERE BelegungID = '"+belegung.getId()+"';";
-		stmt.executeUpdate(sql);
-		
-		// Aktualisierung der "Dozenten-Belegung" (die m zu n Beziehung zwischen Dozent und Belegungen)
-		
-		if (belegung.getDozenten() != null) {
-			for (int i = 0; i < belegung.getDozenten().size(); i++){
-				sql = "INSERT INTO Dozentenbelegung_ZWT (`DozentID`, `BelegungID`) VALUES ('"+belegung.getDozenten().elementAt(i).getId()+"', '"+belegung.getId()+"');";
-				stmt.executeUpdate(sql);
-				}
-		}
-		
-		// Löschen der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Semesterverbände und Belegungen)
-		
-		sql = "DELETE FROM Semesterverbandszugehörigkeit_ZWT WHERE BelegungID = '"+belegung.getId()+"';";
-		stmt.executeUpdate(sql);
-				
-		// Aktualisierung der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Semesterverbände und Belegungen)
-		
-		if (belegung.getSemesterverbaende() != null) {
-			for (int i = 0; i < belegung.getSemesterverbaende().size(); i++){
-				sql = "INSERT INTO Semesterverbandszugehörigkeit_ZWT (`SemesterverbandID`, `BelegungID`) VALUES ('"+belegung.getSemesterverbaende().elementAt(i).getId()+"', '"+belegung.getId()+"');";
-				stmt.executeUpdate(sql);
-				}
-		}
-		
-		
-		//con.close();
+			// Ausführung des SQL-Querys
+			Statement stmt = con.createStatement();
+			String sql = "UPDATE Belegung SET RaumID='"+belegung.getRaum().getId()+"', ZeitslotID='"+belegung.getZeitslot().getId()+"', LehrveranstaltungID='"+belegung.getLehrveranstaltung().getId()+"' WHERE ID="+belegung.getId()+";";
+			stmt.executeUpdate(sql);
+			
+			// Löschen der "Dozenten-Belegung" (die m zu n Beziehung zwischen Dozent und Belegungen)		
+			sql = "DELETE FROM Dozentenbelegung_ZWT WHERE BelegungID = '"+belegung.getId()+"';";
+			stmt.executeUpdate(sql);
+			
+			// Aktualisierung der "Dozenten-Belegung" (die m zu n Beziehung zwischen Dozent und Belegungen)		
+			if (belegung.getDozenten() != null) {
+				for (int i = 0; i < belegung.getDozenten().size(); i++){
+					sql = "INSERT INTO Dozentenbelegung_ZWT (`DozentID`, `BelegungID`) VALUES ('"+belegung.getDozenten().elementAt(i).getId()+"', '"+belegung.getId()+"');";
+					stmt.executeUpdate(sql);
+					}
+			}
+			
+			// Löschen der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Semesterverbände und Belegungen)		
+			sql = "DELETE FROM Semesterverbandszugehörigkeit_ZWT WHERE BelegungID = '"+belegung.getId()+"';";
+			stmt.executeUpdate(sql);
+					
+			// Aktualisierung der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Semesterverbände und Belegungen)		
+			if (belegung.getSemesterverbaende() != null) {
+				for (int i = 0; i < belegung.getSemesterverbaende().size(); i++){
+					sql = "INSERT INTO Semesterverbandszugehörigkeit_ZWT (`SemesterverbandID`, `BelegungID`) VALUES ('"+belegung.getSemesterverbaende().elementAt(i).getId()+"', '"+belegung.getId()+"');";
+					stmt.executeUpdate(sql);
+					}
+			}
+			
 		}
 		catch (SQLException e1) {
 			throw new RuntimeException("Datenbankbankproblem");		
@@ -440,24 +475,26 @@ public class BelegungMapper {
 		return belegung;
 	}
 	
-	// Löschen der Belegung aus der DB
-	
+	/**
+	 * Methode um eine Belegung aus der DB zu löschen
+	 * 
+	 * @param	Belegung-Objekt welches gelöscht werden soll
+	 */
 	public void delete(Belegung belegung) throws RuntimeException {
 
 			Connection con = DBConnection.connection();
 			try {
 				Statement stmt = con.createStatement();
 				
-				// Löschen der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Semesterverbände und Belegungen)
-				
+				// Löschen der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Semesterverbände und Belegungen)				
 				String sql = "DELETE FROM Semesterverbandszugehörigkeit_ZWT WHERE BelegungID = '"+belegung.getId()+"';";
 				stmt.executeUpdate(sql);
 				
-				// Löschen der "Dozenten-Belegung" (die m zu n Beziehung zwischen Dozent und Belegungen)
-				
+				// Löschen der "Dozenten-Belegung" (die m zu n Beziehung zwischen Dozent und Belegungen)				
 				sql = "DELETE FROM Dozentenbelegung_ZWT WHERE BelegungID = '"+belegung.getId()+"';";
 				stmt.executeUpdate(sql);
 				
+				// Löschen der Belegung-Entität
 				sql = "DELETE FROM Belegung WHERE ID = '"+belegung.getId()+"';";
 				stmt.executeUpdate(sql);			
 				
@@ -467,49 +504,54 @@ public class BelegungMapper {
 			}
 		}
 	
-	// Ablegen einer neuen Belegung in die DB
+	/**
+	 * Methode um eine neue Belegung in die DB zu schreiben
+	 * 
+	 * @param	Belegung-Objekt welches neu hinzukommt			
+	 * @return	Belegung-Objekt
+	 */
 	public Belegung insertIntoDB(Belegung belegung) throws RuntimeException {
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 						
 		try{
-		Statement stmt = con.createStatement();
-		String sql = "INSERT INTO Belegung (`RaumID`, `ZeitslotID`, `LehrveranstaltungID`) VALUES ('"+belegung.getRaum().getId()+"', '"+belegung.getZeitslot().getId()+"', '"+belegung.getLehrveranstaltung().getId()+"');";
-		stmt.executeUpdate(sql);
-		
-		/*
-		 *  Auslesen der nach einfügen eines neuen Dozenten in DB entstandenen "größten" ID
-		 *  @author: Herr Prof. Thies 
-		 *  @implement: Lucas Zanella 
-		 */
-		sql = "SELECT MAX(ID) AS maxid FROM Belegung;";
-		rs = stmt.executeQuery(sql);
-		
-		/*
-		 *  Setzen der ID dem hier aktuellen Semesterverband-Objekt
-		 *  @author: Herr Prof. Thies
-		 *  @implement: Lucas Zanella 
-		 */
-		while(rs.next()){
-			belegung.setId(rs.getInt("maxid"));
-		}
-		
-		if(belegung.getDozenten() != null) {
-			for ( int i = 0; i < belegung.getDozenten().size(); i++) {
-				sql = "INSERT INTO Dozentenbelegung_ZWT (`DozentID`, `BelegungID`) VALUES ('"+belegung.getDozenten().elementAt(i).getId()+"', '"+belegung.getId()+"');";
-				stmt.executeUpdate(sql);
+			// Ausführung des SQL-Querys
+			Statement stmt = con.createStatement();
+			String sql = "INSERT INTO Belegung (`RaumID`, `ZeitslotID`, `LehrveranstaltungID`) VALUES ('"+belegung.getRaum().getId()+"', '"+belegung.getZeitslot().getId()+"', '"+belegung.getLehrveranstaltung().getId()+"');";
+			stmt.executeUpdate(sql);
+			
+			/*
+			 *  Auslesen der nach einfügen eines neuen Dozenten in DB entstandenen "größten" ID
+			 *  @author: Herr Prof. Thies 
+			 *  @implement: Lucas Zanella 
+			 */
+			sql = "SELECT MAX(ID) AS maxid FROM Belegung;";
+			rs = stmt.executeQuery(sql);
+			
+			/*
+			 *  Setzen der ID dem hier aktuellen Belegung-Objekt
+			 *  @author: Herr Prof. Thies
+			 *  @implement: Lucas Zanella 
+			 */
+			while(rs.next()){
+				belegung.setId(rs.getInt("maxid"));
 			}
-		}
-		
-		if(belegung.getSemesterverbaende() != null) {
-			for ( int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
-				sql = "INSERT INTO Semesterverbandszugehörigkeit_ZWT (`SemesterverbandID`, `BelegungID`) VALUES ('"+belegung.getSemesterverbaende().elementAt(i).getId()+"', '"+belegung.getId()+"');";
-				stmt.executeUpdate(sql);
+			
+			// Verknüpfen von Dozenten mit der neuen Belegung über die Zwischentabelle "Dozentenbelegung_ZWT"
+			if(belegung.getDozenten() != null) {
+				for ( int i = 0; i < belegung.getDozenten().size(); i++) {
+					sql = "INSERT INTO Dozentenbelegung_ZWT (`DozentID`, `BelegungID`) VALUES ('"+belegung.getDozenten().elementAt(i).getId()+"', '"+belegung.getId()+"');";
+					stmt.executeUpdate(sql);
+				}
 			}
-		}
-		
-		
-		//con.close();
+			
+			// Verknüpfen von Semesterverbaenden mit der neuen Belegung über die Zwischentabelle "Semesterverbandszugehörigkeit_ZWT"
+			if(belegung.getSemesterverbaende() != null) {
+				for ( int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
+					sql = "INSERT INTO Semesterverbandszugehörigkeit_ZWT (`SemesterverbandID`, `BelegungID`) VALUES ('"+belegung.getSemesterverbaende().elementAt(i).getId()+"', '"+belegung.getId()+"');";
+					stmt.executeUpdate(sql);
+				}
+			}		
 		}
 		catch (SQLException e1) {
 			throw new RuntimeException("Datenbankbankproblem");

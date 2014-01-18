@@ -5,12 +5,16 @@ import java.util.Vector;
 
 import com.hdm.stundenplantool2.shared.bo.*;
 
-/*
- * Mapperklasse um Semesterverband-Objekte aus und in die DB abzubilden
- * @author: Herr Prof. Thies
- * @implement: Lucas Zanella 
+/**
+ * Mapper-Klasse, die <code>Semesterverband</code>-Objekte auf eine relationale
+ * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+ * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+ * gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+ * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+ * 
+ * @see DozentMapper, LehrveranstaltungMapper, BelegungMapper, RaumMapper, StudiengangMapper, ZeitslotMapper
+ * @author Thies (implement: Zimmermann, Klatt, Roth)
  */
-
 public class SemesterverbandMapper {
 	
 	private static SemesterverbandMapper semesterverbandMapper = null;
@@ -27,30 +31,33 @@ public class SemesterverbandMapper {
 	    return semesterverbandMapper;
 	   }
 	
-	/*
-	 * Methode um eine beliebige Anzahl an Semesterverbände anhand Ihrerer ID's aus der
+	/**
+	 * Methode um eine beliebige Anzahl an Semesterverbänden anhand Ihrerer ID's aus der
 	 * DB auszulesen
+	 * 
+	 * @param	id Primärschlüsselattribut(e) (->DB)
+	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
+	 * @return	Vector mit Semesterverbänden, die den Primärschlüsselattributen entsprechen
 	 */
 	public Vector<Semesterverband> findByKey(Vector<Integer> keys, Boolean loop) throws RuntimeException {
 		StringBuffer ids = new StringBuffer();
 		
-		//Erstellung des dynamischen Teils des SQL-Querys
-		
+		//Erstellung des dynamischen Teils des SQL-Querys		
 		if (keys.size() > 1) {
-		for (int i = 0; i < keys.size()-1; i++) {
-			ids.append(keys.elementAt(i));	
-			ids.append(",");
-		}
-		}
-			
+			for (int i = 0; i < keys.size()-1; i++) {
+				ids.append(keys.elementAt(i));	
+				ids.append(",");
+			}
+		}			
 		ids.append(keys.elementAt(keys.size()-1));			
 			
-		//Einholen einer DB-Verbindung und
-		
+		//Einholen einer DB-Verbindung		
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		Vector<Semesterverband> semesterverbaende = new Vector<Semesterverband>();
 		try{
+			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT * FROM Semesterverband WHERE ID IN (" + ids.toString() + ")";
 			rs = stmt.executeQuery(sql);
@@ -71,45 +78,50 @@ public class SemesterverbandMapper {
 	          }
 			
 			
-		// Einfügen der zugehörigen Belegungen in die Semesterverbände des "Semesterverband-Vectors"
-		
-		if (loop == true) {
-			for (int i = 0; i < semesterverbaende.size(); i++) {
-				sql = "SELECT BelegungID FROM Semesterverbandszugehörigkeit_ZWT WHERE SemesterverbandID = "+ semesterverbaende.elementAt(i).getId();
-				rs = stmt.executeQuery(sql);
-					
-				BelegungMapper bMapper = BelegungMapper.belegungMapper();
-				Vector<Integer> vi = new Vector<Integer>();
-					
+			// Einfügen der zugehörigen Belegungen in die Semesterverbände des "Semesterverband-Vectors"			
+			if (loop == true) {
+				for (int i = 0; i < semesterverbaende.size(); i++) {
+					sql = "SELECT BelegungID FROM Semesterverbandszugehörigkeit_ZWT WHERE SemesterverbandID = "+ semesterverbaende.elementAt(i).getId();
+					rs = stmt.executeQuery(sql);
+						
+					BelegungMapper bMapper = BelegungMapper.belegungMapper();
+					Vector<Integer> vi = new Vector<Integer>();
+						
 					while(rs.next()){
-						
+							
 						vi.add(rs.getInt("BelegungID")); 
-						
-						}
+							
+					}
 					if (vi.size() > 0) {
 						semesterverbaende.elementAt(i).setBelegungen(bMapper.findByKey(vi, false));
 					}
-					}
 				}
-		
-			}
-			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");				
 			}
 		
+		}
+		catch (SQLException e1) {
+			throw new RuntimeException("Datenbankbankproblem");				
+		}		
 		return semesterverbaende;
 	}
 	
-	// Methode um Semesterverbände anhand eines Studienganges auszulesen
-	
+	/**
+	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts aus der DB auszulesen
+	 * 
+	 * @param	Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
+	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * 			bzw. erzeugt werden (dient Performance-Zwecken) 			
+	 * @return	Vector mit Semesterverbänden
+	 */
 	public Vector<Semesterverband> findByStudiengang(Studiengang sg, Boolean loop) throws RuntimeException {
 					
-		//Einholen einer DB-Verbindung und
-		
+		//Einholen einer DB-Verbindung		
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		Vector<Semesterverband> semesterverbaende = new Vector<Semesterverband>();
+		
 		try{
+			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT * FROM Semesterverband WHERE StudiengangID = " + sg.getId();
 			rs = stmt.executeQuery(sql);
@@ -132,43 +144,51 @@ public class SemesterverbandMapper {
 	          }
 			
 			
-		// Einfügen der zugehörigen Belegungen in die Semesterverbände des "Semesterverband-Vectors"
-		
-		if (loop == true) {
-			for (int i = 0; i < semesterverbaende.size(); i++) {
-				sql = "SELECT BelegungID FROM Semesterverbandszugehörigkeit_ZWT WHERE SemesterverbandID = "+ semesterverbaende.elementAt(i).getId();
-				rs = stmt.executeQuery(sql);
-					
-				BelegungMapper bMapper = BelegungMapper.belegungMapper();
-				Vector<Integer> vi = new Vector<Integer>();
-					
+			// Einfügen der zugehörigen Belegungen in die Semesterverbände des "Semesterverband-Vectors"
+			
+			if (loop == true) {
+				for (int i = 0; i < semesterverbaende.size(); i++) {
+					sql = "SELECT BelegungID FROM Semesterverbandszugehörigkeit_ZWT WHERE SemesterverbandID = "+ semesterverbaende.elementAt(i).getId();
+					rs = stmt.executeQuery(sql);
+						
+					BelegungMapper bMapper = BelegungMapper.belegungMapper();
+					Vector<Integer> vi = new Vector<Integer>();
+						
 					while(rs.next()){
-						
+							
 						vi.add(rs.getInt("BelegungID")); 
-						
+							
 						}
 					if (vi.size() > 0) {
 						semesterverbaende.elementAt(i).setBelegungen(bMapper.findByKey(vi, false));
 					}
-					}
 				}
+			}
 		
-			}
-			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");				
-			}
+		}
+		catch (SQLException e1) {
+			throw new RuntimeException("Datenbankbankproblem");				
+		}
 		
 		return semesterverbaende;
 	}
 	
+	/**
+	 * Methode um alle Semesterverbände aus der DB auszulesen
+	 * 
+	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
+	 * @return	Vector mit Semesterverbände
+	 */	
 	public Vector<Semesterverband> findAll(Boolean loop)  throws RuntimeException {
 		
-		//Einholen einer DB-Verbindung und
-		
+		//Einholen einer DB-Verbindung		
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		Vector<Semesterverband> semesterverbaende = new Vector<Semesterverband>();
+		
 		try{
+			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT * FROM Semesterverband";
 			rs = stmt.executeQuery(sql);
@@ -189,62 +209,64 @@ public class SemesterverbandMapper {
 	          }
 			
 			
-		// Einfügen der zugehörigen Belegungen in die Semesterverbände des "Semesterverband-Vectors"
-		
-		if (loop == true) {
-			for (int i = 0; i < semesterverbaende.size(); i++) {
-				sql = "SELECT BelegungID FROM Semesterverbandszugehörigkeit_ZWT WHERE SemesterverbandID = "+ semesterverbaende.elementAt(i).getId();
-				rs = stmt.executeQuery(sql);
-					
-				BelegungMapper bMapper = BelegungMapper.belegungMapper();
-				Vector<Integer> vi = new Vector<Integer>();
-					
+			// Einfügen der zugehörigen Belegungen in die Semesterverbände des "Semesterverband-Vectors"			
+			if (loop == true) {
+				for (int i = 0; i < semesterverbaende.size(); i++) {
+					sql = "SELECT BelegungID FROM Semesterverbandszugehörigkeit_ZWT WHERE SemesterverbandID = "+ semesterverbaende.elementAt(i).getId();
+					rs = stmt.executeQuery(sql);
+						
+					BelegungMapper bMapper = BelegungMapper.belegungMapper();
+					Vector<Integer> vi = new Vector<Integer>();
+						
 					while(rs.next()){
-						
+							
 						vi.add(rs.getInt("BelegungID")); 
-						
+							
 						}
 					if (vi.size() > 0) {
 						semesterverbaende.elementAt(i).setBelegungen(bMapper.findByKey(vi, false));
 					}					
-					}
-				
 				}
 					
 			}
-			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");				
-			}
-		
-		return semesterverbaende;
-		
+					
+		}
+		catch (SQLException e1) {
+			throw new RuntimeException("Datenbankbankproblem");				
+		}		
+		return semesterverbaende;		
 	}
 	
+	/**
+	 * Methode um eine Semesterverband in der DB zu aktualisieren
+	 * 
+	 * @param	Semesterverband-Objekt welches aktualisiert werden soll 			
+	 * @return	Semesterverband-Objekt
+	 */
 	public Semesterverband update(Semesterverband semesterverband) throws RuntimeException {
+		
+		// Einholen einer DB-Verbindung
 		Connection con = DBConnection.connection();
 		
 		// Aktualisierung der Semesterverband-Entität in der DB
 		
 		try{
-		Statement stmt = con.createStatement();
-		String sql = "UPDATE Semesterverband SET AnzahlStudenten='"+semesterverband.getAnzahlStudenten()+"', Jahrgang='"+semesterverband.getJahrgang()+"', StudiengangID='"+semesterverband.getStudiengang().getId()+"' WHERE ID="+semesterverband.getId()+";";
-		stmt.executeUpdate(sql);
-		
-		// Löschen der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Semesterverband und Belegungen)
-		
-		sql = "DELETE FROM Semesterverbandszugehörigkeit_ZWT WHERE SemesterverbandID = '"+semesterverband.getId()+"';";
-		stmt.executeUpdate(sql);
-		
-		// Aktualisierung der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Dozent und Belegungen)
-		
-		if (semesterverband.getBelegungen() != null) {
-			for (int i = 0; i < semesterverband.getBelegungen().size(); i++){
-				sql = "INSERT INTO Semesterverbandszugehörigkeit_ZWT (`SemesterverbandID`, `BelegungID`) VALUES ('"+semesterverband.getId()+"', '"+semesterverband.getBelegungen().elementAt(i).getId()+"');";
-				stmt.executeUpdate(sql);
-				}
-		}
-		
-			//con.close();
+			// Ausführen des SQL-Statements
+			Statement stmt = con.createStatement();
+			String sql = "UPDATE Semesterverband SET AnzahlStudenten='"+semesterverband.getAnzahlStudenten()+"', Jahrgang='"+semesterverband.getJahrgang()+"', StudiengangID='"+semesterverband.getStudiengang().getId()+"' WHERE ID="+semesterverband.getId()+";";
+			stmt.executeUpdate(sql);
+			
+			// Löschen der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Semesterverband und Belegungen)			
+			sql = "DELETE FROM Semesterverbandszugehörigkeit_ZWT WHERE SemesterverbandID = '"+semesterverband.getId()+"';";
+			stmt.executeUpdate(sql);
+			
+			// Aktualisierung der "Semesterverbandszugehörigkeit" (die m zu n Beziehung zwischen Dozent und Belegungen)			
+			if (semesterverband.getBelegungen() != null) {
+				for (int i = 0; i < semesterverband.getBelegungen().size(); i++){
+					sql = "INSERT INTO Semesterverbandszugehörigkeit_ZWT (`SemesterverbandID`, `BelegungID`) VALUES ('"+semesterverband.getId()+"', '"+semesterverband.getBelegungen().elementAt(i).getId()+"');";
+					stmt.executeUpdate(sql);
+					}
+			}
 		}
 		catch (SQLException e1) {
 			throw new RuntimeException("Datenbankbankproblem");			
@@ -253,54 +275,63 @@ public class SemesterverbandMapper {
 		return semesterverband;
 	}
 	
+	/**
+	 * Methode um einen Semesterverband aus der DB zu löschen
+	 * 
+	 * @param	Semesterverband-Objekt welches gelöscht werden soll
+	 */
 	public void delete(Semesterverband semesterverband) throws RuntimeException {
-
-					Connection con = DBConnection.connection();
-					try {
-						Statement stmt = con.createStatement();
-						
-						String sql = "DELETE FROM Semesterverband WHERE ID = '"+semesterverband.getId()+"';";
-						stmt.executeUpdate(sql);
-												
-						
-					}
-					catch (SQLException e1) {
-						throw new RuntimeException("Datenbankbankproblem");
-					}
-				
 		
+		// Einholen einer DB-Verbindung
+		Connection con = DBConnection.connection();
+		try {
+			// Ausführen des SQL-Statements
+			Statement stmt = con.createStatement();
+			
+			// Löschen des Semesterverbands-Entität
+			String sql = "DELETE FROM Semesterverband WHERE ID = '"+semesterverband.getId()+"';";
+			stmt.executeUpdate(sql);											
+						
+		}
+		catch (SQLException e1) {
+			throw new RuntimeException("Datenbankbankproblem");
+		}		
 	}
 	
-	// Ablegen eines neuen Semesterverbands in die DB
-		
+	/**
+	 * Methode um eine neuen Semesterverband in die DB zu schreiben
+	 * 
+	 * @param	Semesterverband-Objekt welcher neu hinzukommt			
+	 * @return	Semesterverband-Objekt
+	 */	
 	public Semesterverband insertIntoDB(Semesterverband semesterverband) throws RuntimeException {
+		
+		// Einholen einer DB-Verbindung
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		
 		try{
-		Statement stmt = con.createStatement();
-		String sql = "INSERT INTO Semesterverband (`AnzahlStudenten`, `Jahrgang`, `StudiengangID`) VALUES ('"+semesterverband.getAnzahlStudenten()+"', '"+semesterverband.getJahrgang()+"', '"+semesterverband.getStudiengang().getId()+"');";
-		stmt.executeUpdate(sql);
-		
-		// Auslesen der nach einfügen eines neuen Semesterverbandes in DB entstandenen "größten" ID
-		sql = "SELECT MAX(ID) AS maxid FROM Semesterverband;";
-		rs = stmt.executeQuery(sql);
-		
-		// Setzen der ID dem hier aktuellen Semesterverband-Objekt
-		while(rs.next()){
-			semesterverband.setId(rs.getInt("maxid"));
-		}
-		
-		// Setzen der Semesterverbandszugehörigkeit (die m zu n Beziehung zwischen Semesterverband und Belegung)
-		if(semesterverband.getBelegungen() != null) {
-			for ( int i = 0; i < semesterverband.getBelegungen().size(); i++) {
-				sql = "INSERT INTO Semesterverbandszugehörigkeit_ZWT (`SemesterverbandID`, `BelegungID`) VALUES ('"+semesterverband.getId()+"', '"+semesterverband.getBelegungen().elementAt(i).getId()+"');";
-				stmt.executeUpdate(sql);
+			// Ausführen des SQL-Statements
+			Statement stmt = con.createStatement();
+			String sql = "INSERT INTO Semesterverband (`AnzahlStudenten`, `Jahrgang`, `StudiengangID`) VALUES ('"+semesterverband.getAnzahlStudenten()+"', '"+semesterverband.getJahrgang()+"', '"+semesterverband.getStudiengang().getId()+"');";
+			stmt.executeUpdate(sql);
+			
+			// Auslesen der nach einfügen eines neuen Semesterverbandes in DB entstandenen "größten" ID
+			sql = "SELECT MAX(ID) AS maxid FROM Semesterverband;";
+			rs = stmt.executeQuery(sql);
+			
+			// Setzen der ID dem hier aktuellen Semesterverband-Objekt
+			while(rs.next()){
+				semesterverband.setId(rs.getInt("maxid"));
 			}
-		}
-		
-		
-		//con.close();
+			
+			// Setzen der Semesterverbandszugehörigkeit (die m zu n Beziehung zwischen Semesterverband und Belegung)
+			if(semesterverband.getBelegungen() != null) {
+				for ( int i = 0; i < semesterverband.getBelegungen().size(); i++) {
+					sql = "INSERT INTO Semesterverbandszugehörigkeit_ZWT (`SemesterverbandID`, `BelegungID`) VALUES ('"+semesterverband.getId()+"', '"+semesterverband.getBelegungen().elementAt(i).getId()+"');";
+					stmt.executeUpdate(sql);
+				}
+			}
 		}
 		catch (SQLException e1) {
 			throw new RuntimeException("Datenbankbankproblem");

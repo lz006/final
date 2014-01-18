@@ -669,52 +669,6 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 	}
 	
-	public Zeitslot aendernZeitslot(Zeitslot zeitslot) throws RuntimeException {
-		
-		// Prüfung der Zeitangaben auf syntaktische Korrektheit
-		if (!new Integer(zeitslot.getAnfangszeit()).toString().matches("[0-9]{3,4}") || !new Integer(zeitslot.getEndzeit()).toString().matches("[0-9]{3,4}")) {
-			throw new IllegalArgumentException("Zeiten dürfen nur Zahlen von 0 bis 9 enthalten und müssen sich zwischen 08:15 und 21:00 Uhr befinden");
-		}
-		
-		// Prüfung des Wochentags auf semantische Korrektheit
-		if (!zeitslot.getWochentag().equals("Montag") || !zeitslot.getWochentag().equals("Dienstag") || !zeitslot.getWochentag().equals("Mittwoch") || 
-				!zeitslot.getWochentag().equals("Donnerstag") || !zeitslot.getWochentag().equals("Freitag") || !zeitslot.getWochentag().equals("Samstag") || 
-				!zeitslot.getWochentag().equals("Sonntag")) {
-			throw new IllegalArgumentException("Wochentage muessen ausgeschrieben sein");
-			 }
-		
-		if ((zeitslot.getEndzeit() - zeitslot.getAnfangszeit()) != 90) {
-			throw new IllegalArgumentException("Ein Zeitslot muss einer Dauer von 90 Minuten entsprechen");
-		}
-		
-		if ((zeitslot.getAnfangszeit() % 15) != 0 || (zeitslot.getAnfangszeit() % 15) != 0) {
-			throw new IllegalArgumentException("Ein Zeitslot muss sich im Viertelstundentakt bewegen - XX:00/:15/:30/:45");
-		}
-		
-		// Laden des vorhergehenden und nachfolgenden Zeitslots
-		
-		Vector<Zeitslot> davorZeitslot = null;
-		Vector<Zeitslot> danachZeitslot = this.zeitslotMapper.findByKey(new Vector<Integer>(zeitslot.getId()+1));
-		if(zeitslot.getId() > 1) {
-			davorZeitslot = this.zeitslotMapper.findByKey(new Vector<Integer>(zeitslot.getId()-1));
-		}
-
-		// Prüfung des geänderten Zeitslots, ob dieser mit den vorgeschriebenen Pausen von 15 Minuten im Konflikt steht
-		
-		if (davorZeitslot != null) {
-			if((zeitslot.getAnfangszeit() - davorZeitslot.elementAt(0).getEndzeit()) < 15) {
-				throw new RuntimeException("Zum vorherigen Zeitslot müssen mindestens 15 Minuten Abstand sein");
-			}
-		}
-		
-		if((danachZeitslot.elementAt(0).getAnfangszeit() - zeitslot.getEndzeit()) < 15) {
-			throw new RuntimeException("Zum nachfolgenden Zeitslot müssen mindestens 15 Minuten Abstand sein");
-		}
-		
-		this.zeitslotMapper.update(zeitslot);
-		return zeitslot;
-	}
-	
 	public Lehrveranstaltung aendernLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
 		
 		// Prüfung ob min ein Studiengang angegeben wurde

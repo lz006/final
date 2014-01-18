@@ -61,7 +61,7 @@ public interface VerwaltungAsync {
 	void auslesenVerfuegbareRaeumeZuZeitslotuSV(Zeitslot zeitslot, Vector<Semesterverband> sv, AsyncCallback<Vector<Raum>> callback) throws RuntimeException;
 	
 	/*
-	 * L�schen der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * Löschen der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
 	 */
 
 	void loeschenSemesterverband(Semesterverband semesterverband, AsyncCallback<Void> callback) throws RuntimeException;
@@ -79,14 +79,12 @@ public interface VerwaltungAsync {
 	void loeschenRaum(Raum raum, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
 	/*
-	 * �ndern der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * Ändern der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
 	 */
 
 	void aendernSemesterverband(Semesterverband semesterverband, AsyncCallback<Semesterverband> callback) throws RuntimeException;
 	
 	void aendernDozent(Dozent dozent, AsyncCallback<Dozent> callback) throws RuntimeException;
-
-	void aendernZeitslot(Zeitslot zeitslot, AsyncCallback<Zeitslot> callback) throws RuntimeException;
 
 	void aendernLehrveranstaltung(Lehrveranstaltung lehrveranstaltung, AsyncCallback<Lehrveranstaltung> callback) throws RuntimeException;
 

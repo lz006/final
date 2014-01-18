@@ -66,7 +66,7 @@ public interface Verwaltung extends RemoteService {
 	Vector<Raum> auslesenVerfuegbareRaeumeZuZeitslotuSV(Zeitslot zeitslot, Vector<Semesterverband> sv) throws RuntimeException;
 	
 	/*
-	 * L�schen der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * Löschen der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
 	 */
 	
 	void loeschenSemesterverband(Semesterverband semesterverband) throws RuntimeException;
@@ -84,14 +84,12 @@ public interface Verwaltung extends RemoteService {
 	void loeschenRaum(Raum raum) throws IllegalArgumentException;
 	
 	/*
-	 * �ndern der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * Ändern der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
 	 */
 	
 	Semesterverband aendernSemesterverband(Semesterverband semesterverband) throws RuntimeException;
 	
 	Dozent aendernDozent(Dozent dozent) throws RuntimeException;
-	
-	Zeitslot aendernZeitslot(Zeitslot zeitslot) throws RuntimeException;
 	
 	Lehrveranstaltung aendernLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws RuntimeException;
 	

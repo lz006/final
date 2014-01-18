@@ -5,12 +5,16 @@ import java.util.Vector;
 
 import com.hdm.stundenplantool2.shared.bo.*;
 
-/*
- * Mapperklasse um Zeitslot-Objekte aus und in die DB abzubilden
- * @author: Herr Prof. Thies
- * @implement: Lucas Zanella 
+/**
+ * Mapper-Klasse, die <code>Lehrveranstaltung</code>-Objekte auf eine relationale
+ * Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
+ * gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
+ * gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
+ * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
+ * 
+ * @see DozentMapper, BelegungMapper, RaumMapper, SemesterverbandMapper, StudiengangMapper, LehrveranstaltungMapper
+ * @author Thies (implement: Zimmermann, Klatt, Roth)
  */
-
 public class ZeitslotMapper {
 	
 	private static ZeitslotMapper zeitslotMapper = null;
@@ -27,31 +31,32 @@ public class ZeitslotMapper {
 	    return zeitslotMapper;
 	   }
 	
-	/*
+	/**
 	 * Methode um eine beliebige Anzahl an Zeitslots anhand Ihrerer ID's aus der
 	 * DB auszulesen
+	 * 
+	 * @param	id Primärschlüsselattribut(e) (->DB)
+	 * @return	Vector mit Zeitslots, die den Primärschlüsselattributen entsprechen
 	 */
 	public Vector<Zeitslot> findByKey(Vector<Integer> keys) throws RuntimeException {
 		StringBuffer ids = new StringBuffer();
 		
-		//Erstellung des dynamischen Teils des SQL-Querys
-		
+		//Erstellung des dynamischen Teils des SQL-Querys		
 		if (keys.size() > 1) {
-		for (int i = 0; i < keys.size()-1; i++) {
-			ids.append(keys.elementAt(i));	
-			ids.append(",");
-		}
-		}
-			
+			for (int i = 0; i < keys.size()-1; i++) {
+				ids.append(keys.elementAt(i));	
+				ids.append(",");
+			}
+		}			
 		ids.append(keys.elementAt(keys.size()-1));	
 		
-		//Einholen einer DB-Verbindung und
-		
+		//Einholen einer DB-Verbindung		
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		Vector<Zeitslot> zeitslots = new Vector<Zeitslot>();
 		
-		try{			
+		try{
+			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT * FROM Zeitslot WHERE ID IN (" + ids.toString() + ")";
 			rs = stmt.executeQuery(sql);
@@ -73,16 +78,20 @@ public class ZeitslotMapper {
 		return zeitslots;
 	}
 	
-	// Auslesen aller Zeitslots aus der DB
+	/**
+	 * Methode um alle Zeitslots aus der DB auszulesen
+	 *
+	 * @return	Vector mit Lehrveranstaltungen
+	 */	
 	public Vector<Zeitslot> findAll() throws RuntimeException {
 				
-		//Einholen einer DB-Verbindung und
-		
+		//Einholen einer DB-Verbindung		
 		Connection con = DBConnection.connection();
 		ResultSet rs;
 		Vector<Zeitslot> zeitslots = new Vector<Zeitslot>();
 		
-		try{			
+		try{
+			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
 			String sql = "SELECT * FROM Zeitslot";
 			rs = stmt.executeQuery(sql);
@@ -95,45 +104,12 @@ public class ZeitslotMapper {
 				zeitslot.setEndzeit(rs.getInt("Endzeit"));
 				zeitslot.setWochentag(rs.getString("Wochentag"));
 				zeitslots.add(zeitslot);  
-	          }
-			
-
-		}
-			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");				
-			}
-		return zeitslots;
-	}
-	
-	// Aktualisieren eines Zeitslots
-	
-	public Zeitslot update(Zeitslot zeitslot) throws RuntimeException {
-		Connection con = DBConnection.connection();
-		
-		// Aktualisierung der Zeitslot-Entität in der DB
-		
-		try{
-		Statement stmt = con.createStatement();
-		
-			String sql = "UPDATE Zeitslot SET Anfangszeit='"+zeitslot.getAnfangszeit()+"', Endzeit='"+zeitslot.getEndzeit()+"', Wochentag='"+zeitslot.getWochentag()+"' WHERE ID="+zeitslot.getId()+";";
-			stmt.executeUpdate(sql);
-					
+	          }		
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
-			}
-		
-		return zeitslot;
-	}
-	
-	// Das Löschen eines Zeitslots ist bis dato nicht vorgesehen (Stand: 04.12.2013)
-	public void delete(Zeitslot zeitslot) throws RuntimeException {
-		
-	}
-	
-	// Das Anlegen eines neuen Zeitslots ist bis dato nicht vorgesehen (Stand: 04.12.2013)
-	public Zeitslot insertIntoDB(Zeitslot zeitslot) throws RuntimeException {
-		return null;	
+			throw new RuntimeException("Datenbankbankproblem");				
+		}
+		return zeitslots;
 	}
 
 }
