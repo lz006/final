@@ -267,14 +267,14 @@ public class LehrveranstaltungForm extends VerticalPanel {
 	}
 	
 	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung blblblblblblblblblblblb lblblblblblblblbldjblakdfj bjhfbjhybdfjklbhskjdfgbjkfhbkj"
-				+ "fhblfdlsflgshflgghslfhgilfhgilhfgujs flhgbusgbluhgklhflkhlfuh");
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: "
+				+ "Hier können Sie viele bunte Dinge tun.");
 		
 		lvBezeichnungTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				dtvm.getStundenplantool2().setTextToInfoPanelUnten("dfgakdfhgk dfhgkhsf duigshk fhgos ifuhgkisfuh giusdhfgs hkodfuighs uidfhguisdfhg iosdhfgushf"
-						+ "jlnkfjbnl kfnbkljfngjdfgjn dkljgnkldfgnbkldfnfgbdn flghdsfulfghsdilufh ilffgikfgfgksfgklsfglsfjlsfghlsfh"
-						+ "lsfhglks hgihjf igulhj sfidluh ilfudgh lifugh lifhgil fghiusf hgiushf giluhfig luhdfighd filguhsflig hilsfhgils dhfgi");
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Bezeichnung einer Lehrveranstaltung bitte folgende Restriktionen beachten:"
+						+ "Viele bunte Smarties"
+						+ "Viele bunte Smarties");
 			}
 		});
 	}

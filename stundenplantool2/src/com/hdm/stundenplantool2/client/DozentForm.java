@@ -307,30 +307,30 @@ public class DozentForm extends VerticalPanel {
 	}
 	
 	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung blblblblblblblblblblblb lblblblblblblblbldjblakdfj bjhfbjhybdfjklbhskjdfgbjkfhbkj"
-				+ "fhblfdlsflgshflgghslfhgilfhgilhfgujs flhgbusgbluhgklhflkhlfuh");
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: "
+				+ "Hier können Sie viele bunte Dinge tun.");
 		
 		vornameTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				dtvm.getStundenplantool2().setTextToInfoPanelUnten("dfgakdfhgk dfhgkhsf duigshk fhgos ifuhgkisfuh giusdhfgs hkodfuighs uidfhguisdfhg iosdhfgushf"
-						+ "jlnkfjbnl kfnbkljfngjdfgjn dkljgnkldfgnbkldfnfgbdn flghdsfulfghsdilufh ilffgikfgfgksfgklsfglsfjlsfghlsfh"
-						+ "lsfhglks hgihjf igulhj sfidluh ilfudgh lifugh lifhgil fghiusf hgiushf giluhfig luhdfighd filguhsflig hilsfhgils dhfgi");
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung des Vornamen eines Dozenten bitte folgende Restriktionen beachten:"
+						+ "Viele bunte Smarties"
+						+ "Viele bunte Smarties");
 			}
 		});
 		
 		nachnameTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				dtvm.getStundenplantool2().setTextToInfoPanelUnten("dfgakdfhgk dfhgkhsf duigshk fhgos ifuhgkisfuh giusdhfgs hkodfuighs uidfhguisdfhg iosdhfgushf"
-						+ "jlnkfjbnl kfnbkljfngjdfgjn dkljgnkldfgnbkldfnfgbdn flghdsfulfghsdilufh ilffgikfgfgksfgklsfglsfjlsfghlsfh"
-						+ "lsfhglks hgihjf igulhj sfidluh ilfudgh lifugh lifhgil fghiusf hgiushf giluhfig luhdfighd filguhsflig hilsfhgils dhfgi");
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung des Nachnamen eines Dozenten bitte folgende Restriktionen beachten:"
+						+ "Viele bunte Smarties"
+						+ "Viele bunte Smarties");
 			}
 		});
 		
 		personalNummerTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				dtvm.getStundenplantool2().setTextToInfoPanelUnten("dfgakdfhgk dfhgkhsf duigshk fhgos ifuhgkisfuh giusdhfgs hkodfuighs uidfhguisdfhg iosdhfgushf"
-						+ "jlnkfjbnl kfnbkljfngjdfgjn dkljgnkldfgnbkldfnfgbdn flghdsfulfghsdilufh ilffgikfgfgksfgklsfglsfjlsfghlsfh"
-						+ "lsfhglks hgihjf igulhj sfidluh ilfudgh lifugh lifhgil fghiusf hgiushf giluhfig luhdfighd filguhsflig hilsfhgils dhfgi");
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Personalnummer eines Dozenten bitte folgende Restriktionen beachten:"
+						+ "Viele bunte Smarties"
+						+ "Viele bunte Smarties");
 			}
 		});
 	}

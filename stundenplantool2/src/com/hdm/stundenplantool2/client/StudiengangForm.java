@@ -165,22 +165,22 @@ public class StudiengangForm extends VerticalPanel {
 	}
 	
 	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung blblblblblblblblblblblb lblblblblblblblbldjblakdfj bjhfbjhybdfjklbhskjdfgbjkfhbkj"
-				+ "fhblfdlsflgshflgghslfhgilfhgilhfgujs flhgbusgbluhgklhflkhlfuh");
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: "
+				+ "Hier können Sie viele bunte Dinge tun.");
 		
 		bezeichnungTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				dtvm.getStundenplantool2().setTextToInfoPanelUnten("dfgakdfhgk dfhgkhsf duigshk fhgos ifuhgkisfuh giusdhfgs hkodfuighs uidfhguisdfhg iosdhfgushf"
-						+ "jlnkfjbnl kfnbkljfngjdfgjn dkljgnkldfgnbkldfnfgbdn flghdsfulfghsdilufh ilffgikfgfgksfgklsfglsfjlsfghlsfh"
-						+ "lsfhglks hgihjf igulhj sfidluh ilfudgh lifugh lifhgil fghiusf hgiushf giluhfig luhdfighd filguhsflig hilsfhgils dhfgi");
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Studiengangsbezeichnung bitte folgende Restriktionen beachten:"
+						+ "Viele bunte Smarties"
+						+ "Viele bunte Smarties");
 			}
 		});
 		
 		kuerzelTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				dtvm.getStundenplantool2().setTextToInfoPanelUnten("dfgakdfhgk dfhgkhsf duigshk fhgos ifuhgkisfuh giusdhfgs hkodfuighs uidfhguisdfhg iosdhfgushf"
-						+ "jlnkfjbnl kfnbkljfngjdfgjn dkljgnkldfgnbkldfnfgbdn flghdsfulfghsdilufh ilffgikfgfgksfgklsfglsfjlsfghlsfh"
-						+ "lsfhglks hgihjf igulhj sfidluh ilfudgh lifugh lifhgil fghiusf hgiushf giluhfig luhdfighd filguhsflig hilsfhgils dhfgi");
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Kapazität eines Studiengangs bitte folgende Restriktionen beachten:"
+						+ "Viele bunte Smarties"
+						+ "Viele bunte Smarties");
 			}
 		});
 		
