@@ -114,7 +114,7 @@ public class Stundenplantool2 implements EntryPoint {
 		footPanel.addStyleName("foot");
 
 		titel = new HTML(
-				"Godfather Stundenplantool");
+				"Stundenplan der HdM");
 		titel.addStyleName("Titel");
 
 		// Logo und Überschrift
