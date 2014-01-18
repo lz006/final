@@ -12,6 +12,7 @@ import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -30,6 +31,10 @@ public class Stundenplantool2 implements EntryPoint {
 	private ScrollPanel navi;
 	private VerticalPanel footPanel;
 	private Label copyright;
+	private Label titel;
+	private HorizontalPanel traeger;
+	private HorizontalPanel left;
+	private HorizontalPanel right;
 
 	
 	private DozentForm dF;
@@ -83,6 +88,19 @@ public class Stundenplantool2 implements EntryPoint {
 		footPanel.add(copyright);
 		footPanel.addStyleName("foot");
 		
+		titel = new Label("Godfather Stundenplantool");
+		titel.addStyleName("Titel");
+		
+		
+//		left.add(image);
+//		right.add(titel);
+//		
+//		
+//		traeger.add(left);
+//		traeger.add(right);
+		
+		
+//		p.addNorth(traeger, 10);
 		p.addNorth(image, 10);
 		p.addSouth(footPanel, 5);
 		p.addWest(navi, 30);
