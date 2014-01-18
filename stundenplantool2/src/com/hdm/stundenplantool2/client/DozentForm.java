@@ -307,7 +307,7 @@ public class DozentForm extends VerticalPanel {
 	}
 	
 	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: </br>"
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("<b>Anleitung: </b></br>"
 				+ "Hier können Sie viele bunte Dinge tun.");
 		
 		vornameTb.addFocusHandler(new FocusHandler() {
@@ -329,8 +329,8 @@ public class DozentForm extends VerticalPanel {
 		personalNummerTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Personalnummer eines Dozenten bitte folgende Restriktionen beachten:"
-						+ "</br>Viele bunte Smarties"
-						+ "</br>Viele bunte Smarties");
+						+ "<p>Viele bunte Smarties"
+						+ "Viele bunte Smarties</p>");
 			}
 		});
 	}

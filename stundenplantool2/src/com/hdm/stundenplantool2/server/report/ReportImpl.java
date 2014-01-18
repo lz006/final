@@ -7,6 +7,7 @@ import com.hdm.stundenplantool2.server.VerwaltungImpl;
 import com.hdm.stundenplantool2.shared.bo.*;
 import com.hdm.stundenplantool2.shared.report.*;
 import com.hdm.stundenplantool2.shared.Report;
+import com.ibm.icu.text.SimpleDateFormat;
 
 @SuppressWarnings("serial")
 public class ReportImpl extends RemoteServiceServlet implements Report {
@@ -101,7 +102,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		}
 		
 		StringBuffer  htmlSV = new StringBuffer();
-		htmlSV.append("<p style=\"font-size: 40; font-weight: bold; text-decoration: blink\">");
+		htmlSV.append("<p style=\"font-size: 40; font-weight: bold\">");
 		htmlSV.append(sv.getStudiengang().getBezeichnung());
 		htmlSV.append(" ");
 		htmlSV.append(sv.getJahrgang());
@@ -110,6 +111,9 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		String tempHtml = new HTMLReportWriter().getHTMLString(sPlan);
 		
 		htmlSV.append(tempHtml);
+		htmlSV.append("<p style\"font-size:20; font-weight: bold \">");
+		htmlSV.append(new SimpleDateFormat("MM/dd/yyyy hh:mm").toString());
+		htmlSV.append("</p>");
 		
 		return htmlSV.toString();
 	}
@@ -220,9 +224,11 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		
 		String tempHtml = new HTMLReportWriter().getHTMLString(dPlan);
 		
-		htmld.append(tempHtml);
-		
-		return htmld.toString();
+//		htmld.append(tempHtml);
+//		htmld.append("<p>");
+//		htmld.append(new Date().toString());
+//		htmld.append("</p>");
+	return htmld.toString();
 	
 		
 	
@@ -299,10 +305,18 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 			tempSB.append("<br />");
 			
 			for (int j = 0; j < raumBelegungen.elementAt(i).getDozenten().size() - 1; j++) {
+				tempSB.append("Prof. ");
+				tempSB.append(raumBelegungen.elementAt(i).getDozenten().elementAt(j).getVorname());
+				tempSB.append(" ");
 				tempSB.append(raumBelegungen.elementAt(i).getDozenten().elementAt(j).getNachname());
 				tempSB.append("<br />");
-			}
+		
 			
+
+			}
+			tempSB.append("Prof. ");
+			tempSB.append(raumBelegungen.elementAt(i).getDozenten().elementAt(raumBelegungen.elementAt(i).getDozenten().size() -1).getVorname());
+			tempSB.append(" ");
 			tempSB.append(raumBelegungen.elementAt(i).getDozenten().elementAt(raumBelegungen.elementAt(i).getDozenten().size() -1).getNachname());
 			tempSB.append("<br />");
 			
@@ -333,8 +347,11 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		
 		String tempHtml = new HTMLReportWriter().getHTMLString(rPlan);
 		
-		htmlr.append(tempHtml);
-		
+//		htmlr.append(tempHtml);
+//		htmlr.append("<p>");
+//		htmlr.append(new Date().toString());
+//		htmlr.append("</p>");
+	
 		return htmlr.toString();
 	
 
@@ -342,6 +359,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 	
 	public Vector<Raum> auslesenAlleRaeume() throws RuntimeException {
 		return verwaltung.auslesenAlleRaeume();
+		
 	}
 	
 }

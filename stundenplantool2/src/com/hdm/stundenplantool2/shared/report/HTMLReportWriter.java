@@ -1,5 +1,6 @@
 package com.hdm.stundenplantool2.shared.report;
 
+
 public class HTMLReportWriter {
 	
 	StringBuffer result = new StringBuffer();
@@ -16,7 +17,7 @@ public class HTMLReportWriter {
 					}
 					else {
 						result.append("<td style=\"background-color: white; width:400px;height: 60px;rules: all; text-align: center; font-family: bold\"> ");
-						result.append("Pause");
+						result.append("<b>Pause</b>");
 						result.append("</td>");
 					}
 				}
@@ -32,6 +33,9 @@ public class HTMLReportWriter {
 		}
 		result.append("</table>");
 		return result.toString();
+		
+		
+	
 	}
 
 }
