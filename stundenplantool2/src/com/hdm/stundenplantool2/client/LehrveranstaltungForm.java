@@ -283,7 +283,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 
 	void setInfoText() {
 		this.dtvm.getStundenplantool2().setTextToInfoPanelOben(
-				"Anleitung: </br>" + "Hier können Sie viele bunte Dinge tun.");
+				"<b><br>Anleitung: </br>" + "Hier können Sie eine neue Lehrveranstaltung anlegen mit unterrichtenden Dozenten und den Studiengängen anlegen.</b>");
 
 		lvBezeichnungTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
