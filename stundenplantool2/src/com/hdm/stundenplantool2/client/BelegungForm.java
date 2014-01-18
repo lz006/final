@@ -51,7 +51,6 @@ public class BelegungForm extends VerticalPanel{
 	Grid auswahlGrid;
 	ListBox studiengangListBox;
 	ListBox semesterverbandListBox;
-	Button ladenBelegungenButton;
 	Button tabVisibilityButton;
 	Button tabsLeerenButton;
 	Button auswahlAufhebenButton;
@@ -83,7 +82,7 @@ public class BelegungForm extends VerticalPanel{
 	Button hinzufuegenButtonAnlegen;
 	FlexTable svTable;
 	
-	// Widgets f�r den Inhalt des mittleren TabPanels
+	// Widgets für den Inhalt des mittleren TabPanels
 	
 	Vector<Grid> gridVector;
 	Grid montagGrid;
@@ -95,12 +94,12 @@ public class BelegungForm extends VerticalPanel{
 	Grid sonntagGrid;
 	TabPanel tabPanel;
 	
-	// Container f�r die einzelnen Widgets des TabPanels um diese einzeln ansprechen zu k�nnen
+	// Container für die einzelnen Widgets des TabPanels um diese einzeln ansprechen zu k�nnen
 	
 	Vector<ListBox> lbv = new Vector<ListBox>();
 	Vector<Button> bv = new Vector<Button>();
 	
-	// Pointer(Zeiger) f�r die Adressierung der einzelnen Widgets im �ndern-TabPanel
+	// Pointer(Zeiger) für die Adressierung der einzelnen Widgets im �ndern-TabPanel
 	
 	int belegungPointer = 0;
 	
@@ -131,20 +130,23 @@ public class BelegungForm extends VerticalPanel{
 		semesterverband = new Label("Semesterverband :");
 		semesterverbandListBox = new ListBox();
 		semesterverbandListBox.setEnabled(false);
-				
-		ladenBelegungenButton = new Button("Laden der Belegungen");
-		ladenBelegungenButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		
+		semesterverbandListBox.addChangeHandler( new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "wait");
 				ladenLehrveranstaltungen();
-				ladenBelegungenButton.setEnabled(false);
 				tabsLeerenButton.setEnabled(false);
 				disableAllTabWidgets();
 				
 				studiengangListBox.setEnabled(false);
 				semesterverbandListBox.setEnabled(false);
 				
+				if (anlegenMaske) {
+					anlegenButton.setEnabled(false);
+				}
 			}
 		});
+		
 		
 		tabVisibilityButton = new Button("Übersicht verdecken");
 		tabVisibilityButton.addClickHandler(new ClickHandler() {
@@ -168,15 +170,14 @@ public class BelegungForm extends VerticalPanel{
 		});		
 		auswahlAufhebenButton.setVisible(false);
 		
-		auswahlGrid = new Grid(3, 4);
+		auswahlGrid = new Grid(3, 3);
 		auswahlGrid.setWidget(0, 0, studiengang);
 		auswahlGrid.setWidget(0, 1, studiengangListBox);
 		auswahlGrid.setWidget(1, 0, semesterverband);
 		auswahlGrid.setWidget(1, 1, semesterverbandListBox);
-		auswahlGrid.setWidget(2, 0, ladenBelegungenButton);
-		auswahlGrid.setWidget(2, 1, tabsLeerenButton);
+		auswahlGrid.setWidget(2, 0, tabsLeerenButton);
+		auswahlGrid.setWidget(2, 1, auswahlAufhebenButton);
 		auswahlGrid.setWidget(2, 2, tabVisibilityButton);
-		auswahlGrid.setWidget(2, 3, auswahlAufhebenButton);
 			
 		auswahlPanel = new VerticalPanel();
 		auswahlPanel.add(auswahlGrid);
@@ -298,7 +299,6 @@ public class BelegungForm extends VerticalPanel{
 	
 	public void ladenStudiengaenge() {
 		
-		ladenBelegungenButton.setEnabled(false);
 		studiengangListBox.setEnabled(false);
 		
 		DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "wait");
@@ -340,18 +340,21 @@ public class BelegungForm extends VerticalPanel{
 						Window.alert(caught.getMessage());
 					}
 					public void onSuccess(Vector<Semesterverband> result) {
+						if(anlegenMaske) {
+							
+						}
+						
 						if (result == null || result.size() == 0) {
 							Window.alert("Dem Studiengang sind momentan keine Semesterverbaende zugeordnet");
 							
 						}
 						else {
 							semesterverbaendeVectorForListBox = result;
-							
+							semesterverbandListBox.addItem("bitte wählen");
 							for(Semesterverband sv : semesterverbaendeVectorForListBox) {
 								semesterverbandListBox.addItem(sv.getJahrgang());
 							}
 							semesterverbandListBox.setEnabled(true);
-							ladenBelegungenButton.setEnabled(true);
 						}
 					}
 				});
@@ -384,14 +387,11 @@ public class BelegungForm extends VerticalPanel{
 	}
 	
 	public void ladenBelegungen() {
-		
-		ladenBelegungenButton.setEnabled(false);
-		
+				
 		if (semesterverbaendeVectorForListBox != null) {
-			verwaltung.auslesenBelegungenNachSV(semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex()), new AsyncCallback<Vector<Belegung>>() {
+			verwaltung.auslesenBelegungenNachSV(semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex() - 1), new AsyncCallback<Vector<Belegung>>() {
 				public void onFailure(Throwable caught) {
 					Window.alert(caught.getMessage());
-					ladenBelegungenButton.setEnabled(true);
 					tabsLeerenButton.setEnabled(true);
 					
 					studiengangListBox.setEnabled(true);
@@ -401,7 +401,6 @@ public class BelegungForm extends VerticalPanel{
 					}
 				}
 				public void onSuccess(Vector<Belegung> result) {
-					ladenBelegungenButton.setEnabled(true);
 					tabsLeerenButton.setEnabled(true);
 					
 					if (result == null || result.size() == 0) {
@@ -414,6 +413,9 @@ public class BelegungForm extends VerticalPanel{
 							Window.alert("Hinweis: Es sind noch keine Belegungen zum gewählten Semesterverband angelegt");
 							anlegenTagListBox.setEnabled(true);
 							anlegenLVListBox.setEnabled(true);
+							
+							anlegenButton.setEnabled(true);
+							
 							
 						}
 					}
@@ -547,7 +549,6 @@ public class BelegungForm extends VerticalPanel{
 	
 	public void ladenDozenten() {
 		
-		ladenBelegungenButton.setEnabled(false);
 		tabsLeerenButton.setEnabled(false);
 		
 		if (!anlegenMaske) {
@@ -556,7 +557,6 @@ public class BelegungForm extends VerticalPanel{
 					Window.alert(caught.getMessage());
 					auswahlAufhebenButton.setVisible(true);
 					
-					ladenBelegungenButton.setEnabled(true);
 					tabsLeerenButton.setEnabled(true);
 				}
 				public void onSuccess(Vector<Dozent> result) {
@@ -590,7 +590,6 @@ public class BelegungForm extends VerticalPanel{
 					
 					auswahlAufhebenButton.setVisible(true);
 					
-					ladenBelegungenButton.setEnabled(true);
 					tabsLeerenButton.setEnabled(true);
 				}
 			});
@@ -610,7 +609,6 @@ public class BelegungForm extends VerticalPanel{
 				anlegenDozent2ListBox.clear();
 				anlegenDozent3ListBox.clear();
 				
-				ladenBelegungenButton.setEnabled(true);
 				tabsLeerenButton.setEnabled(true);
 			}
 			else {
@@ -620,7 +618,6 @@ public class BelegungForm extends VerticalPanel{
 						anlegenTagListBox.setEnabled(true);
 						anlegenUhrzeitListBox.setEnabled(true);
 						
-						ladenBelegungenButton.setEnabled(true);
 						tabsLeerenButton.setEnabled(true);
 						anlegenLVListBox.setEnabled(true);
 					}
@@ -643,7 +640,6 @@ public class BelegungForm extends VerticalPanel{
 						anlegenTagListBox.setEnabled(true);
 						anlegenUhrzeitListBox.setEnabled(true);
 						
-						ladenBelegungenButton.setEnabled(true);
 						tabsLeerenButton.setEnabled(true);
 						anlegenLVListBox.setEnabled(true);
 						
@@ -668,7 +664,6 @@ public class BelegungForm extends VerticalPanel{
 	
 	public void ladenRaeume() {
 		
-		ladenBelegungenButton.setEnabled(false);
 		tabsLeerenButton.setEnabled(false);
 		
 		if (!anlegenMaske) {
@@ -683,7 +678,6 @@ public class BelegungForm extends VerticalPanel{
 						Window.alert(caught.getMessage());
 					}
 					auswahlAufhebenButton.setVisible(true);
-					ladenBelegungenButton.setEnabled(true);
 					tabsLeerenButton.setEnabled(true);
 				}
 				public void onSuccess(Vector<Raum> result) {
@@ -701,7 +695,6 @@ public class BelegungForm extends VerticalPanel{
 					
 					auswahlAufhebenButton.setVisible(true);
 					
-					ladenBelegungenButton.setEnabled(true);
 					tabsLeerenButton.setEnabled(true);
 				}
 			});
@@ -721,14 +714,13 @@ public class BelegungForm extends VerticalPanel{
 				
 				anlegenLVListBox.setEnabled(true);
 				
-				ladenBelegungenButton.setEnabled(true);
 				tabsLeerenButton.setEnabled(true);
 				
 				return;
 			}
 			
 			Vector<Semesterverband> vSV = new Vector<Semesterverband>();
-			vSV.add(semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex()));
+			vSV.add(semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex() - 1));
 												
 			verwaltung.auslesenVerfuegbareRaeumeZuZeitslotuSV(zeitslotsVectorForListBox.elementAt(zeitslotIndex - 1), vSV, new AsyncCallback<Vector<Raum>>() {
 				public void onFailure(Throwable caught) {
@@ -740,7 +732,6 @@ public class BelegungForm extends VerticalPanel{
 					raeumeVectorforListBox = null;
 					anlegenRaumListBox.clear();
 					
-					ladenBelegungenButton.setEnabled(true);
 					tabsLeerenButton.setEnabled(true);
 				}
 				public void onSuccess(Vector<Raum> result) {
@@ -755,7 +746,6 @@ public class BelegungForm extends VerticalPanel{
 					
 					anlegenLVListBox.setEnabled(true);
 					
-					ladenBelegungenButton.setEnabled(true);
 					tabsLeerenButton.setEnabled(true);
 				}
 			});
@@ -764,7 +754,7 @@ public class BelegungForm extends VerticalPanel{
 	}
 	
 	public void ladenLehrveranstaltungen() {
-		verwaltung.auslesenLehrveranstaltungenNachSV(semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex()), 
+		verwaltung.auslesenLehrveranstaltungenNachSV(semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex() - 1), 
 				studiengaengeVectorForListBox.elementAt(studiengangListBox.getSelectedIndex() - 1), new AsyncCallback<Vector<Lehrveranstaltung>>() {
 			public void onFailure(Throwable caught) {
 				Window.alert(caught.getMessage());
@@ -943,7 +933,6 @@ public class BelegungForm extends VerticalPanel{
 						bv.elementAt(tempAendernButtonPointer).setEnabled(false);
 						bv.elementAt(tempAendernButtonPointer + 1).setEnabled(false);
 						
-						ladenBelegungenButton.setEnabled(false);
 						tabsLeerenButton.setEnabled(false);
 						
 						ladenRaeume();
@@ -995,7 +984,6 @@ public class BelegungForm extends VerticalPanel{
 						bv.elementAt(tempAendernButtonPointer).setEnabled(false);
 						bv.elementAt(tempAendernButtonPointer + 1).setEnabled(false);
 						
-						ladenBelegungenButton.setEnabled(false);
 						tabsLeerenButton.setEnabled(false);
 						
 						focusOneOfThreeDozentListBoxPointer = 1;
@@ -1028,7 +1016,6 @@ public class BelegungForm extends VerticalPanel{
 						bv.elementAt(tempAendernButtonPointer).setEnabled(false);
 						bv.elementAt(tempAendernButtonPointer + 1).setEnabled(false);
 						
-						ladenBelegungenButton.setEnabled(false);
 						tabsLeerenButton.setEnabled(false);
 						
 						focusOneOfThreeDozentListBoxPointer = 2;
@@ -1061,7 +1048,6 @@ public class BelegungForm extends VerticalPanel{
 						bv.elementAt(tempAendernButtonPointer).setEnabled(false);
 						bv.elementAt(tempAendernButtonPointer + 1).setEnabled(false);
 						
-						ladenBelegungenButton.setEnabled(false);
 						tabsLeerenButton.setEnabled(false);
 						
 						focusOneOfThreeDozentListBoxPointer = 3;
@@ -1093,7 +1079,6 @@ public class BelegungForm extends VerticalPanel{
 															
 					public void onClick(ClickEvent event) {
 						
-						ladenBelegungenButton.setEnabled(false);
 						tabsLeerenButton.setEnabled(false);
 						
 						auswahlAufhebenButton.setVisible(false);
@@ -1144,7 +1129,6 @@ public class BelegungForm extends VerticalPanel{
 									Window.alert(caught.getMessage());
 									
 									enableAllTabWidgets();
-									ladenBelegungenButton.setEnabled(true);
 									tabsLeerenButton.setEnabled(true);
 																		
 									verwaltung.auslesenBelegung(svBelegungen.elementAt(tempBelegungPointer), new AsyncCallback<Vector<Belegung>>() {
@@ -1232,7 +1216,6 @@ public class BelegungForm extends VerticalPanel{
 									
 									enableAllTabWidgets();
 									
-									ladenBelegungenButton.setEnabled(true);
 									tabsLeerenButton.setEnabled(true);
 									
 									lbv.elementAt(tempLvListBoxPointer).clear();
@@ -1249,7 +1232,6 @@ public class BelegungForm extends VerticalPanel{
 							Window.alert("Es wurde keine Aenderung vorgenommen");
 							
 							enableAllTabWidgets();
-							ladenBelegungenButton.setEnabled(true);
 							tabsLeerenButton.setEnabled(true);							
 						}
 					}
@@ -1266,15 +1248,13 @@ public class BelegungForm extends VerticalPanel{
 					public void onClick(ClickEvent event) {
 						auswahlAufhebenButton.setVisible(false);
 						disableAllTabWidgets();
-						ladenBelegungenButton.setEnabled(false);
 						tabsLeerenButton.setEnabled(false);
 						
-						verwaltung.loeschenBelegungen(svBelegungen.elementAt(tempBelegungPointer), semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex()), new AsyncCallback<Void>() {
+						verwaltung.loeschenBelegungen(svBelegungen.elementAt(tempBelegungPointer), semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex() - 1), new AsyncCallback<Void>() {
 							public void onFailure(Throwable caught) {
 								Window.alert(caught.getMessage());
 								
 								enableAllTabWidgets();
-								ladenBelegungenButton.setEnabled(true);
 								tabsLeerenButton.setEnabled(true);
 								
 							}
@@ -1291,7 +1271,6 @@ public class BelegungForm extends VerticalPanel{
 								
 								enableAllTabWidgets();
 								
-								ladenBelegungenButton.setEnabled(true);
 								tabsLeerenButton.setEnabled(true);
 								
 							}
@@ -1314,6 +1293,9 @@ public class BelegungForm extends VerticalPanel{
 				gridPointer = 0;
 				rowPointer = 0;
 		}
+		
+		DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
+		
 	}
 	
 	public void fillContentTabAnlegen() {		
@@ -1379,6 +1361,9 @@ public class BelegungForm extends VerticalPanel{
 				gridPointer = 0;
 				rowPointer = 0;
 		}
+			
+			DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
+			
 	}
 	
 	public void aendernMaske(boolean info) {
@@ -1449,9 +1434,7 @@ public class BelegungForm extends VerticalPanel{
 			anlegenButton = new Button("Belegung anlegen");
 			anlegenButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
-					belegungAnlegen();
 					anlegenButton.setEnabled(false);
-					ladenBelegungenButton.setEnabled(false);
 					tabsLeerenButton.setEnabled(false);
 					anlegenTagListBox.setEnabled(false);
 					anlegenUhrzeitListBox.setEnabled(false);
@@ -1460,8 +1443,10 @@ public class BelegungForm extends VerticalPanel{
 					anlegenDozent1ListBox.setEnabled(false);
 					anlegenDozent2ListBox.setEnabled(false);
 					anlegenDozent3ListBox.setEnabled(false);
+					belegungAnlegen();
 				}
 			});
+			anlegenButton.setEnabled(false);
 			
 			anlegenGrid.setWidget(3, 5, anlegenButton);
 			
@@ -1517,7 +1502,7 @@ public class BelegungForm extends VerticalPanel{
 						if (check) {
 							for (Semesterverband sv : SVvonNeuerBelegung) {
 								if(sv.getId() == semesterverbaendeVectorForListBoxAnlegen.elementAt(semesterverbandListBoxAnlegen.getSelectedIndex()).getId() ||
-										sv.getId() == semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex()).getId()) {
+										sv.getId() == semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex() - 1).getId()) {
 									Window.alert("Der Semesterverband ist bereits hinzugefuegt");
 									check = false;
 									break;
@@ -1526,7 +1511,7 @@ public class BelegungForm extends VerticalPanel{
 						}
 						if (check) {
 							if (semesterverbaendeVectorForListBoxAnlegen.elementAt(semesterverbandListBoxAnlegen.getSelectedIndex()).getId() == 
-									semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex()).getId()) {
+									semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex() - 1).getId()) {
 								Window.alert("Der Semesterverband ist bereits hinzugefuegt");
 								check = false;
 							}
@@ -1615,7 +1600,7 @@ public class BelegungForm extends VerticalPanel{
 			check = false;
 		}
 		
-		vsv.addElement(semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex()));
+		vsv.addElement(semesterverbaendeVectorForListBox.elementAt(semesterverbandListBox.getSelectedIndex() - 1));
 		if(SVvonNeuerBelegung != null) {
 			for (Semesterverband sv : SVvonNeuerBelegung) {
 				vsv.addElement(sv);
@@ -1642,7 +1627,6 @@ public class BelegungForm extends VerticalPanel{
 						SVvonNeuerBelegung.clear();
 					}
 					anlegenButton.setEnabled(true);
-					ladenBelegungenButton.setEnabled(true);
 					tabsLeerenButton.setEnabled(true);
 					anlegenTagListBox.setEnabled(true);
 					anlegenUhrzeitListBox.setEnabled(true);
@@ -1659,9 +1643,7 @@ public class BelegungForm extends VerticalPanel{
 					svTable.removeAllRows();
 					if (SVvonNeuerBelegung != null) {
 						SVvonNeuerBelegung.clear();
-					}
-					ladenBelegungenButton.setEnabled(true);
-					tabsLeerenButton.setEnabled(true);
+					}					
 				}
 			});
 		}
@@ -1669,8 +1651,21 @@ public class BelegungForm extends VerticalPanel{
 			DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 			Window.alert("Bitte vervollstaendigen Sie die neue Belegung");
 			
-			ladenBelegungenButton.setEnabled(true);
+			anlegenButton.setEnabled(true);
 			tabsLeerenButton.setEnabled(true);
+			anlegenTagListBox.setEnabled(true);
+			if(anlegenTagListBox.getSelectedIndex() > 0) {
+				anlegenUhrzeitListBox.setEnabled(true);
+			}
+			anlegenLVListBox.setEnabled(true);
+			if (!(raeumeVectorforListBox == null || raeumeVectorforListBox.size() == 0)) {
+				anlegenRaumListBox.setEnabled(true);
+			}
+			if (!(dozentenVectorforListBox == null || dozentenVectorforListBox.size() == 0)) {
+				anlegenDozent1ListBox.setEnabled(true);
+				anlegenDozent2ListBox.setEnabled(true);
+				anlegenDozent3ListBox.setEnabled(true);
+			}
 		}
 	}
 	

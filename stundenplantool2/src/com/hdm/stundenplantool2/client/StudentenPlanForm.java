@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -13,6 +14,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.hdm.stundenplantool2.shared.ReportAsync;
 import com.hdm.stundenplantool2.shared.bo.*;
@@ -53,17 +55,20 @@ public class StudentenPlanForm extends VerticalPanel {
 		
 		generateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "wait");
 				sgListBox.setEnabled(false);
 				svListBox.setEnabled(false);
 				generateButton.setEnabled(false);
 				report.createStudentenplan(svVector.elementAt(svListBox.getSelectedIndex()), new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
+						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 						Window.alert(caught.getMessage());
 						sgListBox.setEnabled(true);
 						svListBox.setEnabled(true);
 						generateButton.setEnabled(true);
 					}
 					public void onSuccess(String result) {
+						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 						sgListBox.setEnabled(true);
 						svListBox.setEnabled(true);
 						generateButton.setEnabled(true);
@@ -149,7 +154,7 @@ public class StudentenPlanForm extends VerticalPanel {
    			myHeight = window.innerHeight;
     	var win = window.open("", "win", myWidth,myHeight); 
 			win.document.open("text/html", "replace");
-			win.document.write("<HTML><HEAD><TITLE>New Document</TITLE></HEAD><BODY>" + html + "</BODY></HTML>");
+			win.document.write("<HTML><HEAD><TITLE>Studentenplan</TITLE></HEAD><BODY>" + html + "</BODY></HTML>");
 			win.document.close();
     }-*/;
 	
