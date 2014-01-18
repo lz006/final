@@ -67,22 +67,22 @@ public class RaumForm extends VerticalPanel {
 	}
 	
 	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: "
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: </br>"
 				+ "Hier können Sie viele bunte Dinge tun.");
 		
 		bezeichnungTextBox.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Bezeichnung eines Raums bitte folgende Restriktionen beachten:"
-						+ "Viele bunte Smarties"
-						+ "Viele bunte Smarties");
+						+ "</br>Viele bunte Smarties"
+						+ "</br>Viele bunte Smarties");
 			}
 		});
 		
 		kapazitaetTextBox.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Kapazität eines Raums bitte folgende Restriktionen beachten:"
-						+ "Viele bunte Smarties"
-						+ "Viele bunte Smarties");
+						+ "</br>Viele bunte Smarties"
+						+ "</br>Viele bunte Smarties");
 			}
 		});
 	}

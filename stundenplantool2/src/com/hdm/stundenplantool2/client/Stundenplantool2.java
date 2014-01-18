@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -250,7 +249,7 @@ public class Stundenplantool2 implements EntryPoint {
 	public void setTextToInfoPanelOben(String anleitung) {
 		p.setWidgetHidden(traegerInfoPanel, false);
 		obenInfoPanel.clear();
-		Label infoTextObenLabel = new Label(anleitung);
+		HTML infoTextObenLabel = new HTML(anleitung);
 		infoTextObenLabel.setStyleName("infoTextObenLabel");
 		obenInfoPanel.add(infoTextObenLabel);
 	}
@@ -258,7 +257,7 @@ public class Stundenplantool2 implements EntryPoint {
 	public void setTextToInfoPanelUnten(String restricts) {
 		p.setWidgetHidden(traegerInfoPanel, false);
 		untenInfoPanel.clear();
-		Label infoTextUntenLabel = new Label(restricts);
+		HTML infoTextUntenLabel = new HTML(restricts);
 		infoTextUntenLabel.setStyleName("infoTextUntenLabel");
 		untenInfoPanel.add(infoTextUntenLabel);
 	}

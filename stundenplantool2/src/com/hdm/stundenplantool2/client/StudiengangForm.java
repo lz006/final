@@ -165,22 +165,22 @@ public class StudiengangForm extends VerticalPanel {
 	}
 	
 	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: "
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: </br>"
 				+ "Hier können Sie viele bunte Dinge tun.");
 		
 		bezeichnungTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Studiengangsbezeichnung bitte folgende Restriktionen beachten:"
-						+ "Viele bunte Smarties"
-						+ "Viele bunte Smarties");
+						+ "</br>Viele bunte Smarties"
+						+ "</br>Viele bunte Smarties");
 			}
 		});
 		
 		kuerzelTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Kapazität eines Studiengangs bitte folgende Restriktionen beachten:"
-						+ "Viele bunte Smarties"
-						+ "Viele bunte Smarties");
+						+ "</br>Viele bunte Smarties"
+						+ "</br>Viele bunte Smarties");
 			}
 		});
 		

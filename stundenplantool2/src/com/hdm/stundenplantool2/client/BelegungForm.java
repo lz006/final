@@ -2165,7 +2165,7 @@ public class BelegungForm extends VerticalPanel {
 		this.dtvm
 				.getStundenplantool2()
 				.setTextToInfoPanelOben(
-						"Anleitung: "
+						"Anleitung: </br>"
 								+ "Hier können Sie viele bunte Dinge tun.");
 
 	}

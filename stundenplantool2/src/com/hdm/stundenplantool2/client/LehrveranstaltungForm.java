@@ -267,14 +267,14 @@ public class LehrveranstaltungForm extends VerticalPanel {
 	}
 	
 	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: "
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung: </br>"
 				+ "Hier können Sie viele bunte Dinge tun.");
 		
 		lvBezeichnungTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("Für die Bearbeitung der Bezeichnung einer Lehrveranstaltung bitte folgende Restriktionen beachten:"
-						+ "Viele bunte Smarties"
-						+ "Viele bunte Smarties");
+						+ "</br>Viele bunte Smarties"
+						+ "</br>Viele bunte Smarties");
 			}
 		});
 	}
