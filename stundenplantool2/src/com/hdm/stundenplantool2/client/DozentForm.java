@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -192,6 +194,8 @@ public class DozentForm extends VerticalPanel {
 			}
 		});
 		
+		
+		
 	}
 	
 	
@@ -298,6 +302,37 @@ public class DozentForm extends VerticalPanel {
 	
 	void setDtvm(DozentTreeViewModel dtvm) {
 		this.dtvm = dtvm;
+		setInfoText();
+		
+	}
+	
+	void setInfoText() {
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung blblblblblblblblblblblb lblblblblblblblbldjblakdfj bjhfbjhybdfjklbhskjdfgbjkfhbkj"
+				+ "fhblfdlsflgshflgghslfhgilfhgilhfgujs flhgbusgbluhgklhflkhlfuh");
+		
+		vornameTb.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("dfgakdfhgk dfhgkhsf duigshk fhgos ifuhgkisfuh giusdhfgs hkodfuighs uidfhguisdfhg iosdhfgushf"
+						+ "jlnkfjbnl kfnbkljfngjdfgjn dkljgnkldfgnbkldfnfgbdn flghdsfulfghsdilufh ilffgikfgfgksfgklsfglsfjlsfghlsfh"
+						+ "lsfhglks hgihjf igulhj sfidluh ilfudgh lifugh lifhgil fghiusf hgiushf giluhfig luhdfighd filguhsflig hilsfhgils dhfgi");
+			}
+		});
+		
+		nachnameTb.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("dfgakdfhgk dfhgkhsf duigshk fhgos ifuhgkisfuh giusdhfgs hkodfuighs uidfhguisdfhg iosdhfgushf"
+						+ "jlnkfjbnl kfnbkljfngjdfgjn dkljgnkldfgnbkldfnfgbdn flghdsfulfghsdilufh ilffgikfgfgksfgklsfglsfjlsfghlsfh"
+						+ "lsfhglks hgihjf igulhj sfidluh ilfudgh lifugh lifhgil fghiusf hgiushf giluhfig luhdfighd filguhsflig hilsfhgils dhfgi");
+			}
+		});
+		
+		personalNummerTb.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("dfgakdfhgk dfhgkhsf duigshk fhgos ifuhgkisfuh giusdhfgs hkodfuighs uidfhguisdfhg iosdhfgushf"
+						+ "jlnkfjbnl kfnbkljfngjdfgjn dkljgnkldfgnbkldfnfgbdn flghdsfulfghsdilufh ilffgikfgfgksfgklsfglsfjlsfghlsfh"
+						+ "lsfhglks hgihjf igulhj sfidluh ilfudgh lifugh lifhgil fghiusf hgiushf giluhfig luhdfighd filguhsflig hilsfhgils dhfgi");
+			}
+		});
 	}
 	
 	void setShownDozent(Dozent dozent) {

@@ -249,6 +249,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 	}
 	
 	public void setSelectedDozent(Dozent dozent) {
+		spt2.clearInfoPanels();
 		spt2.setDozentFormToMain();
 		this.dF.setDtvm(this);
 		this.dF.visibiltyAendernButtons();
@@ -259,12 +260,14 @@ public class DozentTreeViewModel implements TreeViewModel {
 	}
 	
 	public void dozentAnlegenMaske() {
+		spt2.clearInfoPanels();
 		spt2.setDozentFormToMain();
 		this.dF.setDtvm(this);
 		dF.noVisibiltyAendernButtons();
 	}
 	
 	public void setSelectedLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
+		spt2.clearInfoPanels();
 		spt2.setLehrveranstaltungFormToMain();
 		this.lF.setDtvm(this);
 		this.lF.setShownLehrveranstaltung(lehrveranstaltung);
@@ -275,12 +278,14 @@ public class DozentTreeViewModel implements TreeViewModel {
 	}
 	
 	public void lehrveranstaltungAnlegenMaske() {
+		spt2.clearInfoPanels();
 		spt2.setLehrveranstaltungFormToMain();
 		this.lF.setDtvm(this);
 		this.lF.anlegenMaske();
 	}
 	
 	public void setSelectedRaum(Raum raum) {
+		spt2.clearInfoPanels();
 		spt2.setRaumFormToMain();
 		this.rF.setDtvm(this);
 		this.rF.setShownRaum(raum);
@@ -289,12 +294,14 @@ public class DozentTreeViewModel implements TreeViewModel {
 	}
 	
 	public void raumAnlegenMaske() {
+		spt2.clearInfoPanels();
 		spt2.setRaumFormToMain();
 		this.rF.setDtvm(this);
 		this.rF.anlegenMaske();
 	}
 	
 	public void setSelectedSemesterverband(Semesterverband semesterverband) {
+		spt2.clearInfoPanels();
 		spt2.setSemesterverbandFormToMain();
 		this.svF.setDtvm(this);
 		this.svF.setShownSemesterverband(semesterverband);
@@ -303,6 +310,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 	}
 	
 	public void semesterverbandAnlegenMaske() {
+		spt2.clearInfoPanels();
 		spt2.setSemesterverbandFormToMain();
 		this.svF.setDtvm(this);
 		this.svF.ladenStudiengaenge();
@@ -310,7 +318,8 @@ public class DozentTreeViewModel implements TreeViewModel {
 		
 	}	
 	
-	public void setSelectedStudiengang(Studiengang studiengang) {		
+	public void setSelectedStudiengang(Studiengang studiengang) {
+		spt2.clearInfoPanels();
 		spt2.setStudiengangFormToMain();
 		this.sgF.setDtvm(this);
 		this.sgF.setShownStudiengang(studiengang);
@@ -321,12 +330,14 @@ public class DozentTreeViewModel implements TreeViewModel {
 	}
 	
 	public void studiengangAnlegenMaske() {
+		spt2.clearInfoPanels();
 		spt2.setStudiengangFormToMain();
 		this.sgF.setDtvm(this);
 		this.sgF.anlegenMaske();
 	}
 	
 	public void setSelectedBelegung() {
+		spt2.clearInfoPanels();
 		this.spt2.setBelegungFormToMain();
 		this.bF.setDtvm(this);
 		this.bF.aendernMaske(false);
@@ -334,6 +345,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 	}
 	
 	public void belegungAnlegenMaske() {
+		spt2.clearInfoPanels();
 		this.spt2.setBelegungFormToMain();
 		this.bF.setDtvm(this);
 		this.bF.aendernMaske(true);
@@ -940,6 +952,10 @@ public class DozentTreeViewModel implements TreeViewModel {
 	
 	public void setStundenplantool2(Stundenplantool2 spt2) {
 		this.spt2 = spt2;
+	}
+	
+	public Stundenplantool2 getStundenplantool2() {
+		return this.spt2;
 	}
 	
 		

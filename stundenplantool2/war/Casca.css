@@ -26,6 +26,24 @@ font-weight: bolder;
 text-shadow:black 0 0 5px, red 5px 5px 3px;
 }
 
+.infotextOben {
+	
+	background-color: #ffebcd;
+}
+
+.infotextUnten {
+	
+	background-color: #ffdead;
+}
+
+.infoTextObenLabel {
+	
+}
+
+.infoTextUntenLabel {
+	
+}
+
 .sendButton {
   display: block;
   font-size: 30pt;

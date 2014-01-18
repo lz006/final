@@ -12,12 +12,15 @@ import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.VerticalSplitPanel;
 import com.hdm.stundenplantool2.shared.*;
 
 public class Stundenplantool2 implements EntryPoint {
@@ -35,6 +38,9 @@ public class Stundenplantool2 implements EntryPoint {
 	private HorizontalPanel traeger;
 	private HorizontalPanel left;
 	private HorizontalPanel right;
+	private VerticalPanel traegerInfoPanel;
+	private VerticalPanel obenInfoPanel;
+	private VerticalPanel untenInfoPanel;
 
 	
 	private DozentForm dF;
@@ -50,7 +56,10 @@ public class Stundenplantool2 implements EntryPoint {
 	
 	private ScrollPanel mainPanel;
 	Button visibilityTreeButton;
-	boolean check = false;
+	Button visibilityInfoPanelsButton;
+	Grid buttonGrid;
+	boolean check1 = false;
+	boolean check2 = false;
 
 	@Override
 	public void onModuleLoad() {
@@ -62,6 +71,29 @@ public class Stundenplantool2 implements EntryPoint {
 			}
 		});
 		
+		visibilityInfoPanelsButton = new Button("Infotext ausblenden");
+		visibilityInfoPanelsButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				visibilityInfoPanels();
+			}
+		});
+		
+		buttonGrid = new Grid(1, 2);
+		buttonGrid.setWidget(0, 0, visibilityTreeButton);
+		buttonGrid.setWidget(0, 1, visibilityInfoPanelsButton);
+		
+		// Initialisierung der Info-Panels am rechten Bildschirrand
+		traegerInfoPanel = new VerticalPanel();
+		obenInfoPanel = new VerticalPanel();
+		obenInfoPanel.setStyleName("infotextOben");
+		
+		untenInfoPanel = new VerticalPanel();
+		untenInfoPanel.setStyleName("infotextUnten");
+		
+		traegerInfoPanel.add(obenInfoPanel);
+		traegerInfoPanel.add(untenInfoPanel);
+		
+		// Initialisierung des Hauptpanels in der Bildschirmmitte und des Panels für den CellTree am linken Bildschirmrand
 		mainPanel = new ScrollPanel();
 		navi = new ScrollPanel();
 		
@@ -80,7 +112,7 @@ public class Stundenplantool2 implements EntryPoint {
 		copyright.addStyleName("cpLabel");
 				
 		footPanel = new VerticalPanel();
-		footPanel.add(visibilityTreeButton);
+		footPanel.add(buttonGrid);
 		footPanel.add(copyright);
 		footPanel.addStyleName("foot");
 		
@@ -101,11 +133,14 @@ public class Stundenplantool2 implements EntryPoint {
 		p = new DockLayoutPanel(Unit.EM);
 		p.addNorth(traeger, 10);
 		p.addSouth(footPanel, 5);
-		p.addWest(navi, 30);
+		p.addWest(navi, 25);
+		p.addEast(traegerInfoPanel, 20);
 		p.add(mainPanel);
 		
+		// Das Info-Panel wird zu anfangs ausgeblendet
+		p.setWidgetHidden(traegerInfoPanel, true);
+		
 		RootLayoutPanel rlp = RootLayoutPanel.get();
-	//	rlp.add(traeger);
 		rlp.add(p);
 		RootPanel.get().add(rlp);
 		
@@ -115,16 +150,31 @@ public class Stundenplantool2 implements EntryPoint {
 	}
 	
 	public void visibilityTree() {
-		if(!check) {
+		if(!check1) {
 			p.setWidgetHidden(navi, true);
 			visibilityTreeButton.setText("Navigation einblenden");
-			check = true;
+			check1 = true;
 			return;
 		}
-		if(check) {
+		if(check1) {
 			p.setWidgetHidden(navi, false);
 			visibilityTreeButton.setText("Navigation ausblenden");
-			check = false;
+			check1 = false;
+			return;
+		}		
+	}
+	
+	public void visibilityInfoPanels() {
+		if(!check2) {
+			p.setWidgetHidden(traegerInfoPanel, true);
+			visibilityInfoPanelsButton.setText("Infotext einblenden");
+			check2 = true;
+			return;
+		}
+		if(check2) {
+			p.setWidgetHidden(traegerInfoPanel, false);
+			visibilityInfoPanelsButton.setText("Infotext ausblenden");
+			check2 = false;
 			return;
 		}		
 	}
@@ -175,22 +225,54 @@ public class Stundenplantool2 implements EntryPoint {
 		spF = new StudentenPlanForm(report);
 		mainPanel.clear();
 		mainPanel.add(spF);
+		p.setWidgetHidden(traegerInfoPanel, true);
+		visibilityInfoPanelsButton.setVisible(false);
 	}
 	
 	public void setDozentenPlanFormToMain() {
 		dpF = new DozentenPlanForm(report);
 		mainPanel.clear();
 		mainPanel.add(dpF);
+		p.setWidgetHidden(traegerInfoPanel, true);
+		visibilityInfoPanelsButton.setVisible(false);
 	}
 	
 	public void setRaumPlanFormToMain() {
 		rpF = new RaumPlanForm(report);
 		mainPanel.clear();
 		mainPanel.add(rpF);
+		p.setWidgetHidden(traegerInfoPanel, true);
+		visibilityInfoPanelsButton.setVisible(false);
 	}
 	
 	public void popupInfo() {
 		Window.alert("Bitte aktivieren Sie Popups in Ihrem Browser wenn Sie den Report im Vollbild betrachten möchten");
+	}
+	
+	public void setTextToInfoPanelOben(String anleitung) {
+		p.setWidgetHidden(traegerInfoPanel, false);
+		obenInfoPanel.clear();
+		Label infoTextObenLabel = new Label(anleitung);
+		infoTextObenLabel.setStyleName("infoTextObenLabel");
+		obenInfoPanel.add(infoTextObenLabel);
+	}
+	
+	public void setTextToInfoPanelUnten(String restricts) {
+		p.setWidgetHidden(traegerInfoPanel, false);
+		untenInfoPanel.clear();
+		Label infoTextUntenLabel = new Label(restricts);
+		infoTextUntenLabel.setStyleName("infoTextUntenLabel");
+		untenInfoPanel.add(infoTextUntenLabel);
+	}
+	
+	public void clearInfoPanels() {
+		p.setWidgetHidden(traegerInfoPanel, true);
+		obenInfoPanel.clear();
+		untenInfoPanel.clear();
+		if (check2) {
+			check2 = false;
+			visibilityInfoPanelsButton.setText("Infotext ausblenden");
+		}
 	}
 	
 	public CellTree getCellTree() {

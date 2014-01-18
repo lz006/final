@@ -1745,6 +1745,13 @@ public class BelegungForm extends VerticalPanel{
 	
 	void setDtvm(DozentTreeViewModel dtvm) {
 		this.dtvm = dtvm;
+		setInfoText();
+	}
+	
+	void setInfoText() {
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("Anleitung blblblblblblblblblblblb lblblblblblblblbldjblakdfj bjhfbjhybdfjklbhskjdfgbjkfhbkj"
+				+ "fhblfdlsflgshflgghslfhgilfhgilhfgujs flhgbusgbluhgklhflkhlfuh");
+		
 	}
 	
 }
