@@ -247,11 +247,13 @@ public class Stundenplantool2 implements EntryPoint {
 	}
 
 	public void setTextToInfoPanelOben(String anleitung) {
+		visibilityInfoPanelsButton.setVisible(true);
 		p.setWidgetHidden(traegerInfoPanel, false);
 		obenInfoPanel.clear();
 		HTML infoTextObenLabel = new HTML(anleitung);
 		infoTextObenLabel.setStyleName("infoTextObenLabel");
 		obenInfoPanel.add(infoTextObenLabel);
+
 	}
 
 	public void setTextToInfoPanelUnten(String restricts) {
