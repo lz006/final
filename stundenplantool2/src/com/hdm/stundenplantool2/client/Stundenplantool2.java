@@ -12,8 +12,8 @@ import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -30,8 +30,8 @@ public class Stundenplantool2 implements EntryPoint {
 	private Image image;
 	private ScrollPanel navi;
 	private VerticalPanel footPanel;
-	private Label copyright;
-	private Label titel;
+	private HTML copyright;
+	private HTML titel;
 	private HorizontalPanel traeger;
 	private HorizontalPanel left;
 	private HorizontalPanel right;
@@ -76,37 +76,36 @@ public class Stundenplantool2 implements EntryPoint {
 		image.setHeight("10em");
 		image.setAltText("WI-Logo");
 
-		p = new DockLayoutPanel(Unit.EM);
-		
-		copyright = new Label("IT-Projekt im 4. Semester");
-		copyright = new Label("Timm Roth(tr047), Tobias Moser(tm066), Lucas Zanella(lz006), Stefan Sonntag(ss305), Gino Sidney(gk024) und Mathias Zimmermann(mz048)");
+		copyright = new HTML("IT-Projekt im 4. Semester &copy; by Timm Roth(tr047), Tobias Moser(tm066), Lucas Zanella(lz006), Stefan Sonntag(ss305), Gino Sidney(gk024) und Mathias Zimmermann(mz048)");
 		copyright.addStyleName("cpLabel");
-		
-		
+				
 		footPanel = new VerticalPanel();
 		footPanel.add(visibilityTreeButton);
 		footPanel.add(copyright);
 		footPanel.addStyleName("foot");
 		
-		titel = new Label("Godfather Stundenplantool");
+		titel = new HTML("Godfather Stundenplantool powerd by Bitch Nigga Corp.");
 		titel.addStyleName("Titel");
 		
+		// Logo und Überschrift 
+		left = new HorizontalPanel();
+		left.add(image);
 		
-//		left.add(image);
-//		right.add(titel);
-//		
-//		
-//		traeger.add(left);
-//		traeger.add(right);
+		right =	new HorizontalPanel();
+		right.add(titel);
 		
+		traeger = new HorizontalPanel();
+		traeger.add(left);
+		traeger.add(right);
 		
-//		p.addNorth(traeger, 10);
-		p.addNorth(image, 10);
+		p = new DockLayoutPanel(Unit.EM);
+		p.addNorth(traeger, 10);
 		p.addSouth(footPanel, 5);
 		p.addWest(navi, 30);
 		p.add(mainPanel);
 		
 		RootLayoutPanel rlp = RootLayoutPanel.get();
+	//	rlp.add(traeger);
 		rlp.add(p);
 		RootPanel.get().add(rlp);
 		
