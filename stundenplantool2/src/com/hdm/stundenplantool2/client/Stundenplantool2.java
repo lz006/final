@@ -105,7 +105,7 @@ public class Stundenplantool2 implements EntryPoint {
 		image.setAltText("WI-Logo");
 
 		copyright = new HTML(
-				"IT-Projekt im 4. Semester &copy; by Timm Roth(tr047), Tobias Moser(tm066), Lucas Zanella(lz006), Stefan Sonntag(ss305), Gino Sidney(gk024) und Mathias Zimmermann(mz048)");
+				"IT-Projekt im 4. Semester &copy;2014 by Timm Roth (tr047), Tobias Moser (tm066), Lucas Zanella (lz006), Stefan Sonntag (ss305), Gino Sidney (gk024) und Mathias Zimmermann (mz048)");
 		copyright.addStyleName("cpLabel");
 
 		footPanel = new VerticalPanel();
@@ -114,7 +114,7 @@ public class Stundenplantool2 implements EntryPoint {
 		footPanel.addStyleName("foot");
 
 		titel = new HTML(
-				"Godfather Stundenplantool powerd by Bitch Nigga Corp.");
+				"Godfather Stundenplantool");
 		titel.addStyleName("Titel");
 
 		// Logo und Überschrift
@@ -132,7 +132,7 @@ public class Stundenplantool2 implements EntryPoint {
 		p.addNorth(traeger, 10);
 		p.addSouth(footPanel, 5);
 		p.addWest(navi, 25);
-		p.addEast(traegerInfoPanel, 20);
+		p.addEast(traegerInfoPanel, 30);
 		p.add(mainPanel);
 
 		// Das Info-Panel wird zu anfangs ausgeblendet

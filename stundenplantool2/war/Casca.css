@@ -9,19 +9,27 @@
 }
 
 .infotextOben {
-	background-color: #b0e0e6;
+	background-color: white;
 	text-size: 12px;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: black;
 }
 
 .infotextUnten {
-	background-color: #00bffF;
+	background-color: white;
 	text-size: 12px;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: black;
 }
 
 .infoTextObenLabel {
-	}
+	
+}
 
 .infoTextUntenLabel {
+	
 }
 
 .sendButton {
@@ -72,7 +80,7 @@
 .foot {
 	width: 100%;
 	padding: 10px;
-	background: #7ffF00;
+	background: white;
 }
 
 .cpLabel {
