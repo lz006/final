@@ -12,10 +12,17 @@ import com.hdm.stundenplantool2.shared.bo.Semesterverband;
 import com.hdm.stundenplantool2.shared.bo.Studiengang;
 import com.hdm.stundenplantool2.shared.bo.Zeitslot;
 
+/**
+ * Das asynchrone Gegenstück des Interface {@link Verwaltung}. 
+ * 
+ * @author Thies, Moser, Sonntag, Zanella
+ */
 public interface VerwaltungAsync {
 		
 	/*
-	 * Auslesen der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Beginn: Methoden um dem Client die geforderten BusinessObjects zu übermitteln
+	 * ***********************************************************************************************
 	 */
 
 	void auslesenAlleSemesterverbaende(AsyncCallback<Vector<Semesterverband>> callback) throws RuntimeException;
@@ -61,7 +68,16 @@ public interface VerwaltungAsync {
 	void auslesenVerfuegbareRaeumeZuZeitslotuSV(Zeitslot zeitslot, Vector<Semesterverband> sv, AsyncCallback<Vector<Raum>> callback) throws RuntimeException;
 	
 	/*
-	 * Löschen der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Ende: Methoden um dem Client die geforderten BusinessObjects zu übermitteln
+	 * ***********************************************************************************************
+	 */
+	
+	/*
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Beginn: Methoden um die Löschung der vom Client übermittelten BusinessObjects 
+	 * 				durchzuführen
+	 * ***********************************************************************************************
 	 */
 
 	void loeschenSemesterverband(Semesterverband semesterverband, AsyncCallback<Void> callback) throws RuntimeException;
@@ -77,7 +93,17 @@ public interface VerwaltungAsync {
 	void loeschenRaum(Raum raum, AsyncCallback<Void> callback) throws IllegalArgumentException;
 	
 	/*
-	 * Ändern der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Ende: Methoden um die Löschung der vom Client übermittelten BusinessObjects 
+	 * 				durchzuführen
+	 * ***********************************************************************************************
+	 */
+	
+	/*
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Beginn: Methoden um die vom Client gewünschten Änderungen an den BusinessObjects
+	 * 				zu bearbeiten
+	 * ***********************************************************************************************
 	 */
 
 	void aendernSemesterverband(Semesterverband semesterverband, AsyncCallback<Semesterverband> callback) throws RuntimeException;
@@ -93,16 +119,22 @@ public interface VerwaltungAsync {
 	void aendernRaum(Raum raum, AsyncCallback<Raum> callback) throws RuntimeException;
 	
 	/*
-	 * Anlegen der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Ende: Methoden um die vom Client gewünschten Änderungen an den BusinessObjects
+	 * 				zu bearbeiten
+	 * ***********************************************************************************************
+	 */
+	
+	/*
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Beginn: Methoden um die vom Client gewünschten neuen BusinessObjects zur erstellen
+	 * 				und zu speichern
+	 * ***********************************************************************************************
 	 */
 
 	void anlegenSemesterverband(String anzahlStudenten, String jahrgang, Studiengang studiengang, AsyncCallback<Semesterverband> callback) throws RuntimeException;
 
 	void anlegenDozent(String vorname, String nachname, String personalnummer, Vector<Lehrveranstaltung> lehrveranstaltungen, AsyncCallback<Dozent> callback) throws RuntimeException;
-
-	//void anlegenDozent(String vorname, String nachname, int personalnummer, AsyncCallback<Dozent> callback) throws RuntimeException;
-
-	void anlegenZeitslot(int anfangszeit, int endzeit, String wochentag, AsyncCallback<Zeitslot> callback) throws RuntimeException;
 
 	void anlegenLehrveranstaltung(int umfang, String bezeichnung, int studiensemester, Vector<Studiengang> studiengaenge, Vector<Dozent> dozenten, AsyncCallback<Lehrveranstaltung> callback) throws RuntimeException;
 
@@ -116,8 +148,11 @@ public interface VerwaltungAsync {
 
 	void anlegenRaum(String bezeichnung, String kapazitaet, AsyncCallback<Raum> callback) throws RuntimeException;
 
-	
-
-	
+	/*
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Ende: Methoden um die vom Client gewünschten neuen BusinessObjects zur erstellen
+	 * 				und zu speichern
+	 * ***********************************************************************************************
+	 */	
 
 }

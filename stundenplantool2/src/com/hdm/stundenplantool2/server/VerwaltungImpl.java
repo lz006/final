@@ -1629,21 +1629,35 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 	}
 	
+	/**
+	 * Methode um einen Raum abgeändert mittels Mapper-Objekt in der DB zu überspeichern
+	 * 
+	 * @param	Raum-Objekt welches geändert werden sollen
+	 * @return	Raum-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Raum aendernRaum(Raum raum) throws RuntimeException {
 		
+		// Prüfung ob eine Bezeichung angegeben wurde
 		if (raum.getBezeichnung() == null || raum.getBezeichnung().length() == 0) {
 			throw new IllegalArgumentException("Bitte geben Sie eine Bezeichnung ein");
 		}
 		
+		// Prüfung ob eine erlaubte Beizeichnung eingetragen wurde
 		if (!raum.getBezeichnung().matches("[W]{1}[0-9]{3}|[W]{1}[-]{1}[N]{1}[0-9]{3}|[N]{1}[0-9]{3}")) {
 			throw new IllegalArgumentException("Die Bezeichnung entspricht nicht den Vorgaben");
 		}
 		
-		
+		// Prüfung ob die Kapazität größer 0 ist
 		if (raum.getKapazitaet() == 0) {
 			throw new IllegalArgumentException("Die Kapazität darf nicht 0 sein");
 		}
 		
+		// Prüfung ob die Kapazität kleiner 1.000 ist
 		if (!new Integer(raum.getKapazitaet()).toString().matches("[1-9]|[1-9][0-9]|[1-9][0-9][0-9]")) {
 			throw new IllegalArgumentException("Die Kapazität muss 1 bis 999 betragen");
 		}
@@ -1653,8 +1667,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		int accepted = 0;
 
 		
-		// Auslesen aller Belegungen die den Raum referenzieren, der aktualisiert werden soll
-		
+		// Auslesen aller Belegungen die den Raum referenzieren, der aktualisiert werden soll		
 		Vector<Belegung> tempBelegungen = this.belegungMapper.findByRaum(raum);
 		
 		// Lokale Variable zum festhalten der SemesterverbandID's, welche von "vB" referenziert werden 
@@ -1698,15 +1711,40 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	}
 	
 	/*
-	 * ändern der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Ende: Methoden um die vom Client gewünschten Änderungen an den BusinessObjects
+	 * 				zu bearbeiten
+	 * ***********************************************************************************************
 	 */
 	
+	/*
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Beginn: Methoden um die vom Client gewünschten neuen BusinessObjects zur erstellen
+	 * 				und zu speichern
+	 * ***********************************************************************************************
+	 */
+	
+	/**
+	 * Methode um einen neuen Semesterverband mittels Mapper-Objekt in der DB zu speichern
+	 * 
+	 * @param	Anzahl der Studenten des neuen Semesterverbands
+	 * 			Jahrgang des neuen Semesterverbands
+	 * 			Studiengang-Objekt dem der neue Semesterverband zugeordnet sein
+	 * @return	Semesterverband-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Semesterverband anlegenSemesterverband (String anzahlStudenten, String jahrgang, Studiengang studiengang) throws RuntimeException {
 		
+		// Prüfung ob die Anzahl der Studenten angegeben wurde
 		if (anzahlStudenten == null || anzahlStudenten.length() == 0) {
 			throw new IllegalArgumentException("Bitte geben Sie die Anzahl der Studenten an!");
 		}
 		
+		// Prüfung ob der Jahrgang angeggeben wurde
 		if (jahrgang == null || jahrgang.length() == 0) {
 			throw new IllegalArgumentException("Bitte geben Sie den Jahrgang an!");
 		}
@@ -1714,17 +1752,18 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		StringBuffer tempJahrgang = new StringBuffer();
 		tempJahrgang.append(jahrgang);
 		
-		// Es wird geprüft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde
-		
+		// Es wird geprüft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde		
 		if (!tempJahrgang.substring(0,2).equals("SS") && !tempJahrgang.substring(0,2).equals("WS") || !tempJahrgang.substring(2,4).equals("20")) {
 			throw new IllegalArgumentException("Ihre Jahrgangsangabe entspricht nicht den Vorgaben\nBeachten Sie auch die Gross-/Kleinschreibung");			
 		}
 		
+		// Es wird geprüft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde
 		if ((tempJahrgang.substring(0,2).equals("SS") && tempJahrgang.length() != 6) || (tempJahrgang.substring(0,2).equals("WS") && tempJahrgang.length() != 9) ||
 				(tempJahrgang.substring(0,2).equals("WS") && tempJahrgang.charAt(6) != new Character('/'))) {
 				throw new IllegalArgumentException("Ihre Jahrgangsangabe entspricht nicht den Vorgaben");
 		}
 		
+		// Es wird geprüft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde
 		if (tempJahrgang.substring(0,2).equals("SS")) {
 			try {
 				Integer.parseInt(tempJahrgang.substring(4,6));
@@ -1734,6 +1773,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
+		// Es wird geprüft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde
 		if (tempJahrgang.substring(0,2).equals("WS")) {
 			int vJahr;
 			int nJahr;
@@ -1749,16 +1789,17 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Prüfung ob das Feld "anzahlStudenten" nur Zahlen enthält
-		
+		// Prüfung ob das Feld "anzahlStudenten" nur Zahlen enthält		
 		if (!anzahlStudenten.matches("[1-9]|[1-9][0-9]|[1-9][0-9][0-9]")) {
 			throw new IllegalArgumentException("Die Anzahl der Studenten kann sich von 1 bis 999 bewegen\n(Bitte auch keine führende Null angeben)");
 		}
 		
+		// Prüfung ob ein Studiengang angegeben wurde
 		if (studiengang == null) {
 			throw new IllegalArgumentException("Bitte geben Sie einen Studiengang an");
 		}
 		
+		// Prüfung ob es den "neuen" Semesterverband bereits in dem gemeinten Studiengang gibt
 		Vector<Semesterverband> sgNachSV = this.auslesenSemesterverbaendeNachStudiengang(studiengang);
 		
 		for (Semesterverband sv : sgNachSV) {
@@ -1767,8 +1808,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Neues Semesterverband-Objekt erzeugen
-		
+		// Neues Semesterverband-Objekt erzeugen		
 		Semesterverband neuSemVerband = new Semesterverband();
 		neuSemVerband.setJahrgang(jahrgang);
 		neuSemVerband.setAnzahlStudenten(Integer.parseInt(anzahlStudenten));
@@ -1777,37 +1817,45 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		return this.semesterverbandMapper.insertIntoDB(neuSemVerband);
 	}
 	
+	/**
+	 * Methode um einen neuen Dozenten mittels Mapper-Objekt in der DB zu speichern
+	 * 
+	 * @param	Vorname des Dozenten
+	 * 			Nachname des Dozenten
+	 * 			Lehrveranstaltungs-Objekte die zum Komptenzbereich des Dozenten zählen
+	 * @return	Dozent-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Dozent anlegenDozent(String vorname, String nachname, String personalnummer, Vector<Lehrveranstaltung> lehrveranstaltungen) throws RuntimeException {
 		
-		// Prüfung ob Vor- und Nachname angegeben wurden
-				
+		// Prüfung ob Vor- und Nachname angegeben wurden				
 		if ((vorname == null ||vorname.length() == 0) || (nachname == null || nachname.length() == 0)) {
 			throw new IllegalArgumentException("Bitte geben Sie Vor- und Nachname an");
 		}
 		
-		// Prüfung ob am Ende der Vor- oder Nachnamens ein Leerzeichen ist
-		
+		// Prüfung ob am Ende der Vor- oder Nachnamens ein Leerzeichen ist		
 		if (vorname.substring(0, 1).equals(" ") || vorname.lastIndexOf(" ") == vorname.length() - 1 ||
 				nachname.substring(0, 1).equals(" ") || nachname.lastIndexOf(" ") == nachname.length() - 1) {
 			throw new IllegalArgumentException("Es dürfen sich vor dem Vor-bzw.Nachname keine Leerzeichen befinden");
 		}
 		
 		
-		// Prüfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt
-		
+		// Prüfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt		
 		if (!vorname.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*") || 
 				!nachname.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
 			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen im Vor- bzw. Nachnamen");
 		}
 				
-		// Prüfung der Personalnummer auf fünfstellige Ziffernfolge
-				
+		// Prüfung der Personalnummer auf fünfstellige Ziffernfolge				
 		if (!personalnummer.matches("[0-9]{5}")) {
 			throw new IllegalArgumentException("Die Personalnummer ist nicht fünfstellig\noder es befinden sich darin nicht erlaubte Zeichen");
 		}
 		
-		// Prüfen ob die Personalnummer bereits vergeben ist
-		
+		// Prüfen ob die Personalnummer bereits vergeben ist		
 		Vector<Dozent> alleDozenten = this.dozentMapper.findAll(false);
 				
 		for (Dozent d : alleDozenten) {
@@ -1816,8 +1864,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Neues Dozent-Objekt erzeugen
-		
+		// Neues Dozent-Objekt erzeugen		
 		Dozent neuDozent = new Dozent();
 		neuDozent.setVorname(vorname);
 		neuDozent.setNachname(nachname);
@@ -1829,32 +1876,28 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		return this.dozentMapper.insertIntoDB(neuDozent);
 	}
 	
-	/*
-	public Dozent anlegenDozent(String vorname, String nachname, int personalnummer) throws RuntimeException {
-		
-		Vector<Lehrveranstaltung> keineLV = null;
-		
-		return this.anlegenDozent(vorname, nachname, personalnummer, keineLV);
-	}
-	*/
-		
-	public Zeitslot anlegenZeitslot(int anfangszeit, int endzeit, String wochentag) throws RuntimeException {
-		
-		// Das Anlegen eines neuen Zeitslots ist bis dato nicht vorgesehen - Stand: 12.12.2013
-		
-		return null;
-	}
-	
+	/**
+	 * Methode um einen neue Lehrveranstaltung mittels Mapper-Objekt in der DB zu speichern
+	 * 
+	 * @param	Umfang also die SWS der neuen Lehrveranstaltung
+	 * 			Bezeichnung der neuen Lehrveranstaltung
+	 * 			Studiengang-Objekte zu denen siche die neue Lehrveranstaltung zählen soll
+	 * 			Dozent-Objekte die die neue Lehrveranstaltung voraussichltich halten werden
+	 * @return	Lehrveranstaltung-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Lehrveranstaltung anlegenLehrveranstaltung(int umfang, String bezeichnung, int studiensemester, Vector<Studiengang> studiengaenge, Vector<Dozent> dozenten) throws RuntimeException {
 		
-		// Prüfung ob mindestens ein Studiengang angegeben wurde
-		
+		// Prüfung ob mindestens ein Studiengang angegeben wurde		
 		if (studiengaenge == null || studiengaenge.size() == 0) {
 			throw new IllegalArgumentException("Bitten geben Sie mindestens einen Studiengang an");
 		}
 		
-		// Prüfung ob eine Bezeichnung angeben wurde
-		
+		// Prüfung ob eine Bezeichnung angeben wurde		
 		if (bezeichnung == null || bezeichnung.length() == 0) {
 			throw new IllegalArgumentException("Bitten geben Sie eine Bezeichnung an");
 		}
@@ -1874,44 +1917,54 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		
 		
-		// Prüfung ob die Bezichung mit einem Buchstabe beginnt und ob am ende nur eine Ziffer verwendet wurde
+		/*
+		 *  Prüfung ob die Bezichung mit einem Buchstabe beginnt und ob am ende nur eine Ziffer verwendet wurde
+		 *  -> Prüfung deaktiviert, da dies nicht mehr den aktuellen BusinessRules entspricht - Stand: 19.01.2014
+		 */
 		/*
 		if (!bezeichnung.matches("[a-zA-Z]{1,30}[ ]{0,1}[0-9]{0,1}|[a-zA-Z]{1,30}[ ]{0,1}[a-zA-Z]{1,30}[ ]{0,1}[0-9]{0,1}|[a-zA-Z]{1,30}")) {
 			throw new IllegalArgumentException("Bitte beginnen Sie die Bezeichnung mit einem Buchstaben\n"
 					+ "Bitte verwenden Sie nur ein Leerzeichen in Folge\nBitte benutzen Sie nur eine Ziffer in Folge");
 		}
 		*/
-		// Prüfung ob am Ende ein Leerzeichen steht
 		
+		// Prüfung ob am Ende ein Leerzeichen steht		
 		if (bezeichnung.lastIndexOf(" ") == bezeichnung.length() - 1) {
 			throw new IllegalArgumentException("Bitte entfernen Sie alle Leerzeichen am Ende der Bezeichnung");
 		}
+			
+		/*
+		 *  Prüfung ob das Feld "umfang" nur Zahlen enthält und nicht leer ist
+		 *  -> Prüfungen deaktiviert, da keine freie Eingabe mehr möglich
+		 * 	Stand: 08.01.2014
+		 */
 		
-		/* Prüfungen deaktiviert, da keine freie Eingabe mehr möglich
-		 * Stand: 08.01.2014
-		 *
-		
-		// Prüfung ob das Feld "umfang" nur Zahlen enthält und nicht leer ist
-		
+		/*
 		if (!new Integer(umfang).toString().matches("[0-9]{1}|[0-9]*")) {
-			throw new IllegalArgumentException("Bitten geben Sie die Anzahl der Studenten an");
+			throw new IllegalArgumentException("Umfang muss eine Zahl sein");
 		}
-		
-		// Prüfung ob der Inahlt Feld "umfang" durch 2 teilbar ist
+	
+		 *  Prüfung ob der Inahlt Feld "umfang" durch 2 teilbar ist
+		 *  -> Prüfungen deaktiviert, da keine freie Eingabe mehr möglich
+		 * 	Stand: 08.01.2014
 		
 		if ((umfang % 2) != 0) {
 			throw new IllegalArgumentException("Der Umfang muss durch 2 teilbar sein");
 		}
+		*/
 		
-		// Prüfung ob das Feld "Studiensemester" nur Zahlen enthölt und nicht leer ist
+		/*
+		 *  Prüfung ob das Feld "Studiensemester" nur Zahlen enthält und nicht leer ist
+		 *  -> Prüfungen deaktiviert, da keine freie Eingabe mehr möglich
+		 * 	Stand: 08.01.2014
+		 *
 		
 		if (!new Integer(umfang).toString().matches("[0-9]{1}|[0-9]*")) {
 			throw new IllegalArgumentException("Bitten geben Sie das Studiensemester an");
 		}
 		*/
 		
-		// Prüfen ob die Bezeichnung oder das Kürzel bereits vorhanden sind
-		
+		// Prüfen ob die Bezeichnung oder das Kürzel bereits vorhanden sind		
 		Vector<Lehrveranstaltung> alleLVs = this.lehrveranstaltungMapper.findAll(false);
 				
 		for (Lehrveranstaltung l : alleLVs) {
@@ -1920,8 +1973,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Neues Lehrveranstaltung-Objekt erzeugen
-		
+		// Neues Lehrveranstaltung-Objekt erzeugen		
 		Lehrveranstaltung neuLehrveranstaltung = new Lehrveranstaltung();
 		neuLehrveranstaltung.setUmfang(umfang);
 		neuLehrveranstaltung.setBezeichnung(bezeichnung);
@@ -1935,6 +1987,20 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 	}
 	
+	/**
+	 * Methode um einen neue Lehrveranstaltung mittels Mapper-Objekt in der DB zu speichern
+	 * (Überladen der Methode "anlegenLehrveranstaltung(...)")
+	 * 
+	 * @param	Umfang also die SWS der neuen Lehrveranstaltung
+	 * 			Bezeichnung der neuen Lehrveranstaltung
+	 * 			Studiengang-Objekte zu denen siche die neue Lehrveranstaltung zählen soll
+	 * @return	Lehrveranstaltung-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Lehrveranstaltung anlegenLehrveranstaltung(int umfang, String bezeichnung, int studiensemester, Vector<Studiengang> studiengaenge) throws RuntimeException {
 		
 		Vector<Dozent> keineDozenten = null;
@@ -1942,10 +2008,24 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		return this.anlegenLehrveranstaltung(umfang, bezeichnung, studiensemester, studiengaenge, keineDozenten);
 	}
 	
+	/**
+	 * Methode um einen neue Belegung mittels Mapper-Objekt in der DB zu speichern
+	 * 
+	 * @param	Lehrveranstaltung-Objekt welche Inhalt des Vorlesungstermin sein soll
+	 * 			Raum-Objekt in dem die Vorlesung stattfindet
+	 * 			Zeitsot-Objekt, welches den Zeitpunkt und die Zeitspanne der Vorlesung angibt
+	 * 			Semesterverband-Objekte, welche die Rezipienten der Belegung darstellen
+	 * 			Dozent-Objekte, welche diese Vorlesung referieren sollen
+	 * @return	Belegung-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Belegung anlegenBelegung(Lehrveranstaltung lehrveranstaltung, Raum raum, Zeitslot zeitslot, Vector<Dozent> dozenten, Vector<Semesterverband> semesterverbaende) throws RuntimeException {
 		
-		// Neues Belegung-Objekt erzeugen
-		
+		// Neues Belegung-Objekt erzeugen		
 		Belegung belegung = new Belegung();
 		belegung.setLehrveranstaltung(lehrveranstaltung);
 		belegung.setRaum(raum);
@@ -1953,8 +2033,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		belegung.setDozenten(dozenten);
 		belegung.setSemesterverbaende(semesterverbaende);
 		
-		// Prüfung ob ein Dozent mehrmals ausgewöhlt wurde
-		
+		// Prüfung ob ein Dozent mehrmals ausgewählt wurde		
 		if(belegung.getDozenten().size() > 1) {
 			for (int i = 0; i < belegung.getDozenten().size(); i++) {
 				int multiplzitaetDozent = 0;
@@ -1969,8 +2048,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Prüfung ob das Studiensemester der gewünschten Lehrveranstaltung mit dem der Semesterverbände vereinbar ist
-		
+		// Prüfung ob das Studiensemester der gewünschten Lehrveranstaltung mit dem der Semesterverbände vereinbar ist		
 		Integer semesterAlt = null;
 		Integer semesterNeu = null;
 		
@@ -2005,47 +2083,42 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			
 			
 			if (!(aktMonat < semMonat && aktJahr <= semJahr)) {
+							
+				int zaehler = 0;
 				
-			
-			int zaehler = 0;
-			
-			for (int j = semMonat-1; j < calendar.length; j++ ) {
-				
-				zaehler++;
-				
-				if((calendar[j] == aktMonat) && (jahresDiff == 0)) {
-					break;
-				}
-				if(calendar[j] == 12) {
-					j = -1;
-					jahresDiff--;
-				}
-			}
-			
-			int studienSem = zaehler / 6;
-			int studienSemMonat = zaehler;
-			
-			if (zaehler != 0) {
-				studienSemMonat = zaehler % 6;
-			}
-			
-			
-
-			
-			if (studienSem == 0) {
-				semesterAlt = 1;
-				semesterNeu = 0;
-			}
-			
-			else if (studienSemMonat == 0) {
-				semesterAlt = studienSem;
-				semesterNeu = studienSem + 1;
-			}
-			
+				for (int j = semMonat-1; j < calendar.length; j++ ) {
 					
-			else {
-				semesterAlt = studienSem + 1;
-			}
+					zaehler++;
+					
+					if((calendar[j] == aktMonat) && (jahresDiff == 0)) {
+						break;
+					}
+					if(calendar[j] == 12) {
+						j = -1;
+						jahresDiff--;
+					}
+				}
+				
+				int studienSem = zaehler / 6;
+				int studienSemMonat = zaehler;
+				
+				if (zaehler != 0) {
+					studienSemMonat = zaehler % 6;
+				}
+				
+				if (studienSem == 0) {
+					semesterAlt = 1;
+					semesterNeu = 0;
+				}
+				
+				else if (studienSemMonat == 0) {
+					semesterAlt = studienSem;
+					semesterNeu = studienSem + 1;
+				}
+										
+				else {
+					semesterAlt = studienSem + 1;
+				}
 			}
 			else {
 				semesterAlt = 1;
@@ -2075,7 +2148,8 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Prüfen ob der Raum zum gewünschten Zeitslot schon noch verfügbar ist
 		
 		/*
-		 * Prüfung deaktiviert, da dem Client nur freie Rüume zur Verfögung gestellt werden
+		 * Prüfung deaktiviert, da dem Client nur freie Räume zur Verfügung gestellt werden
+		 * bei einem verteilten Arbeiten muss diese Prüfung wieder aktiviert werden um eine Konsistenz zu gewährleisten
 		 * Stand: 07.01.2014
 		
 		Vector<Belegung> raumBelegungen = this.belegungMapper.findByRaum(belegung.getRaum());
@@ -2088,8 +2162,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		*/
 		
-		// Prüfen ob die Semesterverbände zum gewönschten Zeitslot verfügbar sind
-		
+		// Prüfen ob die Semesterverbände zum gewünschten Zeitslot verfügbar sind		
 		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
 			Vector<Belegung> semVerBelegungen = this.belegungMapper.findBySemesterverband(belegung.getSemesterverbaende().elementAt(i));
 			if (semVerBelegungen != null) {
@@ -2101,8 +2174,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Prüfen ob der Dozent zum gewünschten Zeitslot verfügbar ist
-		
+		// Prüfen ob der Dozent zum gewünschten Zeitslot verfügbar ist		
 		for (int i = 0; i < belegung.getDozenten().size(); i++) {
 			Vector<Belegung> dozentenBelegungen = this.belegungMapper.findByDozent(belegung.getDozenten().elementAt(i));
 			if (dozentenBelegungen != null) {
@@ -2117,8 +2189,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(belegung.getLehrveranstaltung().getId());
 		
-		// Prüfung ob sich die Lehrveranstaltung und die Semesterverbände im gleichen Studiengang sind
-		
+		// Prüfung ob sich die Lehrveranstaltung und die Semesterverbände im gleichen Studiengang sind		
 		Lehrveranstaltung tempLehrveranstaltung = this.lehrveranstaltungMapper.findByKey(vi, true).elementAt(0);
 		
 		boolean check = false;
@@ -2137,8 +2208,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new RuntimeException("Lehrveranstaltung und Semesterverband befinden sich nicht im gleichen Studiengang");
 		}
 			
-		// Prüfung ob der Umfang (SWS) einer Lehrveranstaltung für einen Semesterverband bereits erreicht wurde
-		
+		// Prüfung ob der Umfang (SWS) einer Lehrveranstaltung für einen Semesterverband bereits erreicht wurde		
 		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
 			Vector<Belegung> tempSemVerBelegungen = this.belegungMapper.findBySemesterverband(belegung.getSemesterverbaende().elementAt(i));
 			int countSWS = 0;
@@ -2157,11 +2227,23 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		return this.belegungMapper.insertIntoDB(belegung);
 				
 	}
-		
+	
+	/**
+	 * Methode um einen neuen Studiengang mittels Mapper-Objekt in der DB zu speichern
+	 * 
+	 * @param	Bezeichnung des neuen Studiengangs
+	 * 			Kürzel des neuen Studiengangs
+	 * 			Lehrveranstaltung-Objekte welche dem neuen Studiengang zugeordnet sein sollen
+	 * @return	Studiengang-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Studiengang anlegenStudiengang(String bezeichnung, String kuerzel, Vector<Lehrveranstaltung> lehrveranstaltungen) throws RuntimeException {
 		
-		// Prüfung ob Bezeichung und Kürzel angegeben wurden
-		
+		// Prüfung ob Bezeichung und Kürzel angegeben wurden		
 		StringBuffer tempBezeichnung = new StringBuffer();
 		tempBezeichnung.append(bezeichnung);
 		StringBuffer tempKuerzel = new StringBuffer();
@@ -2171,17 +2253,13 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new IllegalArgumentException("Bitte geben Sie die Bezeichnung und das Kürzel an");
 		}
 		
-		if (kuerzel.matches("[0-9]*")) {
-			throw new IllegalArgumentException("Das Kürzel darf nicht aus reinen Zahlen bestehen");
-		}
-		
+		// Prüfung ob das Kürzel den Restriktionen entspricht
 		if (!kuerzel.matches("[A-Z]{2,4}|[A-Z]{2,4}[-][1-20]")) {
 			throw new IllegalArgumentException("Das Kürzel muss anfangs 2 bis 4 Großbuchstaben enthalten und darf am Ende eine Zahl"
 					+ " von 1 bis 20 mit vorhergehendem Bindestrich enthalten\nUmlaute sind nicht gestattet");
 		}
 		
-		// Prüfen ob die Bezeichnung und/oder das Kürzel bereits vergeben sind
-		
+		// Prüfen ob die Bezeichnung und/oder das Kürzel bereits vergeben sind		
 		Vector<Studiengang> alleSGs = this.studiengangMapper.findAll(false);
 		
 		for (Studiengang s : alleSGs) {
@@ -2190,8 +2268,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Neues Studiengang-Objekt erzeugen
-		
+		// Neues Studiengang-Objekt erzeugen		
 		Studiengang neuStudiengang = new Studiengang();
 		neuStudiengang.setBezeichnung(bezeichnung);
 		neuStudiengang.setKuerzel(kuerzel);
@@ -2203,6 +2280,19 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 	}
 	
+	/**
+	 * Methode um einen neuen Studiengang mittels Mapper-Objekt in der DB zu speichern
+	 * (Überladen der Methode "anlegenStudiengang(...)")
+	 * 
+	 * @param	Bezeichnung des neuen Studiengangs
+	 * 			Kürzel des neuen Studiengangs
+	 * @return	Studiengang-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Studiengang anlegenStudiengang(String bezeichnung, String kuerzel) throws RuntimeException {
 		
 		Vector<Lehrveranstaltung> keineLV = null;
@@ -2211,10 +2301,21 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 	}
 	
+	/**
+	 * Methode um einen neuen Raum mittels Mapper-Objekt in der DB zu speichern
+	 * 
+	 * @param	Bezeichnung des neuen Raumes
+	 * 			Kapazität des neuen Raumes
+	 * @return	Raum-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Raum anlegenRaum(String bezeichnung, String kapazitaet) throws RuntimeException {
 		
-		// Prüfung ob Bezeichung und Kapazität angegeben wurden		
-					
+		// Prüfung ob Bezeichung und Kapazität angegeben wurden					
 		if (((bezeichnung == null) || (bezeichnung.length() == 0)) || ((kapazitaet == null) || (kapazitaet.length() == 0))) {
 			throw new IllegalArgumentException("Bitte geben Sie eine Bezeichnung und die Kapazität an");
 		}
@@ -2224,10 +2325,12 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		StringBuffer tempKapazitaet = new StringBuffer();
 		tempKapazitaet.append(kapazitaet);
 		
+		// Prüfung ob die Bezeichnung den Restriktionen entspricht
 		if (!bezeichnung.matches("[W]{1}[0-9]{3}|[W]{1}[-]{1}[N]{1}[0-9]{3}|[N]{1}[0-9]{3}")) {
 			throw new IllegalArgumentException("Diese Bezeichnung entspricht nicht den Vorgaben");
 		}
 		
+		// Prüfung ob die Kapazität gleich 0 ist und ob ausschließlich Zahlen angegeben wurden
 		try {
 			if (Integer.parseInt(kapazitaet) == 0) {
 				throw new IllegalArgumentException("Die Kapazität darf nicht 0 sein");
@@ -2246,8 +2349,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		neuRaum.setKapazitaet(Integer.parseInt(kapazitaet));
 		
 		
-		// Prüfen ob ein Raum mit der identischen Bezeichnung bereits existiert
-		
+		// Prüfen ob ein Raum mit der identischen Bezeichnung bereits existiert		
 		Vector<Raum> alleRaeume = raumMapper.findAll();
 		
 		for (Raum r : alleRaeume) {
@@ -2259,6 +2361,13 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		return this.raumMapper.insertIntoDB(neuRaum);
 		
 	}
+	
+	/*
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Ende: Methoden um die vom Client gewünschten neuen BusinessObjects zur erstellen
+	 * 				und zu speichern
+	 * ***********************************************************************************************
+	 */
 	
 	
 }
