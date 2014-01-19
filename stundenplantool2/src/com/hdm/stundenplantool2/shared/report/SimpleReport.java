@@ -1,8 +1,9 @@
 package com.hdm.stundenplantool2.shared.report;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class SimpleReport extends Report{
+public class SimpleReport implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
