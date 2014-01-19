@@ -66,27 +66,24 @@ public class RaumForm extends VerticalPanel {
 	}
 
 	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben(
-				"<b><u>Anleitung: </u></b></br>"
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("<b><u>Anleitung: </u></b></br>"
 						+ "Hier können Sie einen Raum anlegen/ ändern."
 						+ "</br><b>Alle Felder sind Pflichtfelder!</b>");
 
 		bezeichnungTextBox.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				dtvm.getStundenplantool2()
-						.setTextToInfoPanelUnten(
-								"<b></br>Für die Bearbeitung der Raumbezeichnung bitte folgende Restriktionen beachten:</b>"
-										+ "</br>Die Bezeichnung darf nur mit einem “W“/ “W-N“ beginnen, gefolgt von einer dreistelligen Zahl von 0-9!"
-										+ "</br>Bsp. W111/ W-N111");
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("<b></br>Für die Bearbeitung der Raumbezeichnung bitte "
+						+ "folgende Restriktionen beachten:</b>"
+						+ "</br>Die Bezeichnung darf nur mit einem “W“/ “W-N“ beginnen, gefolgt von einer dreistelligen Zahl von 0-9!"
+						+ "</br>Bsp. W111/ W-N111");
 			}
 		});
 
 		kapazitaetTextBox.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				dtvm.getStundenplantool2()
-						.setTextToInfoPanelUnten(
-								"<b></br>Für die Bearbeitung der Kapazität eines Raumes bitte folgende Restriktionen beachten:</b>"
-										+ "</br>Die Kapazität darf nicht 0 und maximal 999 sein!");
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("<b></br>Für die Bearbeitung der Kapazität eines Raumes bitte "
+					+ "folgende Restriktionen beachten:</b>"
+					+ "</br>Die Kapazität darf nicht 0 und maximal 999 sein!");
 			}
 		});
 	}
@@ -97,8 +94,7 @@ public class RaumForm extends VerticalPanel {
 
 	public void fillForm() {
 		this.bezeichnungTextBox.setText(shownRaum.getBezeichnung());
-		this.kapazitaetTextBox.setText(new Integer(shownRaum.getKapazitaet())
-				.toString());
+		this.kapazitaetTextBox.setText(new Integer(shownRaum.getKapazitaet()).toString());
 	}
 
 	public void aendernMaske() {
@@ -111,8 +107,7 @@ public class RaumForm extends VerticalPanel {
 
 				shownRaum.setBezeichnung(bezeichnungTextBox.getText());
 				try {
-					shownRaum.setKapazitaet(Integer.parseInt(kapazitaetTextBox
-							.getText()));
+					shownRaum.setKapazitaet(Integer.parseInt(kapazitaetTextBox.getText()));
 				} catch (NumberFormatException e) {
 					Window.alert("Bitte geben Sie nur Zahlen bei der Kapazität ein");
 				}
@@ -121,24 +116,20 @@ public class RaumForm extends VerticalPanel {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
 
-						verwaltung.auslesenRaum(shownRaum,
-								new AsyncCallback<Vector<Raum>>() {
-									public void onFailure(Throwable caught) {
-										DOM.setStyleAttribute(
-												RootPanel.getBodyElement(),
-												"cursor", "default");
-										Window.alert(caught.getMessage());
-										speichernAnlegenButton.setEnabled(true);
-										loeschenButton.setEnabled(true);
-									}
+						verwaltung.auslesenRaum(shownRaum, new AsyncCallback<Vector<Raum>>() {
+							public void onFailure(Throwable caught) {
+								DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
+								Window.alert(caught.getMessage());
+								speichernAnlegenButton.setEnabled(true);
+								loeschenButton.setEnabled(true);
+							}
 
-									public void onSuccess(Vector<Raum> result) {
-										dtvm.setSelectedRaum(result
-												.elementAt(0));
+							public void onSuccess(Vector<Raum> result) {
+								dtvm.setSelectedRaum(result.elementAt(0));
 										speichernAnlegenButton.setEnabled(true);
 										loeschenButton.setEnabled(true);
-									}
-								});
+							}
+						});
 					}
 
 					public void onSuccess(Raum result) {
@@ -185,20 +176,19 @@ public class RaumForm extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				speichernAnlegenButton.setEnabled(false);
 
-				verwaltung.anlegenRaum(bezeichnungTextBox.getText(),
-						kapazitaetTextBox.getText(), new AsyncCallback<Raum>() {
-							public void onFailure(Throwable caught) {
-								Window.alert(caught.getMessage());
-								speichernAnlegenButton.setEnabled(true);
-							}
+				verwaltung.anlegenRaum(bezeichnungTextBox.getText(), kapazitaetTextBox.getText(), new AsyncCallback<Raum>() {
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+						speichernAnlegenButton.setEnabled(true);
+					}
 
-							public void onSuccess(Raum result) {
-								Window.alert("Raum wurde erfolgreich angelegt");
-								dtvm.addRaum(result);
-								speichernAnlegenButton.setEnabled(true);
-								clearForm();
-							}
-						});
+					public void onSuccess(Raum result) {
+						Window.alert("Raum wurde erfolgreich angelegt");
+						dtvm.addRaum(result);
+						speichernAnlegenButton.setEnabled(true);
+						clearForm();
+					}
+				});
 			}
 		});
 	}

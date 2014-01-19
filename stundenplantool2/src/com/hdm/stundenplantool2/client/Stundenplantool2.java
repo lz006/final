@@ -104,8 +104,8 @@ public class Stundenplantool2 implements EntryPoint {
 		image.setHeight("10em");
 		image.setAltText("WI-Logo");
 
-		copyright = new HTML(
-				"IT-Projekt im 4. Semester &copy;2014 by Timm Roth (tr047), Tobias Moser (tm066), Lucas Zanella (lz006), Stefan Sonntag (ss305), Gino Sidney (gk024) und Mathias Zimmermann (mz048)");
+		copyright = new HTML("IT-Projekt im 4. Semester &copy;2014 by Timm Roth (tr047), Tobias Moser (tm066), "
+				+ "Lucas Zanella (lz006), Stefan Sonntag (ss305), Gino Sidney (gk024) und Mathias Zimmermann (mz048)");
 		copyright.addStyleName("cpLabel");
 
 		footPanel = new VerticalPanel();
