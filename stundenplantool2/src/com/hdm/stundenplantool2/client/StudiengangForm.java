@@ -171,15 +171,18 @@ public class StudiengangForm extends VerticalPanel {
 
 	void setInfoText() {
 		this.dtvm.getStundenplantool2().setTextToInfoPanelOben(
-				"Anleitung: </br>" + "Hier können Sie viele bunte Dinge tun.");
+				"<b><u>Anleitung: </u></b></br>"
+						+ "Hier können Sie einen Studiengang anlegen/ ändern."
+						+ "</br><b>Außer der Angabe einer Lehrveranstaltung, sind alle Felder Pflichtfelder!</b></br></br>");
 
 		bezeichnungTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2()
 						.setTextToInfoPanelUnten(
-								"Für die Bearbeitung der Studiengangsbezeichnung bitte folgende Restriktionen beachten:"
-										+ "</br>Viele bunte Smarties"
-										+ "</br>Viele bunte Smarties");
+								"<b></br>Für die Bearbeitung der Studiengangsbezeichnung bitte folgende Restriktionen beachten:</b>"
+										+ "</br>Die Bezeichnung muss mindestens aus 5 Buchstaben  bestehen!"
+										+ "</br>Bsp. Musik");
+									
 			}
 		});
 
@@ -187,9 +190,11 @@ public class StudiengangForm extends VerticalPanel {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2()
 						.setTextToInfoPanelUnten(
-								"Für die Bearbeitung der Kapazität eines Studiengangs bitte folgende Restriktionen beachten:"
-										+ "</br>Viele bunte Smarties"
-										+ "</br>Viele bunte Smarties");
+								"<b></br>Für die Bearbeitung des Kürzels eines Studienganges bitte folgende Restriktionen beachten:</b>"
+										+ "</br>Das Kürzel muss anfangs 2 bis 4 Großbuchstaben enthalten und darf am Ende eine Zahl von"
+										+ "1 bis 20 mit vorhergehendem Bindestrich enthalten! Umlaute sind nicht gestattet!"
+										+ "</br>Bsp. SE-2");
+
 			}
 		});
 

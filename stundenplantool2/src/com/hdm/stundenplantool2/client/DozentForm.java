@@ -333,15 +333,15 @@ public class DozentForm extends VerticalPanel {
 				.getStundenplantool2()
 				.setTextToInfoPanelOben(
 						"<b><u>Anleitung: </u></b></br>"
-								+ "Hier können Sie eine/ n neue/ n Dozentin/ Dozenten und deren/ desen Lehrveranstaltungen anlegen."
+								+ "Hier können Sie eine/ n Dozentin/ Dozenten und deren/ dessen Lehrveranstaltungen anlegen."
 								+ "</br><b>Alle Felder sind Pflichtfelder!</b>");
+		
 		
 		vornameTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2()
 						.setTextToInfoPanelUnten(
 								"<b></br>Für die Bearbeitung des Vornamen einer/ eines Dozentin/ Dozenten bitte folgende Restriktionen beachten:</b>"
-										+"</br>"
 										+ "</br>Der Vorname darf keine Zahlen und Sonderzeichen enthalten und nicht mit einem Leerzeichen beginnen!"
 										+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich.</br>Bsp. Karl-Heinz");
 			}
@@ -352,7 +352,6 @@ public class DozentForm extends VerticalPanel {
 				dtvm.getStundenplantool2()
 						.setTextToInfoPanelUnten(
 								"<b></br>Für die Bearbeitung des Nachnamen einer/ eines Dozentin/ Dozenten bitte folgende Restriktionen beachten:</b>"
-										+ "</br>"
 										+ "</br>Der Nachname darf keine Zahlen und Sonderzeichen enthalten und nicht mit einem Leerzeichen beginnen!"
 										+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich.</br>Bsp. Häfner-Reuss");
 			}
@@ -363,7 +362,6 @@ public class DozentForm extends VerticalPanel {
 				dtvm.getStundenplantool2()
 						.setTextToInfoPanelUnten(
 								"<b></br>Für die Bearbeitung der Personalnummer einer/ eines Dozentin/ Dozenten bitte folgende Restriktionen beachten:</b>"
-										+"</br>"
 										+ "</br>Die Personalnummer darf nur Zahlen von 0-9 enthalten und muss 5-stellig sein!</br>Bsp. 12345");
 			}
 		});

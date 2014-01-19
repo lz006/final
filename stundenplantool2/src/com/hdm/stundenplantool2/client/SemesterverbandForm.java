@@ -103,15 +103,20 @@ public class SemesterverbandForm extends VerticalPanel {
 
 	void setInfoText() {
 		this.dtvm.getStundenplantool2().setTextToInfoPanelOben(
-				"Anleitung: </br>" + "Hier können Sie viele bunte Dinge tun.");
+				"<b><u>Anleitung: </u></b></br>"
+						+ "Hier können Sie einen Semesterverband anlegen/ ändern."
+						+ "</br><b>Alle Felder sind Pflichtfelder!</b>");
 
 		jahrgangTextBox.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2()
 						.setTextToInfoPanelUnten(
-								"Für die Bearbeitung der Eintrittsjahrgangs eines Semesterverbands bitte folgende Restriktionen beachten:"
-										+ "</br>Viele bunte Smarties"
-										+ "</br>Viele bunte Smarties");
+								"<b></br>Für die Bearbeitung des Eintrittsjahrganges eines Semesterverbandes bitte folgende Restriktionen beachten:</b>"
+										+ "</br>Der Jahrgang muss mit „SS“ oder „WS“ beginnen, gefolgt von einer Jahreszahl aus dem 21. Jahrhundert, ohne Leerzeichen dazwischen! Bsp.SS2014"
+										+ "</br>Der Jahrgang ergibt sich aus dem Startsemester (SS für Sommersemester/ WS für Wintersemester), sowie dem aktuellen Jahr!"
+										+ "</br>Bei SS reicht die Jahreszahl aus! Bsp. SS2014"
+										+ "</br>Bei WS muss der Jahreswechsel angegeben werden!"
+										+ "</br>Bsp. WS2014/15");
 			}
 		});
 
@@ -119,9 +124,8 @@ public class SemesterverbandForm extends VerticalPanel {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2()
 						.setTextToInfoPanelUnten(
-								"Für die Bearbeitung der Studentenanzahl eines Semesterverbands bitte folgende Restriktionen beachten:"
-										+ "</br>Viele bunte Smarties"
-										+ "</br>Viele bunte Smarties");
+								"<b></br>Für die Bearbeitung der Studentenanzahl eines Semesterverbandes bitte folgende Restriktionen beachten:</b>"
+										+ "</br>Die Anzahl Studenten darf nicht 0 und maximal 999 sein!");
 			}
 		});
 	}

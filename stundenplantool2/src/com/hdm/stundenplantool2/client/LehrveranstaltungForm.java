@@ -283,15 +283,22 @@ public class LehrveranstaltungForm extends VerticalPanel {
 
 	void setInfoText() {
 		this.dtvm.getStundenplantool2().setTextToInfoPanelOben(
-				"<b><br>Anleitung: </br>" + "Hier können Sie eine neue Lehrveranstaltung anlegen mit unterrichtenden Dozenten und den Studiengängen anlegen.</b>");
+				"<b><u>Anleitung: </u></b></br>"
+						+ "Hier können Sie eine Lehrveranstaltung anlegen/ ändern."										
+						+ "</br>"
+						+ "</br>Eine Dozentin/ ein Dozent muss einer Lehrveranstaltung nicht zwangsläufig zugewiesen werden!"
+						+ "</br>"
+						+ "</br>Einer Lehrveranstaltung muss <b>mindestens ein</b> Studiengang zugewiesen werden!"
+						+ "</br>"
+						+ "</br><b>Außer der Angabe einer Dozentin/ eines Dozenten, sind alle Felder Pflichtfelder!</b>");
 
 		lvBezeichnungTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2()
 						.setTextToInfoPanelUnten(
-								"Für die Bearbeitung der Bezeichnung einer Lehrveranstaltung bitte folgende Restriktionen beachten:"
-										+ "</br>Viele bunte Smarties"
-										+ "</br>Viele bunte Smarties");
+								"<b></br>Für die Bearbeitung der Lehrveranstaltungsbezeichnung bitte folgende Restriktionen beachten:</b>"
+										+ "</br>Die Bezeichnung darf nicht mit einem Sonderzeichen, einem Leerzeichen oder einer Zahl beginnen!"
+										+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich am Ende der Bezeichnung, gefolgt von einer Zahl!</br>Bsp. Softwareentwicklung-2");
 			}
 		});
 	}

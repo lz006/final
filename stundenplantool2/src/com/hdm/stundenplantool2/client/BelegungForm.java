@@ -2163,9 +2163,12 @@ public class BelegungForm extends VerticalPanel {
 
 	void setInfoText() {
 		this.dtvm.getStundenplantool2().setTextToInfoPanelOben(
-				"<b>Anleitung: </b></br>"
-						+ "Hier können Sie viele bunte Dinge tun.");
-
+				"<b><u>Anleitung: </u></b></br>"
+						+ "Hier können Sie einen neue Belegung anlegen."
+						+ "</br><b>Alle Felder sind Pflichtfelder!</b>"
+						+ "</br>"
+						+ "</br>Zu einer Belegung können mehrere Semesterverbände"
+						+ "hinzugefügt werden!");
 	}
 
 }
