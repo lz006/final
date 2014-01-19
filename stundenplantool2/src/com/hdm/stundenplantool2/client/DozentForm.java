@@ -78,28 +78,22 @@ public class DozentForm extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				aendernButton.setEnabled(false);
 				dozentLoeschenButton.setEnabled(false);
-				DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",
-						"wait");
-				verwaltung.loeschenDozent(shownDozent,
-						new AsyncCallback<Void>() {
-							public void onFailure(Throwable caught) {
-								DOM.setStyleAttribute(
-										RootPanel.getBodyElement(), "cursor",
-										"default");
-								Window.alert(caught.getMessage());
-								aendernButton.setEnabled(true);
-								dozentLoeschenButton.setEnabled(true);
-							}
+				DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"wait");
+				verwaltung.loeschenDozent(shownDozent, new AsyncCallback<Void>() {
+					public void onFailure(Throwable caught) {
+						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"default");
+						Window.alert(caught.getMessage());
+						aendernButton.setEnabled(true);
+						dozentLoeschenButton.setEnabled(true);
+					}
 
-							public void onSuccess(Void result) {
-								DOM.setStyleAttribute(
-										RootPanel.getBodyElement(), "cursor",
-										"default");
-								dtvm.loeschenDozent(shownDozent);
-								Window.alert("Dozent wurde gelöscht");
-								clearForm();
-							}
-						});
+					public void onSuccess(Void result) {
+						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"default");
+						dtvm.loeschenDozent(shownDozent);
+						Window.alert("Dozent wurde gelöscht");
+						clearForm();
+					}
+				});
 
 			}
 		});
@@ -108,21 +102,20 @@ public class DozentForm extends VerticalPanel {
 		dozentAnlegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				dozentAnlegenButton.setEnabled(false);
-				verwaltung.anlegenDozent(vornameTb.getText(),
-						nachnameTb.getText(), personalNummerTb.getText(),
+				verwaltung.anlegenDozent(vornameTb.getText(),nachnameTb.getText(), personalNummerTb.getText(),
 						LVvonNeuerDozent, new AsyncCallback<Dozent>() {
-							public void onFailure(Throwable caught) {
-								Window.alert(caught.getMessage());
-								dozentAnlegenButton.setEnabled(true);
-							}
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+						dozentAnlegenButton.setEnabled(true);
+					}
 
-							public void onSuccess(Dozent result) {
-								dtvm.addDozent(result);
-								clearForm();
-								Window.alert("Dozent wurde angelegt");
-								dozentAnlegenButton.setEnabled(true);
-							}
-						});
+					public void onSuccess(Dozent result) {
+						dtvm.addDozent(result);
+						clearForm();
+						Window.alert("Dozent wurde angelegt");
+						dozentAnlegenButton.setEnabled(true);
+					}
+		});
 			}
 		});
 

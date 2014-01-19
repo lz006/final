@@ -68,8 +68,6 @@ public interface VerwaltungAsync {
 
 	void loeschenDozent(Dozent dozent, AsyncCallback<Void> callback) throws RuntimeException;
 
-	void loeschenZeitslot(Zeitslot zeitslot, AsyncCallback<Void> callback) throws IllegalArgumentException;
-
 	void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung, AsyncCallback<Void> callback) throws IllegalArgumentException;
 
 	void loeschenBelegungen(Belegung belegung, Semesterverband semesterverband, AsyncCallback<Void> callback) throws IllegalArgumentException;

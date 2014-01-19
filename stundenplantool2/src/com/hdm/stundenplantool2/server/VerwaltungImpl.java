@@ -10,64 +10,222 @@ import com.hdm.stundenplantool2.shared.Verwaltung;
 import com.hdm.stundenplantool2.shared.bo.*;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+/**
+ * <p>
+ * Implementierungsklasse des Interface <code>Verwaltung</code>. Diese
+ * Klasse ist <em>die</em> Klasse, die neben {@link ReportImpl}
+ * sämtliche Applikationslogik (oder engl. Business Logic) aggregiert. Sie ist
+ * wie eine Spinne, die sämtliche Zusammenhänge in ihrem Netz (in unserem Fall
+ * die Daten der Applikation) überblickt und für einen geordneten Ablauf und
+ * dauerhafte Konsistenz der Daten und Abläufe sorgt.
+ * </p>
+ * <p>
+ * Die Applikationslogik findet sich in den Methoden dieser Klasse. Jede dieser
+ * Methoden kann als <em>Transaction Script</em> bezeichnet werden. Dieser Name
+ * lässt schon vermuten, dass hier analog zu Datenbanktransaktion pro
+ * Transaktion gleiche mehrere Teilaktionen durchgeführt werden, die das System
+ * von einem konsistenten Zustand in einen anderen, auch wieder konsistenten
+ * Zustand überführen. Wenn dies zwischenzeitig scheitern sollte, dann ist das
+ * jeweilige Transaction Script dafür verwantwortlich, eine Fehlerbehandlung
+ * durchzuführen.
+ * </p>
+ * <p>
+ * Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Dies
+ * sind:
+ * <ol>
+ * <li>{@link Verwaltung}: Dies ist das <em>lokale</em> - also
+ * Server-seitige - Interface, das die im System zur Verfügung gestellten
+ * Funktionen deklariert.</li>
+ * <li>{@link VerwaltungAsync}: <code>VerwaltungImpl</code> und
+ * <code>Verwaltung</code> bilden nur die Server-seitige Sicht der
+ * Applikationslogik ab. Diese basiert vollständig auf synchronen
+ * Funktionsaufrufen. Wir müssen jedoch in der Lage sein, Client-seitige
+ * asynchrone Aufrufe zu bedienen. Dies bedingt ein weiteres Interface, das in
+ * der Regel genauso benannt wird, wie das synchrone Interface, jedoch mit dem
+ * zusätzlichen Suffix "Async". Es steht nur mittelbar mit dieser Klasse in
+ * Verbindung. Die Erstellung und Pflege der Async Interfaces wird durch das
+ * Google Plugin semiautomatisch unterstützt. Weitere Informationen unter
+ * {@link VerwaltungAsync}.</li>
+ * <li> {@link RemoteServiceServlet}: Jede Server-seitig instantiierbare und
+ * Client-seitig über GWT RPC nutzbare Klasse muss die Klasse
+ * <code>RemoteServiceServlet</code> implementieren. Sie legt die funktionale
+ * Basis für die Anbindung von <code>VerwaltungImpl</code> an die Runtime
+ * des GWT RPC-Mechanismus.</li>
+ * </ol>
+ * </p>
+ * <p>
+ * <b>Wichtiger Hinweis:</b> Diese Klasse bedient sich sogenannter
+ * Mapper-Klassen. Sie gehören der Datenbank-Schicht an und bilden die
+ * objektorientierte Sicht der Applikationslogik auf die relationale
+ * organisierte Datenbank ab.
+ * </p>
+ * <p>
+ * Beachten Sie, dass sämtliche Methoden, die mittels GWT RPC aufgerufen werden
+ * können ein <code>throws RuntimeException</code> in der
+ * Methodendeklaration aufweisen. Diese Methoden dürfen also Instanzen von
+ * {@link RuntimeException} auswerfen. Mit diesen Exceptions können z.B.
+ * Probleme auf der Server-Seite in einfacher Weise auf die Client-Seite
+ * transportiert und dort individuell behandelt werden.
+ * 
+ * @see BankAdministration
+ * @see BankAdministrationAsync
+ * @see RemoteServiceServlet
+ * @author Thies, Moser, Sonntag, Zanella
+ * @version 1
+ */
+
 @SuppressWarnings("serial")
 public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	
+	/**
+	   * Referenz auf den bereits instantiierten DatenbankMapper, der Belegungsobjekte 
+	   * mit der Datenbank abgleicht.
+	   */
 	public BelegungMapper belegungMapper = BelegungMapper.belegungMapper();
+	
+	/**
+	   * Referenz auf den bereits instantiierten DatenbankMapper, der Dozentobjekte 
+	   * mit der Datenbank abgleicht.
+	   */
 	public DozentMapper dozentMapper = DozentMapper.dozentMapper();
+	
+	/**
+	   * Referenz auf den bereits instantiierten DatenbankMapper, der Lehrveranstaltungsobjekte 
+	   * mit der Datenbank abgleicht.
+	   */
 	public LehrveranstaltungMapper lehrveranstaltungMapper = LehrveranstaltungMapper.lehrveranstaltungMapper();
+	
+	/**
+	   * Referenz auf den bereits instantiierten DatenbankMapper, der Raumobjekte 
+	   * mit der Datenbank abgleicht.
+	   */
 	public RaumMapper raumMapper = RaumMapper.raumMapper();
+	
+	/**
+	   * Referenz auf den bereits instantiierten DatenbankMapper, der Semesterverbandobjekte 
+	   * mit der Datenbank abgleicht.
+	   */
 	public SemesterverbandMapper semesterverbandMapper = SemesterverbandMapper.semesterverbandMapper();
+	
+	/**
+	   * Referenz auf den bereits instantiierten DatenbankMapper, der Studiengangobjekte 
+	   * mit der Datenbank abgleicht.
+	   */
 	public StudiengangMapper studiengangMapper= StudiengangMapper.studiengangMapper();
+	
+	/**
+	   * Referenz auf den bereits instantiierten DatenbankMapper, der Zeitslotobjekte 
+	   * mit der Datenbank abgleicht.
+	   */
 	public ZeitslotMapper zeitslotMapper = ZeitslotMapper.zeitslotMapper();
 
-	// ------------------------------------------------------------------------------------------------------------------------------------
-	
-	
-	public VerwaltungImpl getVerwaltungImpl() {
-		return this;
-	}
-	
-	// ------------------------------------------------------------------------------------------------------------------------------------
 	
 	/*
-	 * Auslesen der Business-Objekte ---------------------------------------------------------------------------------------------------------------------------
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Beginn: Methoden um dem Client die geforderten BusinessObjects zu übermitteln
+	 * ***********************************************************************************************
 	 */
 	
+	/**
+	 * Methode um alle Semesterverbände mittels einem Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @return	Vector mit Semesterverbänden
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Semesterverband> auslesenAlleSemesterverbaende() throws RuntimeException {
 		return semesterverbandMapper.findAll(false);
 	}
 	
+	/**
+	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts mittels einem 
+	 * Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
+	 * @return	Vector mit Semesterverbänden
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Semesterverband> auslesenSemesterverbaendeNachStudiengang(Studiengang sg) throws RuntimeException {
 		return semesterverbandMapper.findByStudiengang(sg, false);
 	}
 	
+	/**
+	 * Methode um einen Semesterverband erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Semesterverband-Objekt welches erneut ausgelesen werden sollen
+	 * @return	Vector mit einem Semesterverband
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Semesterverband> auslesenSemesterverband(Semesterverband sv) throws RuntimeException {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(sv.getId());
 		return semesterverbandMapper.findByKey(vi, false);
 	}
 		
+	/**
+	 * Methode um alle Dozenten mittels einem Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @return	Vector mit Dozenten
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Dozent> auslesenAlleDozenten() throws RuntimeException {
 		return dozentMapper.findAll(false);
 	}
 	
+	/**
+	 * Methode um alle Dozenten anhand eines Lehrveranstaltung-Objekts mittels einem 
+	 * Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Lehrveranstaltung-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
+	 * @return	Vector mit Dozenten
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Dozent> auslesenDozentenNachLV(Lehrveranstaltung lv) throws RuntimeException {
 		return dozentMapper.findByLV(lv, false);
 	}
 	
+	/**
+	 * Methode um alle verfügbaren Dozenten anhand Zeitslot-Objekts mittels einem 
+	 * Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Zeitslot-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
+	 * @return	Vector mit Dozenten
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Dozent> auslesenDozentenNachZeitslot(Zeitslot lv) throws RuntimeException {
+		
+		// Zuerst werden alle Belegungen die an dem gewünschten Zeitslot stattfiniden geladen
 		Vector<Belegung> zeitslotBelegungen = belegungMapper.findByZeitslot(lv);
+		
+		// Dann werden alle erfassten Dozenten geladen
 		Vector<Dozent> alleDozenten = dozentMapper.findAll(false);
 		
+		/* 
+		 * Erstellung eines Containers, welcher die Dozenten aufnimmt, welche in den geladenen
+		 * Belegungen an keiner Stelle eingeteilt sind
+		 */		
 		Vector<Dozent> freieDozenten = new Vector<Dozent>();
 		
+		// Für jeden Dozent wird geschaut...
 		for (int i = 0; i < alleDozenten.size(); i++) {
 			boolean check1 = true;
 			if (zeitslotBelegungen != null) {
+				// ...ob dieser in irgend einer der geladenen Belegungen... 
 				for (int j = 0; j < zeitslotBelegungen.size(); j++) {
 					boolean check2 = true;
 					if (zeitslotBelegungen.elementAt(j).getDozenten() != null) {
+						// ... alleine oder zusammen mit anderen Dozenten für die Vorlesung vorgesehen ist
 						for (int k = 0; k < zeitslotBelegungen.elementAt(j).getDozenten().size(); k++) {
 							if(alleDozenten.elementAt(i).getId() == zeitslotBelegungen.elementAt(j).getDozenten().elementAt(k).getId()) {
 								check1 = false;
@@ -94,32 +252,83 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 	}
 	
+	/**
+	 * Methode um einen Dozent erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Dozent-Objekt welches erneut ausgelesen werden sollen
+	 * @return	Vector mit einem Dozenten
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public Vector<Dozent> auslesenDozent(Dozent dozent) throws RuntimeException {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(dozent.getId());
 		return dozentMapper.findByKey(vi, true);
 	}
 	
+	/**
+	 * Methode um alle Zeitslots mittels einem Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @return	Vector mit Zeitslots
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Zeitslot> auslesenAlleZeitslots() throws RuntimeException {
 		return zeitslotMapper.findAll();
 	}
 	
+	/**
+	 * Methode um alle Lehrveranstaltungen mittels einem Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @return	Vector mit Lehrveranstaltungen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Lehrveranstaltung> auslesenAlleLehrveranstaltungen() throws RuntimeException {
 		return lehrveranstaltungMapper.findAll(false);
 	}
 	
+	/**
+	 * Methode um eine Lehrveranstaltung erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Lehrveranstaltung-Objekt welches erneut ausgelesen werden sollen
+	 * @return	Vector mit einer Lehrveranstaltung
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public Vector<Lehrveranstaltung> auslesenLehrveranstaltung(Lehrveranstaltung lv) throws RuntimeException {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(lv.getId());
 		return lehrveranstaltungMapper.findByKey(vi, true);
 	}
 	
+	/**
+	 * Methode um alle Lehrveranstaltungen anhand eines Semesterverband-Objekts mittels einem 
+	 * Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Semesterverband-Objekt und Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen 
+	 * 			ausgelesen werden sollen
+	 * @return	Vector mit Lehrveranstaltungen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public Vector<Lehrveranstaltung> auslesenLehrveranstaltungenNachSV(Semesterverband sv, Studiengang sg) throws RuntimeException {
+		
+		// Laden aller Lehrveranstaltungen, welche für den gemeinten Studiengang vorgesehen sind
 		Vector<Lehrveranstaltung> tempLVVector = lehrveranstaltungMapper.findByStudiengang(sg, false);
+		
+		/* 
+		 * Container um die Lehrveranstaltungen aufzunehmen welche zum Studiensemester bzw. Jahrgang des gemeinten
+		 * Semesterverbandes passen
+		 */
 		Vector<Lehrveranstaltung> ergebnisLVVector = new Vector<Lehrveranstaltung>();
 		
-		// Aussortieren der Lehrveranstaltungen, welche mit Studiensemester des Semesterverbands vereinbar sind
-		
+		// Aussortieren der Lehrveranstaltungen, welche mit Studiensemester des Semesterverbands vereinbar sind		
 		for (int i = 0; i < tempLVVector.size(); i++) {
 			
 			Integer semesterAlt = null;
@@ -148,63 +357,56 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			int jahresDiff = aktJahr - semJahr;
 			
 			int[] calendar = {1,2,3,4,5,6,7,8,9,10,11,12};
-
 			
 			
-			if (!(aktMonat < semMonat && aktJahr <= semJahr)) {
+			if (!(aktMonat < semMonat && aktJahr <= semJahr)) {				
+			
+				int zaehler = 0;
 				
-			
-			int zaehler = 0;
-			
-			for (int j = semMonat-1; j < calendar.length; j++ ) {
-				
-				zaehler++;
-				
-				if((calendar[j] == aktMonat) && (jahresDiff == 0)) {
-					break;
-				}
-				if(calendar[j] == 12) {
-					j = -1;
-					jahresDiff--;
-				}
-			}
-			
-			int studienSem = zaehler / 6;
-			int studienSemMonat = zaehler;
-			
-			if (zaehler != 0) {
-				studienSemMonat = zaehler % 6;
-			}
-			
-			
-
-			
-			if (studienSem == 0) {
-				semesterAlt = 1;
-				semesterNeu = 0;
-			}
-			
-			else if (studienSemMonat == 0) {
-				semesterAlt = studienSem;
-				semesterNeu = studienSem + 1;
-			}
-			
+				for (int j = semMonat-1; j < calendar.length; j++ ) {
 					
-			else {
-				semesterAlt = studienSem + 1;
-			}
+					zaehler++;
+					
+					if((calendar[j] == aktMonat) && (jahresDiff == 0)) {
+						break;
+					}
+					if(calendar[j] == 12) {
+						j = -1;
+						jahresDiff--;
+					}
+				}
+				
+				int studienSem = zaehler / 6;
+				int studienSemMonat = zaehler;
+				
+				if (zaehler != 0) {
+					studienSemMonat = zaehler % 6;
+				}
+				
+				if (studienSem == 0) {
+					semesterAlt = 1;
+					semesterNeu = 0;
+				}
+				
+				else if (studienSemMonat == 0) {
+					semesterAlt = studienSem;
+					semesterNeu = studienSem + 1;
+				}			
+						
+				else {
+					semesterAlt = studienSem + 1;
+				}
 			}
 			else {
 				semesterAlt = 1;
-			}
-		
+			}		
 		
 			if (semesterNeu == null || semesterNeu == 0) {
 				if (tempLVVector.elementAt(i).getStudiensemester() != semesterAlt) {
 					continue;
 				}
 			}
-		
+			
 			else if (semesterAlt == null || semesterAlt == 0) {
 				if (tempLVVector.elementAt(i).getStudiensemester() != semesterNeu) {
 					continue;
@@ -212,7 +414,8 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}		
 		
 			else {
-				if ((tempLVVector.elementAt(i).getStudiensemester() != semesterAlt) && (tempLVVector.elementAt(i).getStudiensemester() != semesterNeu)) {
+				if ((tempLVVector.elementAt(i).getStudiensemester() != semesterAlt) && 
+						(tempLVVector.elementAt(i).getStudiensemester() != semesterNeu)) {
 					continue;
 				}
 			}
@@ -220,78 +423,176 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		
 		if (ergebnisLVVector.size() <= 0) {
-			throw new RuntimeException("Für den gewählten Studiengang existiert noch keine passende Lehrveranstaltung.\nIn Folge dessen existieren auch keine Belegungen bzw. können auch nicht angelegt werden");
+			throw new RuntimeException("Für den gewählten Studiengang existiert noch keine passende Lehrveranstaltung.\n"
+					+ "In Folge dessen existieren auch keine Belegungen bzw. können auch nicht angelegt werden");
 		}
 		return ergebnisLVVector;
 	} 
 	
+	/**
+	 * Methode um alle Lehrveranstaltungen anhand eines Studiengang-Objekts mittels einem 
+	 * Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen ausgelesen werden sollen
+	 * @return	Vector mit Lehrveranstaltungen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public Vector<Lehrveranstaltung> auslesenLehrveranstaltungenNachSG(Studiengang sg) throws RuntimeException {
 		return lehrveranstaltungMapper.findByStudiengang(sg, false);
 	}
 	
+	/**
+	 * Methode um alle Belegungen mittels einem Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @return	Vector mit Belegungen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Belegung> auslesenAlleBelegungen() throws RuntimeException {
 		return belegungMapper.findAll(false);
 	}
 	
+	/**
+	 * Methode um eine Belegung erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Belegung-Objekt welches erneut ausgelesen werden sollen
+	 * @return	Vector mit einer Belegung
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public Vector<Belegung> auslesenBelegung(Belegung belegung) throws RuntimeException {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(belegung.getId());
 		return belegungMapper.findByKey(vi, true);
 	}
 	
+	/**
+	 * Methode um alle Belegungen anhand eines Semesterverband-Objekts mittels einem 
+	 * Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Semesterverband-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen
+	 * @return	Vector mit Belegungen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public Vector<Belegung> auslesenBelegungenNachSV(Semesterverband semesterverband) throws RuntimeException {
 		return belegungMapper.findBySemesterverband(semesterverband);
 	}
 	
+	/**
+	 * Methode um alle Studiengänge mittels einem Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @return	Vector mit Studiengängen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Studiengang> auslesenAlleStudiengaenge() throws RuntimeException {
 		return studiengangMapper.findAll(true);
 	}
 	
+	/**
+	 * Methode um einen Studiengang erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Studiengang-Objekt welches erneut ausgelesen werden sollen
+	 * @return	Vector mit einem Studiengang
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public Vector<Studiengang> auslesenStudiengang(Studiengang studiengang) throws RuntimeException {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(studiengang.getId());
 		return studiengangMapper.findByKey(vi, true);
 	}
 	
+	/**
+	 * Methode um alle Studiengänge mittels einem Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * (Diese Studiengang-Objekte enthalten keine Referenzen zu Semesterverband- und Lehrveranstaltungs-
+	 * Objekten. Diese Methode dient nur dazu um in gewissen Situationen einen Performancevorteil zu
+	 * erzielen)
+	 * 
+	 * @return	Vector mit Studiengängen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Studiengang> auslesenAlleStudiengaengeOhneSVuLV() throws RuntimeException {
 		return studiengangMapper.findAll(false);
 	}
 	
+	/**
+	 * Methode um alle Räume mittels einem Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @return	Vector mit Räumen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	public Vector<Raum> auslesenAlleRaeume() throws RuntimeException {
 		return raumMapper.findAll();
 	}
 	
+	/**
+	 * Methode um einen Raum erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Raum-Objekt welches erneut ausgelesen werden sollen
+	 * @return	Vector mit einer Belegung
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public Vector<Raum> auslesenRaum(Raum raum) throws RuntimeException {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(raum.getId());
 		return raumMapper.findByKey(vi);
 	}
 	
+	/**
+	 * Methode um alle verfügbaren Räume anhand Zeitslot-Objekts mittels einem 
+	 * Mapper-Objekt dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Zeitslot-Objekt aufgrund dessen die Räume ausgelesen werden sollen
+	 * @return	Vector mit Dozenten
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public Vector<Raum> auslesenVerfuegbareRaeumeZuZeitslotuSV(Zeitslot zeitslot, Vector<Semesterverband> sv) throws RuntimeException {
 		
+		// Zuerst werden alle Belegungen geladen
 		Vector<Belegung> tempBelegungVector = belegungMapper.findAll(false);
 		
+		// Erstellung eines Containers um alle besetzten Räume aufzunehmen
 		Vector<Raum> besetzteRaeumeVector = new Vector<Raum>();
+		
+		// Erstellung eines Containers um alle freien Räume aufzunehmen
 		Vector<Raum> freieRaeumeVector = new Vector<Raum>();
 		
-		// Errechnen der Studentenanzahl
-		
+		// Variable um die Studentenanzahl festzuhalten	
 		int studentenzahl = 0;
 		
+		// Errechnen der Studentenanzahl
 		for (Semesterverband tempSV : sv) {
 			studentenzahl = studentenzahl + tempSV.getAnzahlStudenten();
 		}
 		
-		// Auslesen aller besetzten Räume zum gewünschten Zeitslot
-		
+		// Auslesen aller besetzten Räume zum gewünschten Zeitslot		
 		for (int i = 0; i < tempBelegungVector.size(); i++) {
 			if (tempBelegungVector.elementAt(i).getZeitslot().getId() == zeitslot.getId()) {
 				besetzteRaeumeVector.add(tempBelegungVector.elementAt(i).getRaum());
 			}
 		}
 		
-		// Besetzte Räume und Räume deren Kapazität ausreichend für die Stundentenanzahl des gewählten Semesterverbands ist, aus allen Räumen herausfiltern
-		
+		/*
+		 *  "Besetzte Räume" und "Räume" deren Kapazität nicht ausreichend für die Stundentenanzahl des 
+		 *  gewählten Semesterverbands ist, aus allen Räumen herausfiltern		
+		 */
 		if (besetzteRaeumeVector.size() > 0) {
 			Vector<Raum> alleRaeumeVector = raumMapper.findAll();
 			System.out.println(new Date());
@@ -322,13 +623,29 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	}
 	
 	/*
-	 * Löschen der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Ende: Methoden um dem Client die geforderten BusinessObjects zu übermitteln
+	 * ***********************************************************************************************
 	 */
 	
+	/*
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Beginn: Methoden um die Löschung der vom Client übermittelten BusinessObjects 
+	 * 				durchzuführen
+	 * ***********************************************************************************************
+	 */
+	
+	/**
+	 * Methode um einen bestimmten Semesterverband zu löschen
+	 * 
+	 * @param	Semesterverband-Objekt welches gelöscht werden sollen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public void loeschenSemesterverband(Semesterverband semesterverband) throws RuntimeException {
 		
-		// Ein Semesterverband kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist
-		
+		// Ein Semesterverband kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist		
 		if (semesterverband.getBelegungen() == null) {
 			semesterverbandMapper.delete(semesterverband);
 		}
@@ -346,10 +663,17 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 	}
 	
+	/**
+	 * Methode um einen bestimmten Dozenten zu löschen
+	 * 
+	 * @param	Dozent-Objekt welches gelöscht werden sollen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public void loeschenDozent(Dozent dozent) throws RuntimeException {
 		
-		// Ein Dozent kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist
-		
+		// Ein Dozent kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist		
 		if (dozent.getBelegungen() == null) {
 			dozentMapper.delete(dozent);
 		}
@@ -358,14 +682,17 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}		
 	}
 	
-	public void loeschenZeitslot(Zeitslot zeitslot) throws RuntimeException {
-		// Das Löschen eines Zeitslots ist bis dato nicht vorgesehen Stand: 06.12.2013
-	}
-	
+	/**
+	 * Methode um einen bestimmte Lehrveranstaltung zu löschen
+	 * 
+	 * @param	Lehrveranstaltung-Objekt welches gelöscht werden sollen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
 		
-		// Ein Dozent kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist
-		
+		// Ein Dozent kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist		
 		if (lehrveranstaltung.getBelegungen() == null) {
 			lehrveranstaltungMapper.delete(lehrveranstaltung);
 		}
@@ -374,6 +701,15 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}	
 	}
 	
+	/**
+	 * Methode um eine Belegung für !einen bestimmten Semesterverband zu löschen
+	 * 
+	 * @param	Belegung-Objekt und das Semesterverband-Objekt, zudem die Referenz gelöschten werden soll bzw.
+	 * 			bei nur einem referenzierten Semesterverband wird die übwergebene Belegung gelöscht
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public void loeschenBelegungen(Belegung belegung, Semesterverband semesterverband) throws RuntimeException {
 		
 		/*
@@ -397,10 +733,17 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 	}
 	
+	/**
+	 * Methode um einen bestimmten Studiengang zu löschen
+	 * 
+	 * @param	Studiengang-Objekt welches gelöscht werden sollen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public void loeschenStudiengang(Studiengang studiengang) throws RuntimeException {
 		
-		// Ein Studiengang kann nur gelöscht werden, wenn er durch keine Lehrveranstaltungen und Semesterverbände mehr referenziert wird
-		
+		// Ein Studiengang kann nur gelöscht werden, wenn er durch keine Lehrveranstaltungen und Semesterverbände mehr referenziert wird		
 		if(studiengang.getLehrveranstaltungen() == null && studiengang.getSemesterverbaende() == null) {
 			studiengangMapper.delete(studiengang);
 		}
@@ -424,10 +767,17 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}		
 	}
 	
+	/**
+	 * Methode um einen bestimmten Raum zu löschen
+	 * 
+	 * @param	Raum-Objekt welches gelöscht werden sollen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	public void loeschenRaum(Raum raum) throws RuntimeException {
 		
-		// Ein Raum kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist
-		
+		// Ein Raum kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist		
 		if (this.belegungMapper.findByRaum(raum) == null) {
 			raumMapper.delete(raum);
 		}
@@ -437,52 +787,72 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	}
 	
 	/*
-	 * ändern der Business-Objects ---------------------------------------------------------------------------------------------------------------------------
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Ende: Methoden um die Löschung der vom Client übermittelten BusinessObjects 
+	 * 				durchzuführen
+	 * ***********************************************************************************************
 	 */
 	
+	/*
+	 * ***********************************************************************************************
+	 * ABSCHNITT, Beginn: Methoden um die vom Client gewünschten Änderungen an den BusinessObjects
+	 * 				zu bearbeiten
+	 * ***********************************************************************************************
+	 */
+	
+	/**
+	 * Methode um einen Semesterverband abgeändert mittels Mapper-Objekt in der DB zu überspeichern
+	 * 
+	 * @param	Semesterverband-Objekt welches geändert sollen
+	 * @return	Semesterverband-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Semesterverband aendernSemesterverband(Semesterverband semesterverband) throws RuntimeException {
-				
+			
+		// Prüfung ob eine Studentenazahl angegeben wurde 
 		if(new Integer(semesterverband.getAnzahlStudenten()).toString() == null || new Integer(semesterverband.getAnzahlStudenten()).toString().length() == 0) {
 			throw new IllegalArgumentException("Bitte geben Sie die Anzahl der Studenten an");
 		}
 		
+		// Prüfung ob ein Jahrgang angegeben wurde
 		if (semesterverband.getJahrgang() == null || semesterverband.getJahrgang().length() == 0) {
 			throw new IllegalArgumentException("Bitte geben Sie den Jahrgang an");
 		}
 		
+		// Erzeugung eines Integer-Vectors mit der ID des Semsterverbandes als Element...
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(semesterverband.getId());
 		
+		// ...um anschließend den ürsprünglichen Semesterverband zu laden
 		Vector<Semesterverband> altSemesterverband = semesterverbandMapper.findByKey(vi, true);
 		
 		boolean check = true;
 		
-		// Zunächst wird geprüft ob zu dem gemeinten Semesterverband Belegungen bestehen
-		
+		// Zunächst wird geprüft ob zu dem gemeinten Semesterverband Belegungen bestehen		
 		if (altSemesterverband.elementAt(0).getBelegungen() != null && altSemesterverband.elementAt(0).getBelegungen().size() > 0) {
 			check = false;
 		}
 		
-		// Prüfung ob der Studiengang geändert wurde
-		
+		// Prüfung ob der Studiengang geändert wurde		
 		if(semesterverband.getStudiengang().getId() != altSemesterverband.elementAt(0).getStudiengang().getId() && !check) {
 			throw new RuntimeException("Der Studiengang eines Semesterverbandes kann nur geändert werden wenn keine Belegungen mehr refernziert werden");
 		}
 		
-		// Prüfung ob der Jahrgang geändert wurde
-		
+		// Prüfung ob der Jahrgang geändert wurde		
 		if(!semesterverband.getJahrgang().equals(altSemesterverband.elementAt(0).getJahrgang()) && !check) {
 			throw new RuntimeException("Der Jahrgang eines Semesterverbandes kann nur geändert werden wenn keine Belegungen mehr refernziert werden");
 		}
 		
-		// Prüfung ob die Anzahl der Studenten korrekt angegeben wurde
-		
+		// Prüfung ob die Anzahl der Studenten korrekt angegeben wurde		
 		if (!new Integer(semesterverband.getAnzahlStudenten()).toString().matches("[1-9]|[1-9][0-9]|[1-9][0-9][0-9]")) {
 			throw new IllegalArgumentException("Die Anzahl der Studenten kann eine natürliche Zahl von 1 bis 999 sein.\n(Bitte auch keine führende Null angeben)");
 		}
 		
-		// Prüfen ob dieser Jahrgang in dem Studiengang bereits vorhanden ist
-		
+		// Prüfen ob dieser Jahrgang in dem Studiengang bereits vorhanden ist		
 		Vector<Semesterverband> sgNachSV = this.auslesenSemesterverbaendeNachStudiengang(semesterverband.getStudiengang());
 		
 		for (Semesterverband sv : sgNachSV) {
@@ -491,8 +861,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Prüfung ob eine neue Studentenanzahl mit bestehenden Belegungen vereinbar ist
-		
+		// Prüfung ob eine neue Studentenanzahl mit bestehenden Belegungen vereinbar ist		
 		if (!check) {
 			if (semesterverband.getAnzahlStudenten() != altSemesterverband.elementAt(0).getAnzahlStudenten()) {
 				for (Belegung belegung : altSemesterverband.elementAt(0).getBelegungen()) {
@@ -503,8 +872,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Es wird geprüft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde
-		
+		// Es wird geprüft, ob der Jahrgang semantisch und syntaktisch korrekt eingegeben wurde		
 		StringBuffer jahrgang = new StringBuffer();
 		jahrgang.append(semesterverband.getJahrgang());
 		
@@ -554,37 +922,43 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		return semesterverband;
 	}
 	
+	/**
+	 * Methode um einen Dozent abgeändert mittels Mapper-Objekt in der DB zu überspeichern
+	 * 
+	 * @param	Dozent-Objekt welches geändert werden sollen
+	 * @return	Dozent-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Dozent aendernDozent(Dozent dozent) throws RuntimeException {
 							
-		// Prüfung ob Vor- und Nachname angegeben wurden
-		
+		// Prüfung ob Vor- und Nachname angegeben wurden		
 		if ((dozent.getVorname() == null ||dozent.getVorname().length() == 0) || (dozent.getNachname() == null || dozent.getNachname().length() == 0)) {
 			throw new IllegalArgumentException("Bitte geben Sie Vor- und Nachname an");
 		}
 			
-		// Prüfung ob am Ende der Vor- oder Nachnamens ein Leerzeichen ist
-				
+		// Prüfung ob am Ende der Vor- oder Nachnamens ein Leerzeichen ist				
 		if (dozent.getVorname().substring(0, 1).equals(" ") || dozent.getVorname().lastIndexOf(" ") == dozent.getVorname().length() - 1 ||
 				dozent.getNachname().substring(0, 1).equals(" ") || dozent.getNachname().lastIndexOf(" ") == dozent.getNachname().length() - 1) {
 			throw new IllegalArgumentException("Es dürfen sich vor dem Vor-bzw.Nachname keine Leerzeichen befinden");
 		}
 		
 		
-		// Prüfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt
-				
+		// Prüfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt				
 		if (!dozent.getVorname().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*") || 
 				!dozent.getNachname().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
 			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen im Vor- bzw. Nachnamen");
 		}
 		
-		// Prüfung der Personalnummer auf fönfstellige Ziffernfolge
-		
+		// Prüfung der Personalnummer auf fünfstellige Ziffernfolge		
 		if (!new Integer(dozent.getPersonalnummer()).toString().matches("[0-9]{5}")) {
 			throw new IllegalArgumentException("Die Personalnummer ist nicht fünfstellig\noder es befinden sich darin nicht erlaubte Zeichen");
 		}
 		
-		// Prüfen ob die Personalnummer bereits vergeben ist
-		
+		// Prüfen ob die Personalnummer bereits vergeben ist		
 		Vector<Dozent> alleDozenten = this.dozentMapper.findAll(false);
 		
 		for (Dozent d : alleDozenten) {
@@ -626,8 +1000,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		/*
 		 *  Prüfwert, falls Referenzen vom Dozent auf bestimmte Lehrveranstaltungen nicht gelöscht werden können,
 		 *  da sie Belegungen mit einzig "diesem" Dozenten referenzieren -> false = kann nicht gelöscht werden
-		 */
-		
+		 */		
 		Boolean check = true;
 		
 		StringBuffer eText = new StringBuffer("Die nicht mehr gehaltenen Lehrveranstaltungen können nicht gelöscht werden.\nFolgende Belegungen müssen zuerst "
@@ -669,16 +1042,25 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 	}
 	
+	/**
+	 * Methode um eine Lehrveranstaltung abgeändert mittels Mapper-Objekt in der DB zu überspeichern
+	 * 
+	 * @param	Lehrveranstaltung-Objekt welches geändert werden sollen
+	 * @return	Lehrveranstaltung-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Lehrveranstaltung aendernLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
 		
-		// Prüfung ob min ein Studiengang angegeben wurde
-		
+		// Prüfung ob min ein Studiengang angegeben wurde		
 		if (lehrveranstaltung.getStudiengaenge() == null || lehrveranstaltung.getStudiengaenge().size() == 0) {
 			throw new IllegalArgumentException("Bitten geben Sie mindestens einen Studiengang an!");
 		}
 		
-		// Prüfen ob eine Bezeichnung angegeben wurde
-		
+		// Prüfen ob eine Bezeichnung angegeben wurde		
 		if (lehrveranstaltung.getBezeichnung() == null || lehrveranstaltung.getBezeichnung().length() == 0) {
 			throw new IllegalArgumentException("Bitten geben Sie eine Bezeichnung an!");
 		}
@@ -692,21 +1074,22 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		//Prüfung ob die Bezeichnung der Lehrveranstaltung syntaktisch korrekt ist
 		if (lehrveranstaltung.getBezeichnung().matches("[0-9]*") || lehrveranstaltung.getBezeichnung().substring(0, 1).matches("[0-9]{1}")) {
 			throw new IllegalArgumentException("Die Bezeichnung darf keine Zahl sein oder mit einer beginnen!");
-		}
-				
+		}				
 		if (lehrveranstaltung.getBezeichnung().substring(0, 1).matches("[ ]{1}") || lehrveranstaltung.getBezeichnung().substring(0, 1).matches("[/]{1}") || lehrveranstaltung.getBezeichnung().substring(0, 1).matches("[-]{1}")) {
 			throw new IllegalArgumentException("Die Bezeichnung darf mit keinem Leerzeichen oder Sonderzeichen beginnen!");
 		}
 		
-		// Prüfung ob die Bezichung mit einem Buchstabe beginnt und ob am ende nur eine Ziffer verwendet wurde
 		/*
+		 *  Prüfung ob die Bezichung mit einem Buchstabe beginnt und ob am ende nur eine Ziffer verwendet wurde
+		 *  -> Prüfung deaktiviert, da sie nicht mehr den aktuellen BusinessRules entspricht
+		 
 		if (!lehrveranstaltung.getBezeichnung().matches("[a-zA-Z]{1,30}[ ]{0,1}[0-9]{0,1}|[a-zA-Z]{1,30}[ ]{0,1}[a-zA-Z]{1,30}[ ]{0,1}[0-9]{0,1}|[a-zA-Z]{1,30}")) {
 			throw new IllegalArgumentException("Bitte beginnen Sie die Bezeichnung mit einem Buchstaben\n"
 					+ "Bitte verwenden Sie nur ein Leerzeichen in Folge\nBitte benutzen Sie nur eine Ziffer in Folge");
 		}
 		*/		
-		// Prüfung ob am Ende ein Lehrzeichen steht
-				
+		
+		// Prüfung ob am Ende ein Lehrzeichen steht				
 		if (lehrveranstaltung.getBezeichnung().lastIndexOf(" ") == lehrveranstaltung.getBezeichnung().length() - 1) {
 			throw new IllegalArgumentException("Bitte entfernen Sie alle Leerzeichen am Ende der Bezeichnung!");
 		}
@@ -716,8 +1099,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		vI.add(lehrveranstaltung.getId());
 		Vector<Lehrveranstaltung> oldLehrveranstaltung = this.lehrveranstaltungMapper.findByKey(vI, true);
 		
-		// Prüfen ob die Bezeichnung oder das Kürzel bereits vorhanden sind
-		
+		// Prüfen ob die Bezeichnung oder das Kürzel bereits vorhanden sind		
 		Vector<Lehrveranstaltung> alleLVs = this.lehrveranstaltungMapper.findAll(false);
 		
 		for (Lehrveranstaltung l : alleLVs) {
@@ -729,8 +1111,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Vector mit ID's der Studiengänge, welche nicht mehr der hier zu ändernden Lehrveranstaltung zugeordnet sind
 		Vector<Integer> tempStudiengangIDs = new Vector<Integer>();
 				
-		// Auslesen der ID's derer Studiengänge, welche nicht mehr der hier zu ändernden Lehrveranstaltung zugeordnet sind
-				
+		// Auslesen der ID's derer Studiengänge, welche nicht mehr der hier zu ändernden Lehrveranstaltung zugeordnet sind				
 		Integer a1 = null;
 		
 		if ((oldLehrveranstaltung.elementAt(0).getStudiengaenge() != null && oldLehrveranstaltung.elementAt(0).getStudiengaenge().size() > 0) &&
@@ -756,8 +1137,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		 *  Prüfwert, falls Referenzen von der Lehrveranstaltung auf bestimmte Studiengänge nicht gelöscht werden können,
 		 *  da Semesterverbände dieser Studiengänge eine Belegung mit "dieser" Lehrveranstaltung referenzieren
 		 *  -> false = kann nicht gelöscht werden
-		 */
-		
+		 */		
 		Boolean check1 = true;
 		
 		StringBuffer eText1 = new StringBuffer("Verbindungen zu Studiengängen können nicht entfernt werden.\nFolgende Belegungen müssen zuerst "
@@ -798,8 +1178,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Vector mit ID's der Dozenten, welche nicht mehr der Lehrveranstaltung zugeordnet sein sollen
 		Vector<Integer> tempDozentIDs = new Vector<Integer>();
 				
-		// Auslesen der ID's derer Dozenten, welche nicht mehr der Lehrveranstaltung zugeordnet sein sollen
-				
+		// Auslesen der ID's derer Dozenten, welche nicht mehr der Lehrveranstaltung zugeordnet sein sollen				
 		Integer a2 = null;
 		
 		if (oldLehrveranstaltung.elementAt(0).getDozenten() != null && oldLehrveranstaltung.elementAt(0).getDozenten().size() > 0) {
@@ -831,8 +1210,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		/*
 		 *  Prüfwert, falls Referenzen vom Dozent auf bestimmte Lehrveranstaltungen nicht gelöscht werden können,
 		 *  da sie Belegungen mit einzig "diesem" Dozenten referenzieren -> false = kann nicht gelöscht werden
-		 */
-				
+		 */				
 		Boolean check2 = true;
 				
 		StringBuffer eText2 = new StringBuffer("Die Verbindung zu bestimmten Dozenten kann nicht gelöscht werden.\nFolgende Belegungen müssen zuerst "
@@ -886,16 +1264,25 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 	}
 	
+	/**
+	 * Methode um einee Belegung abgeändert mittels Mapper-Objekt in der DB zu überspeichern
+	 * 
+	 * @param	Belegung-Objekt welches geändert werden sollen
+	 * @return	Belegung-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Belegung aendernBelegung(Belegung belegung) throws RuntimeException {
 		
-		// Prüfung ob ein Dozent ausgwählt wurde
-		
+		// Prüfung ob ein Dozent ausgwählt wurde		
 		if(belegung.getDozenten().size() <= 0) {
 			throw new RuntimeException("Bitte fügen Sie einen Dozenten hinzu!");
 		}
 		
-		// Prüfung ob ein Dozent mehrmals ausgewählt wurde
-		
+		// Prüfung ob ein Dozent mehrmals ausgewählt wurde		
 		if(belegung.getDozenten().size() > 1) {
 			for (int i = 0; i < belegung.getDozenten().size(); i++) {
 				int multiplzitaetDozent = 0;
@@ -910,8 +1297,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 				
-		// Prüfung ob das Studiensemester der gewünschten Lehrveranstaltung mit dem des Semesterverbandsvereinbar ist
-		
+		// Prüfung ob das Studiensemester der gewünschten Lehrveranstaltung mit dem des Semesterverbandsvereinbar ist		
 		Integer semesterAlt = null;
 		Integer semesterNeu = null;
 		
@@ -945,47 +1331,43 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 
 			
 			
-			if (!(aktMonat < semMonat && aktJahr <= semJahr)) {
+			if (!(aktMonat < semMonat && aktJahr <= semJahr)) {				
 				
-				
-			int zaehler = 0; 
-		
-			for (int j = semMonat-1; j < calendar.length; j++ ) {
-				
-				zaehler++;
-				
-				if((calendar[j] == aktMonat) && (jahresDiff == 0)) {
-					break;
-				}
-				if(calendar[j] == 12) {
-					j = -1;
-					jahresDiff--;
-				}
-			}
-
-			int studienSem = zaehler / 6;
-			int studienSemMonat = zaehler;
+				int zaehler = 0; 
 			
-			if (zaehler != 0) {
-				studienSemMonat = zaehler % 6;
-			}
-			
-			
+				for (int j = semMonat-1; j < calendar.length; j++ ) {
 					
-			if (studienSem == 0) {
-				semesterAlt = 1;
-				semesterNeu = 0;
-			}
-			
-			else if (studienSemMonat == 0) {
-				semesterAlt = studienSem;
-				semesterNeu = studienSem + 1;
-			}
-			
+					zaehler++;
 					
-			else {
-				semesterAlt = studienSem + 1;
-			}
+					if((calendar[j] == aktMonat) && (jahresDiff == 0)) {
+						break;
+					}
+					if(calendar[j] == 12) {
+						j = -1;
+						jahresDiff--;
+					}
+				}
+	
+				int studienSem = zaehler / 6;
+				int studienSemMonat = zaehler;
+				
+				if (zaehler != 0) {
+					studienSemMonat = zaehler % 6;
+				}				
+						
+				if (studienSem == 0) {
+					semesterAlt = 1;
+					semesterNeu = 0;
+				}
+				
+				else if (studienSemMonat == 0) {
+					semesterAlt = studienSem;
+					semesterNeu = studienSem + 1;
+				}			
+						
+				else {
+					semesterAlt = studienSem + 1;
+				}
 			}
 			else {
 				semesterAlt = 1;
@@ -1011,10 +1393,12 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		}
 				
-		// Prüfen ob der Raum genügend Kapazität aufweist för die referenzierten Semesterverbände
 		
-		/*
-		 * Prüfung deaktiviert, da nun nur Räume mit genögend Kapazität dem Client zur Verfügung gestellt werden
+		/* Prüfen ob der Raum genügend Kapazität aufweist für die referenzierten Semesterverbände
+		 * 
+		 * -> Prüfung deaktiviert, da nun nur Räume mit genügend Kapazität dem Client zur Verfügung gestellt werden,
+		 * bei einem verteilten Arbeiten muss diese Prüfung wieder aktiviert werden um eine Konsistenz zu gewährleisten,
+		 * bei nur einem angebunden Client dient die Deaktivierung einer besseren Performance
 		 * Stand 06.01.2014
 		 *
 		
@@ -1031,6 +1415,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		/*
 		 * Prüfung deaktiviert, da nun nur freie Räume dem Client zur Verfügung gestellt werden
+		 * Bei einem verteilten Arbeiten muss diese Prüfung wieder aktiviert werden um eine Konsistenz zu gewährleisten.
 		 * Stand: 05.01.2013
 		
 		Vector<Belegung> raumBelegungen = this.belegungMapper.findByRaum(belegung.getRaum());
@@ -1043,10 +1428,9 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		*/
 		
-		// Prüfen ob der Semesterverband zum gewünschten Zeitslot verfügbar ist
-		
 		/*
-		 * Prüfung deaktiviert, da Zeitslots vom Client nicht gewöhlt werden können
+		 * Prüfen ob der Semesterverband zum gewünschten Zeitslot verfügbar ist	
+		 * Prüfung deaktiviert, da Zeitslots vom Client nicht gewählt werden können
 		 * Stand: 05.01.2013
 		
 		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
@@ -1058,11 +1442,11 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		*/
-		
-		// Pröfen ob der Dozent zum gewönschten Zeitslot verfögbar ist
-		
+
 		/*
+		 * Prüfen ob der Dozent zum gewönschten Zeitslot verfögbar ist
 		 * Prüfung deaktiviert, da nun nur freie Dozenten dem Client zur Verfügung gestellt werden
+		 * Bei einem verteilten Arbeiten muss diese Prüfung wieder aktiviert werden um eine Konsistenz zu gewährleisten.
 		 * Stand 06.01.2014
 		
 		for (int i = 0; i < belegung.getDozenten().size(); i++) {			
@@ -1080,8 +1464,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(belegung.getLehrveranstaltung().getId());
 		
-		// Prüfung ob sich die Lehrveranstaltung und die Semesterverbände im gleichen Studiengang befinden
-		
+		// Prüfung ob sich die Lehrveranstaltung und die Semesterverbände im gleichen Studiengang befinden		
 		Lehrveranstaltung tempLehrveranstaltung = this.lehrveranstaltungMapper.findByKey(vi, true).elementAt(0);
 		
 		boolean check = false;
@@ -1105,8 +1488,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new RuntimeException("Diese Lehrveranstaltung und dieser Semesterverband befinden sich nicht im gleichen Studiengang");
 		}
 			
-		// Prüfung ob der Umfang (SWS) einer Lehrveranstaltung für einen Semesterverband bereits erreicht wurde
-		
+		// Prüfung ob der Umfang (SWS) einer Lehrveranstaltung für einen Semesterverband bereits erreicht wurde		
 		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
 			Vector<Belegung> tempSemVerBelegungen = this.belegungMapper.findBySemesterverband(belegung.getSemesterverbaende().elementAt(i));
 			if (tempSemVerBelegungen != null && tempSemVerBelegungen.size() > 0) {
@@ -1126,7 +1508,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		/*
 		 * Funktion deaktiviert, da die Programmpolitik derzeit es nicht vorsieht auch temporör gehaltene Lehrveranstaltungen
-		 * zum Repertoir eines Dozenten hinzuzufögen
+		 * zum Repertoir eines Dozenten hinzuzufügen
 		 * Stand: 06.01.2014
 
 		Vector<Integer> vi2 = new Vector<Integer>();
@@ -1156,10 +1538,20 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 				
 	}
 	
+	/**
+	 * Methode um einen Studiengang abgeändert mittels Mapper-Objekt in der DB zu überspeichern
+	 * 
+	 * @param	Studiengang-Objekt welches geändert werden sollen
+	 * @return	Studiengang-Objekt (falls keine semantischen Fehler auftraten)
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht.
+	 * 			Außerdem erzeugen semantische Fehler Instanzen von IllegalArgumentException,
+	 * 			welche ebenfalls an den Client weitergereicht werden 
+	 */
 	public Studiengang aendernStudiengang(Studiengang studiengang) throws RuntimeException {
 		
-		// Prüfung ob Bezeichung und Kuerzel angegeben wurden
-		
+		// Prüfung ob Bezeichung und Kürzel angegeben wurden		
 		StringBuffer bezeichnung = new StringBuffer();
 		bezeichnung.append(studiengang.getBezeichnung());
 		StringBuffer kuerzel = new StringBuffer();
@@ -1178,8 +1570,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 					+ " von 1 bis 20 mit vorhergehendem Bindestrich enthalten\nUmlaute sind nicht gestattet");
 		}
 		
-		// Prüfen ob die Bezeichnung und/oder das Kürzel bereits vergeben sind
-		
+		// Prüfen ob die Bezeichnung und/oder das Kürzel bereits vergeben sind		
 		Vector<Studiengang> alleSGs = this.studiengangMapper.findAll(false);
 				
 		for (Studiengang s : alleSGs) {

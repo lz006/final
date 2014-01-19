@@ -73,8 +73,6 @@ public interface Verwaltung extends RemoteService {
 	
 	void loeschenDozent(Dozent dozent) throws RuntimeException;
 	
-	void loeschenZeitslot(Zeitslot zeitslot) throws IllegalArgumentException;
-	
 	void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws IllegalArgumentException;
 	
 	void loeschenBelegungen(Belegung belegung, Semesterverband semesterverband) throws IllegalArgumentException;

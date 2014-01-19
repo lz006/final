@@ -52,70 +52,85 @@ public class DozentTreeViewModel implements TreeViewModel {
 
 			if (object == null) {
 				return null;
-			} else if (object instanceof Lehrveranstaltung) {
+			} 
+			else if (object instanceof Lehrveranstaltung) {
 				return new Integer(object.hashCode());
-			} else if (object instanceof Dozent) {
+			} 
+			else if (object instanceof Dozent) {
 				return new Integer(object.hashCode());
-			} else if (object instanceof Raum) {
+			} 
+			else if (object instanceof Raum) {
 				return new Integer(object.hashCode());
-			} else if (object instanceof Semesterverband) {
+			} 
+			else if (object instanceof Semesterverband) {
 				return new Integer(object.hashCode());
-			} else if (object instanceof Studiengang) {
+			} 
+			else if (object instanceof Studiengang) {
 				return new Integer(object.hashCode());
-			} else if (object instanceof Belegung) {
+			} 
+			else if (object instanceof Belegung) {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String && (String) object == "Editor") {
+			} 
+			else if (object instanceof String && (String) object == "Editor") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String && (String) object == "Report") {
+			} 
+			else if (object instanceof String && (String) object == "Report") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String && (String) object == "Anlegen") {
+			} 
+			else if (object instanceof String && (String) object == "Anlegen") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String && (String) object == "Dozent") {
+			} 
+			else if (object instanceof String && (String) object == "Dozent") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
+			} 
+			else if (object instanceof String
 					&& (String) object == "Lehrveranstaltung") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
+			} 
+			else if (object instanceof String
 					&& (String) object == "Belegung") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String && (String) object == "Raum") {
+			} 
+			else if (object instanceof String && (String) object == "Raum") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Semesterverband") {
+			} 
+			else if (object instanceof String && (String) object == "Semesterverband") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Studiengang") {
+			} 
+			else if (object instanceof String && (String) object == "Studiengang") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Verwalten") {
+			} 
+			else if (object instanceof String && (String) object == "Verwalten") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Dozenten") {
+			} 
+			else if (object instanceof String && (String) object == "Dozenten") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Lehrveranstaltungen") {
+			} 
+			else if (object instanceof String && (String) object == "Lehrveranstaltungen") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Belegungen") {
+			} 
+			else if (object instanceof String && (String) object == "Belegungen") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String && (String) object == "Räume") {
+			} 
+			else if (object instanceof String && (String) object == "Räume") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Semesterverbände") {
+			} 
+			else if (object instanceof String && (String) object == "Semesterverbände") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Studiengänge") {
+			} 
+			else if (object instanceof String && (String) object == "Studiengänge") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Dozentenplan") {
+			} 
+			else if (object instanceof String && (String) object == "Dozentenplan") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Raumplan") {
+			} 
+			else if (object instanceof String && (String) object == "Raumplan") {
 				return new Integer(object.hashCode());
-			} else if (object instanceof String
-					&& (String) object == "Studentenplan") {
+			} 
+			else if (object instanceof String && (String) object == "Studentenplan") {
 				return new Integer(object.hashCode());
-			} else {
+			} 
+			else {
 				return null;
 			}
 		}
@@ -128,141 +143,104 @@ public class DozentTreeViewModel implements TreeViewModel {
 
 		this.verwaltung = verwaltungA;
 
-		selectionModel
-				.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
-					public void onSelectionChange(SelectionChangeEvent event) {
-						Object selection = selectionModel.getSelectedObject();
+			public void onSelectionChange(SelectionChangeEvent event) {
+				Object selection = selectionModel.getSelectedObject();
 
-						if (selection instanceof Dozent) {
+				if (selection instanceof Dozent) {
 
-							DOM.setStyleAttribute(RootPanel.getBodyElement(),
-									"cursor", "wait");
+					DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "wait");
 
-							verwaltung.auslesenDozent((Dozent) selection,
-									new AsyncCallback<Vector<Dozent>>() {
-										public void onFailure(Throwable caught) {
-											DOM.setStyleAttribute(
-													RootPanel.getBodyElement(),
-													"cursor", "default");
-											Window.alert(caught.getMessage());
-										}
+					verwaltung.auslesenDozent((Dozent) selection, new AsyncCallback<Vector<Dozent>>() {
+						public void onFailure(Throwable caught) {
+								DOM.setStyleAttribute(RootPanel.getBodyElement(),"cursor", "default");
+								Window.alert(caught.getMessage());
+						}
+	
+						public void onSuccess(Vector<Dozent> result) {
+							setSelectedDozent(result.elementAt(0));
+						}
+					});
 
-										public void onSuccess(
-												Vector<Dozent> result) {
-											setSelectedDozent(result
-													.elementAt(0));
-										}
-									});
+				} 
+				else if (selection instanceof Lehrveranstaltung) {
 
-						} else if (selection instanceof Lehrveranstaltung) {
+					verwaltung.auslesenLehrveranstaltung((Lehrveranstaltung) selection,	new AsyncCallback<Vector<Lehrveranstaltung>>() {
+							public void onFailure(Throwable caught) {
+								DOM.setStyleAttribute(RootPanel.getBodyElement(),"cursor", "default");
+								Window.alert(caught.getMessage());
+							}
 
-							verwaltung
-									.auslesenLehrveranstaltung(
-											(Lehrveranstaltung) selection,
-											new AsyncCallback<Vector<Lehrveranstaltung>>() {
-												public void onFailure(
-														Throwable caught) {
-													DOM.setStyleAttribute(
-															RootPanel
-																	.getBodyElement(),
-															"cursor", "default");
-													Window.alert(caught
-															.getMessage());
-												}
+							public void onSuccess(Vector<Lehrveranstaltung> result) {
+								setSelectedLehrveranstaltung(result.elementAt(0));
+							}
+					});
 
-												public void onSuccess(
-														Vector<Lehrveranstaltung> result) {
-													setSelectedLehrveranstaltung(result
-															.elementAt(0));
-												}
-											});
+				} 
+				else if (selection instanceof Raum) {
+					setSelectedRaum((Raum) selection);
+					
+				} 
+				else if (selection instanceof Semesterverband) {
 
-						} else if (selection instanceof Raum) {
-							setSelectedRaum((Raum) selection);
-						} else if (selection instanceof Semesterverband) {
+					verwaltung.auslesenSemesterverband((Semesterverband) selection,	new AsyncCallback<Vector<Semesterverband>>() {
+						public void onFailure(Throwable caught) {
+								DOM.setStyleAttribute(RootPanel.getBodyElement(),"cursor", "default");
+								Window.alert(caught.getMessage());
+						}
+						
+						public void onSuccess(Vector<Semesterverband> result) {
+								setSelectedSemesterverband(result.elementAt(0));
+						}
+					});
+				} 
+				else if (selection instanceof Studiengang && !unterMenuLVzuSG && !unterMenuSVzuSG) {
 
-							verwaltung
-									.auslesenSemesterverband(
-											(Semesterverband) selection,
-											new AsyncCallback<Vector<Semesterverband>>() {
-												public void onFailure(
-														Throwable caught) {
-													DOM.setStyleAttribute(
-															RootPanel
-																	.getBodyElement(),
-															"cursor", "default");
-													Window.alert(caught
-															.getMessage());
-												}
-
-												public void onSuccess(
-														Vector<Semesterverband> result) {
-													setSelectedSemesterverband(result
-															.elementAt(0));
-												}
-											});
-						} else if (selection instanceof Studiengang
-								&& !unterMenuLVzuSG && !unterMenuSVzuSG) {
-
-							verwaltung.auslesenStudiengang(
-									(Studiengang) selection,
-									new AsyncCallback<Vector<Studiengang>>() {
-										public void onFailure(Throwable caught) {
-											DOM.setStyleAttribute(
-													RootPanel.getBodyElement(),
-													"cursor", "default");
-											Window.alert(caught.getMessage());
-										}
-
-										public void onSuccess(
-												Vector<Studiengang> result) {
-											setSelectedStudiengang(result
-													.elementAt(0));
-										}
-									});
-
-						} else if (selection instanceof String
-								&& (String) selection == "Belegungen") {
-							setSelectedBelegung();
-						} else if (selection instanceof String
-								&& (String) selection == "Belegung") {
-							belegungAnlegenMaske();
-						} else if (selection instanceof String
-								&& (String) selection == "Dozent") {
-							dozentAnlegenMaske();
-						} else if (selection instanceof String
-								&& (String) selection == "Lehrveranstaltung") {
-							lehrveranstaltungAnlegenMaske();
+					verwaltung.auslesenStudiengang((Studiengang) selection,	new AsyncCallback<Vector<Studiengang>>() {
+						public void onFailure(Throwable caught) {
+							DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
+							Window.alert(caught.getMessage());
 						}
 
-						else if (selection instanceof String
-								&& (String) selection == "Studiengang") {
-							studiengangAnlegenMaske();
-						} else if (selection instanceof String
-								&& (String) selection == "Semesterverband") {
-							semesterverbandAnlegenMaske();
-						} else if (selection instanceof String
-								&& (String) selection == "Raum") {
-							raumAnlegenMaske();
+						public void onSuccess(Vector<Studiengang> result) {
+							setSelectedStudiengang(result.elementAt(0));
 						}
+					});
 
-						else if (selection instanceof String
-								&& (String) selection == "Studentenplan") {
-							setSelectedStudentenplan((String) selection);
-						}
-
-						else if (selection instanceof String
-								&& (String) selection == "Dozentenplan") {
-							setSelectedDozentenplan((String) selection);
-						}
-
-						else if (selection instanceof String
-								&& (String) selection == "Raumplan") {
-							setSelectedRaumplan((String) selection);
-						}
-					}
-				});
+				} 
+				else if (selection instanceof String && (String) selection == "Belegungen") {
+					setSelectedBelegung();
+				} 
+				else if (selection instanceof String && (String) selection == "Belegung") {
+					belegungAnlegenMaske();
+				} 
+				else if (selection instanceof String && (String) selection == "Dozent") {
+					dozentAnlegenMaske();
+				} 
+				else if (selection instanceof String && (String) selection == "Lehrveranstaltung") {
+					lehrveranstaltungAnlegenMaske();
+				}
+				else if (selection instanceof String && (String) selection == "Studiengang") {
+					studiengangAnlegenMaske();
+				} 
+				else if (selection instanceof String && (String) selection == "Semesterverband") {
+					semesterverbandAnlegenMaske();
+				} 
+				else if (selection instanceof String && (String) selection == "Raum") {
+					raumAnlegenMaske();
+				}
+				else if (selection instanceof String && (String) selection == "Studentenplan") {
+					setSelectedStudentenplan((String) selection);
+				}
+				else if (selection instanceof String && (String) selection == "Dozentenplan") {
+					setSelectedDozentenplan((String) selection);
+				}
+				else if (selection instanceof String && (String) selection == "Raumplan") {
+					setSelectedRaumplan((String) selection);
+				}
+			}
+		});
 
 	}
 
@@ -397,8 +375,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 			dummyDataProvider.getList().add(editor);
 			dummyDataProvider.getList().add(report);
 
-			return new DefaultNodeInfo<String>(dummyDataProvider,
-					new DummyCell(), selectionModel, null);
+			return new DefaultNodeInfo<String>(dummyDataProvider, new DummyCell(), selectionModel, null);
 		}
 
 		if (value instanceof String && (String) value == "Editor") {
@@ -414,8 +391,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 			dummyDataProvider.getList().add(anlegen);
 			dummyDataProvider.getList().add(verwalten);
 
-			return new DefaultNodeInfo<String>(dummyDataProvider,
-					new DummyCell(), selectionModel, null);
+			return new DefaultNodeInfo<String>(dummyDataProvider, new DummyCell(), selectionModel, null);
 		}
 
 		if (value instanceof String && (String) value == "Anlegen") {
@@ -439,8 +415,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 			dummyDataProvider.getList().add(semesterverband);
 			dummyDataProvider.getList().add(studiengang);
 
-			return new DefaultNodeInfo<String>(dummyDataProvider,
-					new DummyCell(), selectionModel, null);
+			return new DefaultNodeInfo<String>(dummyDataProvider, new DummyCell(), selectionModel, null);
 		}
 
 		if (value instanceof String && (String) value == "Verwalten") {
@@ -466,8 +441,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 			dummyDataProvider.getList().add(semesterverbaende);
 			dummyDataProvider.getList().add(studiengaenge);
 
-			return new DefaultNodeInfo<String>(dummyDataProvider,
-					new DummyCell(), selectionModel, null);
+			return new DefaultNodeInfo<String>(dummyDataProvider, new DummyCell(), selectionModel, null);
 		}
 
 		if (value instanceof String && (String) value == "Lehrveranstaltungen") {
@@ -490,8 +464,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 						}
 					});
 
-			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider,
-					new StudiengangCell(), selectionModel, null);
+			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider, new StudiengangCell(), selectionModel, null);
 		}
 
 		if (value instanceof Studiengang && unterMenuLVzuSG) {
@@ -515,8 +488,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 						}
 					});
 
-			return new DefaultNodeInfo<Lehrveranstaltung>(
-					lehrveranstaltungDataProvider, new LehrveranstaltungCell(),
+			return new DefaultNodeInfo<Lehrveranstaltung>(lehrveranstaltungDataProvider, new LehrveranstaltungCell(),
 					selectionModel, null);
 		}
 
@@ -540,8 +512,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 						}
 					});
 
-			return new DefaultNodeInfo<Dozent>(dozentDataProvider,
-					new DozentCell(), selectionModel, null);
+			return new DefaultNodeInfo<Dozent>(dozentDataProvider, new DozentCell(), selectionModel, null);
 		}
 
 		if (value instanceof String && (String) value == "Räume") {
@@ -562,8 +533,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 				}
 			});
 
-			return new DefaultNodeInfo<Raum>(raumDataProvider, new RaumCell(),
-					selectionModel, null);
+			return new DefaultNodeInfo<Raum>(raumDataProvider, new RaumCell(), selectionModel, null);
 		}
 
 		if (value instanceof String && (String) value == "Semesterverbände") {
@@ -586,8 +556,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 						}
 					});
 
-			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider,
-					new StudiengangCell(), selectionModel, null);
+			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider, new StudiengangCell(), selectionModel, null);
 		}
 
 		if (value instanceof Studiengang && unterMenuSVzuSG) {
@@ -612,8 +581,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 						}
 					});
 
-			return new DefaultNodeInfo<Semesterverband>(
-					semesterVerbandDataProvider, new SemesterverbandCell(),
+			return new DefaultNodeInfo<Semesterverband>(semesterVerbandDataProvider, new SemesterverbandCell(),
 					selectionModel, null);
 		}
 
@@ -637,8 +605,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 						}
 					});
 
-			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider,
-					new StudiengangCell(), selectionModel, null);
+			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider, new StudiengangCell(), selectionModel, null);
 		}
 
 		if (value instanceof String && (String) value == "Report") {
@@ -658,8 +625,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 			dummyDataProvider.getList().add(b);
 			dummyDataProvider.getList().add(c);
 
-			return new DefaultNodeInfo<String>(dummyDataProvider,
-					new DummyCell(), selectionModel, null);
+			return new DefaultNodeInfo<String>(dummyDataProvider, new DummyCell(), selectionModel, null);
 		}
 
 		return null;
@@ -722,8 +688,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 	}
 
 	public void updateLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
-		List<Lehrveranstaltung> lehrveranstaltungList = lehrveranstaltungDataProvider
-				.getList();
+		List<Lehrveranstaltung> lehrveranstaltungList = lehrveranstaltungDataProvider.getList();
 		int i = 0;
 		for (Lehrveranstaltung a : lehrveranstaltungList) {
 			if (a.getId() == lehrveranstaltung.getId()) {
@@ -799,8 +764,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 	}
 
 	public void updateSemesterverband(Semesterverband semesterverband) {
-		List<Semesterverband> semesterverbandList = semesterVerbandDataProvider
-				.getList();
+		List<Semesterverband> semesterverbandList = semesterVerbandDataProvider.getList();
 		int i = 0;
 		for (Semesterverband sv : semesterVerbandDataProvider.getList()) {
 			if (sv.getId() == semesterverband.getId()) {
@@ -865,52 +829,48 @@ public class DozentTreeViewModel implements TreeViewModel {
 			return true;
 		}
 
-		else if (value instanceof String
-				&& (String) value == "Lehrveranstaltung") {
+		else if (value instanceof String && (String) value == "Lehrveranstaltung") {
 			return true;
-		} else if (value instanceof String && (String) value == "Belegung") {
+		} 
+		else if (value instanceof String && (String) value == "Belegung") {
 			return true;
-		} else if (value instanceof String && (String) value == "Belegungen") {
+		} 
+		else if (value instanceof String && (String) value == "Belegungen") {
 			return true;
-		} else if (value instanceof String && (String) value == "Raum") {
+		} 
+		else if (value instanceof String && (String) value == "Raum") {
 			return true;
-		} else if (value instanceof String
-				&& (String) value == "Semesterverband") {
+		} 
+		else if (value instanceof String && (String) value == "Semesterverband") {
 			return true;
-		} else if (value instanceof String && (String) value == "Studiengang") {
+		} 
+		else if (value instanceof String && (String) value == "Studiengang") {
 			return true;
 		}
-
 		else if (value instanceof String && (String) value == "Studentenplan") {
 			return true;
 		}
-
 		else if (value instanceof String && (String) value == "Dozentenplan") {
 			return true;
 		} else if (value instanceof String && (String) value == "Raumplan") {
 			return true;
 		}
-
 		else if (value instanceof Dozent) {
 			return true;
 		}
-
 		else if (value instanceof Lehrveranstaltung) {
 			return true;
 		}
-
 		else if (value instanceof Semesterverband) {
 			return true;
 		}
-
 		else if (value instanceof Raum) {
 			return true;
 		}
-
-		else if (value instanceof Studiengang && !unterMenuLVzuSG
-				&& !unterMenuSVzuSG) {
+		else if (value instanceof Studiengang && !unterMenuLVzuSG && !unterMenuSVzuSG) {
 			return true;
-		} else {
+		} 
+		else {
 			return false;
 		}
 
@@ -954,53 +914,29 @@ public class DozentTreeViewModel implements TreeViewModel {
 
 				if (rootNode.isChildOpen(0)) {
 					if (rootNode.setChildOpen(0, true).isChildOpen(1)) {
-						if (rootNode.setChildOpen(0, true)
-								.setChildOpen(1, true).isChildOpen(0)
-								&& rootNode.setChildOpen(0, true)
-										.setChildOpen(1, true)
-										.setChildOpen(0, true)
-										.equals(event.getTarget())) {
+						if (rootNode.setChildOpen(0, true).setChildOpen(1, true).isChildOpen(0)	&& 
+								rootNode.setChildOpen(0, true).setChildOpen(1, true).setChildOpen(0, true).equals(event.getTarget())) {
 							unterMenuLVzuSG = true;
 							unterMenuSVzuSG = false;
 
-							rootNode.setChildOpen(0, true)
-									.setChildOpen(1, true)
-									.setChildOpen(4, false);
-							rootNode.setChildOpen(0, true)
-									.setChildOpen(1, true)
-									.setChildOpen(5, false);
+							rootNode.setChildOpen(0, true).setChildOpen(1, true).setChildOpen(4, false);
+							rootNode.setChildOpen(0, true).setChildOpen(1, true).setChildOpen(5, false);
 						}
-						if (rootNode.setChildOpen(0, true)
-								.setChildOpen(1, true).isChildOpen(4)
-								&& rootNode.setChildOpen(0, true)
-										.setChildOpen(1, true)
-										.setChildOpen(4, true)
-										.equals(event.getTarget())) {
+						if (rootNode.setChildOpen(0, true).setChildOpen(1, true).isChildOpen(4)	&& 
+								rootNode.setChildOpen(0, true).setChildOpen(1, true).setChildOpen(4, true).equals(event.getTarget())) {
 							unterMenuLVzuSG = false;
 							unterMenuSVzuSG = true;
 
-							rootNode.setChildOpen(0, true)
-									.setChildOpen(1, true)
-									.setChildOpen(0, false);
-							rootNode.setChildOpen(0, true)
-									.setChildOpen(1, true)
-									.setChildOpen(5, false);
+							rootNode.setChildOpen(0, true).setChildOpen(1, true).setChildOpen(0, false);
+							rootNode.setChildOpen(0, true).setChildOpen(1, true).setChildOpen(5, false);
 						}
-						if (rootNode.setChildOpen(0, true)
-								.setChildOpen(1, true).isChildOpen(5)
-								&& rootNode.setChildOpen(0, true)
-										.setChildOpen(1, true)
-										.setChildOpen(5, true)
-										.equals(event.getTarget())) {
+						if (rootNode.setChildOpen(0, true).setChildOpen(1, true).isChildOpen(5)	&& 
+								rootNode.setChildOpen(0, true).setChildOpen(1, true).setChildOpen(5, true).equals(event.getTarget())) {
 							unterMenuLVzuSG = false;
 							unterMenuSVzuSG = false;
 
-							rootNode.setChildOpen(0, true)
-									.setChildOpen(1, true)
-									.setChildOpen(0, false);
-							rootNode.setChildOpen(0, true)
-									.setChildOpen(1, true)
-									.setChildOpen(4, false);
+							rootNode.setChildOpen(0, true).setChildOpen(1, true).setChildOpen(0, false);
+							rootNode.setChildOpen(0, true).setChildOpen(1, true).setChildOpen(4, false);
 						}
 					}
 				}
