@@ -2164,11 +2164,21 @@ public class BelegungForm extends VerticalPanel {
 	void setInfoText() {
 		this.dtvm.getStundenplantool2().setTextToInfoPanelOben(
 				"<b><u>Anleitung: </u></b></br>"
-						+ "Hier können Sie einen neue Belegung anlegen."
+						+ "Hier können Sie eine Belegung anlegen/ ändern."
 						+ "</br><b>Alle Felder sind Pflichtfelder!</b>"
 						+ "</br>"
 						+ "</br>Zu einer Belegung können mehrere Semesterverbände"
-						+ "hinzugefügt werden!");
+						+ "</br>hinzugefügt werden!"
+						+ "</br>"
+						+ "</br>"
+						+ "</br><b><u>Achtung:</u></b>"
+						+ "</br>Beim Anlegen einer neuen Belegung können"
+						+ "</br>nur Dozentinnen/ Dozenten mit dem jeweiligen Profilfach"
+						+ "</br>einer Lehrveranstaltung hinzugefügt werden!"
+						+ "</br>"
+						+ "</br>Beim Ändern einer Belegung können allerdings alle"
+						+ "</br>Dozentinnen/ Dozenten ausgewählt werden (damit eine Lehrveranstaltung z.B. auch bei Krankheit von einer anderen Dozentin/ einem anderen Dozenten durchgeführt werden kann."
+						+ "</br>In diesem Fall können allerdings nur Dozentinnen/ Dozenten ausgewählt werden, die zu dem jeweiligen Zeitraum noch keine andere Veranstaltung haben!)!");
 	}
 
 }
