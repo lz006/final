@@ -14,15 +14,41 @@ import com.hdm.stundenplantool2.shared.bo.*;
  * 
  * @see DozentMapper, BelegungMapper, RaumMapper, SemesterverbandMapper, StudiengangMapper, LehrveranstaltungMapper
  * @author Thies (implement: Zimmermann, Klatt, Roth)
+ * @version 1.0
  */
 public class ZeitslotMapper {
 	
+	/**
+	 * Die Klasse ZeitslotMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
+	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
 	private static ZeitslotMapper zeitslotMapper = null;
 	
+	/**
+	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit new neue
+	 * Instanzen dieser Klasse zu erzeugen.
+	 * 
+	 */
 	protected ZeitslotMapper(){
 		
 	}
 	
+	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>ZeitslotMapper.zeitslotMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Instanz von <code>ZeitslotMapper</code> existiert.
+	 * <p>
+	 * 
+	 * <b>Fazit:</b> ZeitslotMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen Methode.
+	 * 
+	 * @return DAS <code>ZeitslotMapper</code>-Objekt.
+	 */
 	public static ZeitslotMapper zeitslotMapper() {
 	    if (zeitslotMapper == null) {
 	    	zeitslotMapper = new ZeitslotMapper();

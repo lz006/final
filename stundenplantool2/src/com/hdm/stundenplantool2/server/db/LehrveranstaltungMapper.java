@@ -17,15 +17,41 @@ import com.hdm.stundenplantool2.shared.bo.*;
  * 
  * @see DozentMapper, BelegungMapper, RaumMapper, SemesterverbandMapper, StudiengangMapper, ZeitslotMapper
  * @author Thies (implement: Zimmermann, Klatt, Roth)
+ * @version 1.0
  */
 public class LehrveranstaltungMapper {
 	
-private static LehrveranstaltungMapper lehrveranstaltungMapper = null;
+	/**
+	 * Die Klasse LehrveranstaltungMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
+	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
+	private static LehrveranstaltungMapper lehrveranstaltungMapper = null;
 	
+	/**
+	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit new neue
+	 * Instanzen dieser Klasse zu erzeugen.
+	 * 
+	 */
 	protected LehrveranstaltungMapper(){
 		
 	}
 	
+	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>LehrveranstaltungMapper.lehrveranstaltungMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Instanz von <code>LehrveranstaltungMapper</code> existiert.
+	 * <p>
+	 * 
+	 * <b>Fazit:</b> LehrveranstaltungMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen Methode.
+	 * 
+	 * @return DAS <code>LehrveranstaltungMapper</code>-Objekt.
+	 */
 	public static LehrveranstaltungMapper lehrveranstaltungMapper() {
 	    if (lehrveranstaltungMapper == null) {
 	    	lehrveranstaltungMapper = new LehrveranstaltungMapper();
@@ -39,6 +65,8 @@ private static LehrveranstaltungMapper lehrveranstaltungMapper = null;
 	 * 
 	 * @param	Lehrveranstaltung-Objekt welches aktualisiert werden soll 			
 	 * @return	Lehrveranstaltung-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Lehrveranstaltung update(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
 		Connection con = DBConnection.connection();
@@ -89,6 +117,8 @@ private static LehrveranstaltungMapper lehrveranstaltungMapper = null;
 	 * Methode um eine Lehrveranstaltung aus der DB zu löschen
 	 * 
 	 * @param	Lehrveranstaltung-Objekt welches gelöscht werden soll
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public void delete(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
 		
@@ -122,6 +152,8 @@ private static LehrveranstaltungMapper lehrveranstaltungMapper = null;
 	 * 
 	 * @param	Lehrveranstaltung-Objekt welcher neu hinzukommt			
 	 * @return	Lehrveranstaltung-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Lehrveranstaltung insertIntoDB(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
 		Connection con = DBConnection.connection();
@@ -182,6 +214,8 @@ private static LehrveranstaltungMapper lehrveranstaltungMapper = null;
 	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Lehrveranstaltungen, die den Primärschlüsselattributen entsprechen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Lehrveranstaltung> findByKey(Vector<Integer> keys, Boolean loop) throws RuntimeException {
 		StringBuffer ids = new StringBuffer();
@@ -310,6 +344,8 @@ private static LehrveranstaltungMapper lehrveranstaltungMapper = null;
 	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken) 			
 	 * @return	Vector mit Lehrveranstaltungen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Lehrveranstaltung> findByStudiengang(Studiengang sg, Boolean loop) throws RuntimeException {
 		
@@ -426,6 +462,8 @@ private static LehrveranstaltungMapper lehrveranstaltungMapper = null;
 	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Lehrveranstaltungen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */	
 	public Vector<Lehrveranstaltung> findAll(Boolean loop) throws RuntimeException {
 					

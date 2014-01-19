@@ -15,15 +15,41 @@ import com.hdm.stundenplantool2.shared.bo.*;
  * 
  * @see DozentMapper, LehrveranstaltungMapper, BelegungMapper, RaumMapper, SemesterverbandMapper, ZeitslotMapper
  * @author Thies (implement: Zimmermann, Klatt, Roth)
+ * @version 1.0
  */
 public class StudiengangMapper {
 	
-private static StudiengangMapper studiengangMapper = null;
+	/**
+	 * Die Klasse StudiengangMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
+	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
+	private static StudiengangMapper studiengangMapper = null;
 	
+	/**
+	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit new neue
+	 * Instanzen dieser Klasse zu erzeugen.
+	 * 
+	 */
 	protected StudiengangMapper(){
 		
 	}
 	
+	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>StudiengangMapper.studiengangMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Instanz von <code>StudiengangMapper</code> existiert.
+	 * <p>
+	 * 
+	 * <b>Fazit:</b> StudiengangMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen Methode.
+	 * 
+	 * @return DAS <code>StudiengangMapper</code>-Objekt.
+	 */
 	public static StudiengangMapper studiengangMapper() {
 	    if (studiengangMapper == null) {
 	    	studiengangMapper = new StudiengangMapper();
@@ -40,6 +66,8 @@ private static StudiengangMapper studiengangMapper = null;
 	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Studiengängen, die den Primärschlüsselattributen entsprechen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Studiengang> findByKey(Vector<Integer> keys, Boolean loop) throws RuntimeException {
 		StringBuffer ids = new StringBuffer();
@@ -127,6 +155,8 @@ private static StudiengangMapper studiengangMapper = null;
 	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Studiengänge
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Studiengang> findAll(Boolean loop) throws RuntimeException {
         			
@@ -203,6 +233,8 @@ private static StudiengangMapper studiengangMapper = null;
 	 * 
 	 * @param	Studiengang-Objekt welches aktualisiert werden soll 			
 	 * @return	Studiengang-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Studiengang update(Studiengang studiengang) throws RuntimeException {
 		
@@ -240,6 +272,8 @@ private static StudiengangMapper studiengangMapper = null;
 	 * Methode um eine Studiengang aus der DB zu löschen
 	 * 
 	 * @param	Studiengang-Objekt welches gelöscht werden soll
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public void delete(Studiengang studiengang) throws RuntimeException {
 		/*
@@ -268,6 +302,8 @@ private static StudiengangMapper studiengangMapper = null;
 	 * 
 	 * @param	Studiengang-Objekt welcher neu hinzukommt			
 	 * @return	Studiengang-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Studiengang insertIntoDB(Studiengang studiengang) throws RuntimeException {
 		

@@ -15,15 +15,41 @@ import com.hdm.stundenplantool2.shared.bo.*;
  * 
  * @see BelegungMapper, LehrveranstaltungMapper, RaumMapper, SemesterverbandMapper, StudiengangMapper, ZeitslotMapper
  * @author Thies (implement: Zimmermann, Klatt, Roth)
+ * @version 1.0
  */
 public class DozentMapper {
 	
+	/**
+	 * Die Klasse DozentMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
+	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
 	private static DozentMapper dozentMapper = null;
 	
+	/**
+	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit new neue
+	 * Instanzen dieser Klasse zu erzeugen.
+	 * 
+	 */
 	protected DozentMapper(){
 		
 	}
 	
+	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>DozentMapper.dozentMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Instanz von <code>DozentMapper</code> existiert.
+	 * <p>
+	 * 
+	 * <b>Fazit:</b> DozentMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen Methode.
+	 * 
+	 * @return DAS <code>DozentMapper</code>-Objekt.
+	 */
 	public static DozentMapper dozentMapper() {
 	    if (dozentMapper == null) {
 	      dozentMapper = new DozentMapper();
@@ -40,6 +66,8 @@ public class DozentMapper {
 	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Dozenten, die den Primärschlüsselattributen entsprechen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Dozent> findByKey(Vector<Integer> keys, Boolean loop) throws RuntimeException {
 		StringBuffer ids = new StringBuffer();
@@ -131,6 +159,8 @@ public class DozentMapper {
 	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken) 			
 	 * @return	Vector mit Dozenten
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Dozent> findByLV(Lehrveranstaltung lv, Boolean loop) throws RuntimeException {
 		
@@ -208,6 +238,8 @@ public class DozentMapper {
 	 * 
 	 * @param	Dozent-Objekt welches aktualisiert werden soll 			
 	 * @return	Dozent-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Dozent update(Dozent dozent) throws RuntimeException {
 		Connection con = DBConnection.connection();
@@ -262,6 +294,8 @@ public class DozentMapper {
 	 * 
 	 * @param	Dozent-Objekt welcher neu hinzukommt			
 	 * @return	Dozent-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Dozent insertIntoDB(Dozent dozent) throws RuntimeException {
 		Connection con = DBConnection.connection();
@@ -323,6 +357,8 @@ public class DozentMapper {
 	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Dozenten
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */	
 	public Vector<Dozent> findAll(Boolean loop) throws RuntimeException {
 				
@@ -405,6 +441,8 @@ public class DozentMapper {
 	 * Methode um einen Dozent aus der DB zu löschen
 	 * 
 	 * @param	Dozent-Objekt welches gelöscht werden soll
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public void delete(Dozent dozent) throws RuntimeException {
 		

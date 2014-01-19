@@ -17,15 +17,41 @@ import com.hdm.stundenplantool2.shared.bo.*;
  * 
  * @see DozentMapper, LehrveranstaltungMapper, RaumMapper, SemesterverbandMapper, StudiengangMapper, ZeitslotMapper
  * @author Thies (implement: Zimmermann, Klatt, Roth)
+ * @version 1.0
  */
 public class BelegungMapper {
 	
+	/**
+	 * Die Klasse BelegungMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
+	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
 	private static BelegungMapper belegungMapper = null;
 	
+	/**
+	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit new neue
+	 * Instanzen dieser Klasse zu erzeugen.
+	 * 
+	 */
 	protected BelegungMapper(){
 		
 	}
 	
+	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>BelegungMapper.belegungMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Instanz von <code>BelegungMapper</code> existiert.
+	 * <p>
+	 * 
+	 * <b>Fazit:</b> BelegungMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen Methode.
+	 * 
+	 * @return DAS <code>BelegungMapper</code>-Objekt.
+	 */
 	public static BelegungMapper belegungMapper() {
 	    if (belegungMapper == null) {
 	      belegungMapper = new BelegungMapper();
@@ -42,6 +68,8 @@ public class BelegungMapper {
 	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Belegungen, die den Primärschlüsselattributen entsprechen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Belegung> findByKey(Vector<Integer> keys, Boolean loop) throws RuntimeException {
 		StringBuffer ids = new StringBuffer();
@@ -159,6 +187,8 @@ public class BelegungMapper {
 	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Belegungen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */	
 	public Vector<Belegung> findAll(Boolean loop) throws RuntimeException {
 		
@@ -259,6 +289,8 @@ public class BelegungMapper {
 	 * 
 	 * @param	Raum-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */	
 	public Vector<Belegung> findByRaum(Raum raum) throws RuntimeException {
 		
@@ -294,6 +326,8 @@ public class BelegungMapper {
 	 * 
 	 * @param	Zeitslot-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */	
 	public Vector<Belegung> findByZeitslot(Zeitslot zs) throws RuntimeException {
 		//Einholen einer DB-Verbindung und
@@ -329,6 +363,8 @@ public class BelegungMapper {
 	 * 
 	 * @param	Dozent-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Belegung> findByDozent(Dozent dozent) throws RuntimeException {
 		
@@ -364,6 +400,8 @@ public class BelegungMapper {
 	 * 
 	 * @param	Semesterverband-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Belegung> findBySemesterverband(Semesterverband semesterverband) throws RuntimeException {
 		
@@ -397,6 +435,8 @@ public class BelegungMapper {
 	 * 
 	 * @param	Lehrveranstaltung-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Belegung> findByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
 		
@@ -432,6 +472,8 @@ public class BelegungMapper {
 	 * 
 	 * @param	Belegung-Objekt welches aktualisiert werden soll 			
 	 * @return	Belegung-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Belegung update(Belegung belegung) throws RuntimeException {
 		Connection con = DBConnection.connection();
@@ -479,6 +521,8 @@ public class BelegungMapper {
 	 * Methode um eine Belegung aus der DB zu löschen
 	 * 
 	 * @param	Belegung-Objekt welches gelöscht werden soll
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public void delete(Belegung belegung) throws RuntimeException {
 
@@ -509,6 +553,8 @@ public class BelegungMapper {
 	 * 
 	 * @param	Belegung-Objekt welches neu hinzukommt			
 	 * @return	Belegung-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Belegung insertIntoDB(Belegung belegung) throws RuntimeException {
 		Connection con = DBConnection.connection();

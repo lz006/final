@@ -14,15 +14,41 @@ import com.hdm.stundenplantool2.shared.bo.*;
  * 
  * @see DozentMapper, LehrveranstaltungMapper, BelegungMapper, SemesterverbandMapper, StudiengangMapper, ZeitslotMapper
  * @author Thies (implement: Zimmermann, Klatt, Roth)
+ * @version 1.0
  */
 public class RaumMapper {
 
+	/**
+	 * Die Klasse RaumMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
+	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
 	private static RaumMapper raumMapper = null;
 	
+	/**
+	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit new neue
+	 * Instanzen dieser Klasse zu erzeugen.
+	 * 
+	 */
 	protected RaumMapper(){
 		
 	}
 	
+	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>RaumMapper.raumMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Instanz von <code>RaumMapper</code> existiert.
+	 * <p>
+	 * 
+	 * <b>Fazit:</b> RaumMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen Methode.
+	 * 
+	 * @return DAS <code>RaumMapper</code>-Objekt.
+	 */
 	public static RaumMapper raumMapper() {
 	    if (raumMapper == null) {
 	      raumMapper = new RaumMapper();
@@ -36,6 +62,8 @@ public class RaumMapper {
 	 * 
 	 * @param	Raum-Objekt welches aktualisiert werden soll 			
 	 * @return	Raum-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Raum update(Raum raum) throws RuntimeException {
 		Connection con = DBConnection.connection();
@@ -61,6 +89,8 @@ public class RaumMapper {
 	 * 
 	 * @param	Raum-Objekt welches aktualisiert werden soll 			
 	 * @return	Raum-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public void delete(Raum raum) throws RuntimeException {
 			
@@ -83,6 +113,8 @@ public class RaumMapper {
 	 * 
 	 * @param	Raum-Objekt welcher neu hinzukommt			
 	 * @return	Raum-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Raum insertIntoDB (Raum raum) throws RuntimeException {
 		
@@ -126,6 +158,8 @@ public class RaumMapper {
 	 * 
 	 * @param	id Primärschlüsselattribut(e) (->DB)
 	 * @return	Vector mit Räumen, die den Primärschlüsselattributen entsprechen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Raum> findByKey(Vector<Integer> keys) throws RuntimeException {
 		StringBuffer ids = new StringBuffer();
@@ -171,6 +205,8 @@ public class RaumMapper {
 	 * Methode um alle Räume aus der DB auszulesen
 	 * 
 	 * @return	Vector mit Räume
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */	
 	public Vector<Raum> findAll() throws RuntimeException {
 		

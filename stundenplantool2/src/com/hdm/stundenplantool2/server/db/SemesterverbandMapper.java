@@ -14,15 +14,41 @@ import com.hdm.stundenplantool2.shared.bo.*;
  * 
  * @see DozentMapper, LehrveranstaltungMapper, BelegungMapper, RaumMapper, StudiengangMapper, ZeitslotMapper
  * @author Thies (implement: Zimmermann, Klatt, Roth)
+ * @version 1.0
  */
 public class SemesterverbandMapper {
 	
+	/**
+	 * Die Klasse SemesterverbandMapper wird nur einmal instantiiert. Man spricht hierbei
+	 * von einem sogenannten <b>Singleton</b>.
+	 * <p>
+	 * Diese Variable ist durch den Bezeichner <code>static</code> nur einmal für
+	 * sämtliche eventuellen Instanzen dieser Klasse vorhanden. Sie speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
 	private static SemesterverbandMapper semesterverbandMapper = null;
 	
+	/**
+	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit new neue
+	 * Instanzen dieser Klasse zu erzeugen.
+	 * 
+	 */
 	protected SemesterverbandMapper(){
 		
 	}
 	
+	/**
+	 * Diese statische Methode kann aufgrufen werden durch
+	 * <code>SemesterverbandMapper.semesterverbandMapper()</code>. Sie stellt die
+	 * Singleton-Eigenschaft sicher, indem Sie dafür sorgt, dass nur eine einzige
+	 * Instanz von <code>SemesterverbandMapper</code> existiert.
+	 * <p>
+	 * 
+	 * <b>Fazit:</b> SemesterverbandMapper sollte nicht mittels <code>new</code>
+	 * instantiiert werden, sondern stets durch Aufruf dieser statischen Methode.
+	 * 
+	 * @return DAS <code>SemesterverbandMapper</code>-Objekt.
+	 */
 	public static SemesterverbandMapper semesterverbandMapper() {
 	    if (semesterverbandMapper == null) {
 	    	semesterverbandMapper = new SemesterverbandMapper();
@@ -39,6 +65,8 @@ public class SemesterverbandMapper {
 	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Semesterverbänden, die den Primärschlüsselattributen entsprechen
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Semesterverband> findByKey(Vector<Integer> keys, Boolean loop) throws RuntimeException {
 		StringBuffer ids = new StringBuffer();
@@ -112,6 +140,8 @@ public class SemesterverbandMapper {
 	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken) 			
 	 * @return	Vector mit Semesterverbänden
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Vector<Semesterverband> findByStudiengang(Studiengang sg, Boolean loop) throws RuntimeException {
 					
@@ -179,6 +209,8 @@ public class SemesterverbandMapper {
 	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Semesterverbände
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */	
 	public Vector<Semesterverband> findAll(Boolean loop)  throws RuntimeException {
 		
@@ -242,6 +274,8 @@ public class SemesterverbandMapper {
 	 * 
 	 * @param	Semesterverband-Objekt welches aktualisiert werden soll 			
 	 * @return	Semesterverband-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public Semesterverband update(Semesterverband semesterverband) throws RuntimeException {
 		
@@ -279,6 +313,8 @@ public class SemesterverbandMapper {
 	 * Methode um einen Semesterverband aus der DB zu löschen
 	 * 
 	 * @param	Semesterverband-Objekt welches gelöscht werden soll
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
 	public void delete(Semesterverband semesterverband) throws RuntimeException {
 		
@@ -303,6 +339,8 @@ public class SemesterverbandMapper {
 	 * 
 	 * @param	Semesterverband-Objekt welcher neu hinzukommt			
 	 * @return	Semesterverband-Objekt
+	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
+	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */	
 	public Semesterverband insertIntoDB(Semesterverband semesterverband) throws RuntimeException {
 		
