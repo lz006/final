@@ -26,7 +26,7 @@ public class BelegungForm extends VerticalPanel {
 
 	VerwaltungAsync verwaltung = null;
 
-	DozentTreeViewModel dtvm;
+	CustomTreeViewModel dtvm;
 
 	boolean anlegenMaske = false;
 
@@ -2156,7 +2156,7 @@ public class BelegungForm extends VerticalPanel {
 		}
 	}
 
-	void setDtvm(DozentTreeViewModel dtvm) {
+	void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
 		setInfoText();
 	}

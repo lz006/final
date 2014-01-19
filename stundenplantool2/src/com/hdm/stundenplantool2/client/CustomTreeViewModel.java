@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.google.gwt.view.client.ListDataProvider;
 
-public class DozentTreeViewModel implements TreeViewModel {
+public class CustomTreeViewModel implements TreeViewModel {
 
 	private DozentForm dF;
 	private BelegungForm bF;
@@ -139,7 +139,7 @@ public class DozentTreeViewModel implements TreeViewModel {
 	private SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>(
 			keyProvider);
 
-	public DozentTreeViewModel(VerwaltungAsync verwaltungA) {
+	public CustomTreeViewModel(VerwaltungAsync verwaltungA) {
 
 		this.verwaltung = verwaltungA;
 

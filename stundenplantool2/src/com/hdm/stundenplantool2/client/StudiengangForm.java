@@ -25,7 +25,7 @@ public class StudiengangForm extends VerticalPanel {
 
 	VerwaltungAsync verwaltung = null;
 
-	DozentTreeViewModel dtvm = null;
+	CustomTreeViewModel dtvm = null;
 
 	Studiengang shownStudiengang = null;
 
@@ -157,7 +157,7 @@ public class StudiengangForm extends VerticalPanel {
 
 	}
 
-	public void setDtvm(DozentTreeViewModel dtvm) {
+	public void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
 		setInfoText();
 	}

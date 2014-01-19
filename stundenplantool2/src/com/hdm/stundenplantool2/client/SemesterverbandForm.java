@@ -24,7 +24,7 @@ public class SemesterverbandForm extends VerticalPanel {
 
 	VerwaltungAsync verwaltung = null;
 
-	DozentTreeViewModel dtvm = null;
+	CustomTreeViewModel dtvm = null;
 
 	Semesterverband shownSemesterverband = null;
 
@@ -96,7 +96,7 @@ public class SemesterverbandForm extends VerticalPanel {
 
 	}
 
-	public void setDtvm(DozentTreeViewModel dtvm) {
+	public void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
 		setInfoText();
 	}

@@ -25,7 +25,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 
 	VerwaltungAsync verwaltung = null;
 
-	DozentTreeViewModel dtvm;
+	CustomTreeViewModel dtvm;
 
 	Lehrveranstaltung shownLehrveranstaltung = null;
 
@@ -276,7 +276,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 				});
 	}
 
-	public void setDtvm(DozentTreeViewModel dtvm) {
+	public void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
 		setInfoText();
 	}

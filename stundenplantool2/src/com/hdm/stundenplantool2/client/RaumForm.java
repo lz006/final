@@ -23,7 +23,7 @@ public class RaumForm extends VerticalPanel {
 
 	VerwaltungAsync verwaltung = null;
 
-	DozentTreeViewModel dtvm = null;
+	CustomTreeViewModel dtvm = null;
 
 	Raum shownRaum = null;
 
@@ -60,7 +60,7 @@ public class RaumForm extends VerticalPanel {
 
 	}
 
-	public void setDtvm(DozentTreeViewModel dtvm) {
+	public void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
 		setInfoText();
 	}

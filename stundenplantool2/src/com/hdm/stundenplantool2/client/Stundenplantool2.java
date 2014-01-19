@@ -24,7 +24,7 @@ public class Stundenplantool2 implements EntryPoint {
 	private final VerwaltungAsync verwaltung = GWT.create(Verwaltung.class);
 	private final ReportAsync report = GWT.create(Report.class);
 	private CellTree cellTree;
-	private DozentTreeViewModel dtvm;
+	private CustomTreeViewModel dtvm;
 	private DockLayoutPanel p;
 	private Image image;
 	private ScrollPanel navi;
@@ -93,7 +93,7 @@ public class Stundenplantool2 implements EntryPoint {
 		mainPanel = new ScrollPanel();
 		navi = new ScrollPanel();
 
-		dtvm = new DozentTreeViewModel(verwaltung);
+		dtvm = new CustomTreeViewModel(verwaltung);
 		cellTree = new CellTree(dtvm, "Root");
 		navi.add(cellTree);
 		dtvm.setRootNode(cellTree.getRootTreeNode());
