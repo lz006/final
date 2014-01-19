@@ -16,6 +16,7 @@ import com.hdm.stundenplantool2.shared.bo.Zeitslot;
  * Das asynchrone Gegenstück des Interface {@link Verwaltung}. 
  * 
  * @author Thies, Moser, Sonntag, Zanella
+ * @version 1
  */
 public interface VerwaltungAsync {
 		

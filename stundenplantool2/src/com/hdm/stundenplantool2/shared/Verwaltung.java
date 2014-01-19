@@ -26,6 +26,7 @@ import com.hdm.stundenplantool2.shared.bo.Zeitslot;
  * </p>
  * 
  * @author Thies, Moeser, Sonntag, Zanella
+ * @version 1
  */
 
 @RemoteServiceRelativePath("verwaltung")
