@@ -475,7 +475,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new RuntimeException("Der Jahrgang eines Semesterverbandes kann nur geändert werden wenn keine Belegungen mehr refernziert werden");
 		}
 		
-		// Pröfung ob die Anzahl der Studenten korrekt angegeben wurde
+		// Prüfung ob die Anzahl der Studenten korrekt angegeben wurde
 		
 		if (!new Integer(semesterverband.getAnzahlStudenten()).toString().matches("[1-9]|[1-9][0-9]|[1-9][0-9][0-9]")) {
 			throw new IllegalArgumentException("Die Anzahl der Studenten kann eine natürliche Zahl von 1 bis 999 sein.\n(Bitte auch keine führende Null angeben)");
@@ -570,14 +570,14 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		
 		
-		// Pröfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt
+		// Prüfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt
 				
 		if (!dozent.getVorname().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*") || 
 				!dozent.getNachname().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
 			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen im Vor- bzw. Nachnamen");
 		}
 		
-		// Pröfung der Personalnummer auf fönfstellige Ziffernfolge
+		// Prüfung der Personalnummer auf fönfstellige Ziffernfolge
 		
 		if (!new Integer(dozent.getPersonalnummer()).toString().matches("[0-9]{5}")) {
 			throw new IllegalArgumentException("Die Personalnummer ist nicht fünfstellig\noder es befinden sich darin nicht erlaubte Zeichen");
@@ -1014,7 +1014,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Prüfen ob der Raum genügend Kapazität aufweist för die referenzierten Semesterverbände
 		
 		/*
-		 * Pröfung deaktiviert, da nun nur Räume mit genögend Kapazität dem Client zur Verfügung gestellt werden
+		 * Prüfung deaktiviert, da nun nur Räume mit genögend Kapazität dem Client zur Verfügung gestellt werden
 		 * Stand 06.01.2014
 		 *
 		
@@ -1046,7 +1046,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Prüfen ob der Semesterverband zum gewünschten Zeitslot verfügbar ist
 		
 		/*
-		 * Pröfung deaktiviert, da Zeitslots vom Client nicht gewöhlt werden können
+		 * Prüfung deaktiviert, da Zeitslots vom Client nicht gewöhlt werden können
 		 * Stand: 05.01.2013
 		
 		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
@@ -1080,7 +1080,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(belegung.getLehrveranstaltung().getId());
 		
-		// Pröfung ob sich die Lehrveranstaltung und die Semesterverbände im gleichen Studiengang befinden
+		// Prüfung ob sich die Lehrveranstaltung und die Semesterverbände im gleichen Studiengang befinden
 		
 		Lehrveranstaltung tempLehrveranstaltung = this.lehrveranstaltungMapper.findByKey(vi, true).elementAt(0);
 		
@@ -1105,7 +1105,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new RuntimeException("Diese Lehrveranstaltung und dieser Semesterverband befinden sich nicht im gleichen Studiengang");
 		}
 			
-		// Pröfung ob der Umfang (SWS) einer Lehrveranstaltung für einen Semesterverband bereits erreicht wurde
+		// Prüfung ob der Umfang (SWS) einer Lehrveranstaltung für einen Semesterverband bereits erreicht wurde
 		
 		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
 			Vector<Belegung> tempSemVerBelegungen = this.belegungMapper.findBySemesterverband(belegung.getSemesterverbaende().elementAt(i));
@@ -1269,7 +1269,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Lokale Variable zum festhalten der SemesterverbandID's, welche von "vB" referenziert werden 
 		Vector<Integer> vI = new Vector<Integer>();
 		if (tempBelegungen != null && tempBelegungen.size() > 0) {
-			// Hinzufögen der SemesterverbandID's zu "vI", falls sie nicht bereits enthalten sind
+			// Hinzufügen der SemesterverbandID's zu "vI", falls sie nicht bereits enthalten sind
 			for(int i = 0; i < tempBelegungen.size(); i++) {
 				for (int j = 0; j < tempBelegungen.elementAt(i).getSemesterverbaende().size(); j++){
 				
@@ -1281,7 +1281,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			//Laden der betroffenen Semesterverbönde mittels "vI"		
 			Vector<Semesterverband> vS = SemesterverbandMapper.semesterverbandMapper().findByKey(vI, false);
 
-			//Pröfen ob eine Kapazitätsänderung mit den referenzierten Semesterverbandsgrößen vereinbar ist
+			//Prüfen ob eine Kapazitätsänderung mit den referenzierten Semesterverbandsgrößen vereinbar ist
 			for(int i = 0; i < vS.size(); i++) {
 				if (raum.getKapazitaet() < vS.elementAt(i).getAnzahlStudenten()) {
 					accepted++;
@@ -1500,13 +1500,13 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		 * Stand: 08.01.2014
 		 *
 		
-		// Pröfung ob das Feld "umfang" nur Zahlen enthält und nicht leer ist
+		// Prüfung ob das Feld "umfang" nur Zahlen enthält und nicht leer ist
 		
 		if (!new Integer(umfang).toString().matches("[0-9]{1}|[0-9]*")) {
 			throw new IllegalArgumentException("Bitten geben Sie die Anzahl der Studenten an");
 		}
 		
-		// Pröfung ob der Inahlt Feld "umfang" durch 2 teilbar ist
+		// Prüfung ob der Inahlt Feld "umfang" durch 2 teilbar ist
 		
 		if ((umfang % 2) != 0) {
 			throw new IllegalArgumentException("Der Umfang muss durch 2 teilbar sein");
@@ -1562,7 +1562,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		belegung.setDozenten(dozenten);
 		belegung.setSemesterverbaende(semesterverbaende);
 		
-		// Pröfung ob ein Dozent mehrmals ausgewöhlt wurde
+		// Prüfung ob ein Dozent mehrmals ausgewöhlt wurde
 		
 		if(belegung.getDozenten().size() > 1) {
 			for (int i = 0; i < belegung.getDozenten().size(); i++) {
@@ -1684,7 +1684,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Prüfen ob der Raum zum gewünschten Zeitslot schon noch verfügbar ist
 		
 		/*
-		 * Pröfung deaktiviert, da dem Client nur freie Rüume zur Verfögung gestellt werden
+		 * Prüfung deaktiviert, da dem Client nur freie Rüume zur Verfögung gestellt werden
 		 * Stand: 07.01.2014
 		
 		Vector<Belegung> raumBelegungen = this.belegungMapper.findByRaum(belegung.getRaum());
@@ -1697,7 +1697,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		*/
 		
-		// Pröfen ob die Semesterverbönde zum gewönschten Zeitslot verfögbar sind
+		// Prüfen ob die Semesterverbände zum gewönschten Zeitslot verfügbar sind
 		
 		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
 			Vector<Belegung> semVerBelegungen = this.belegungMapper.findBySemesterverband(belegung.getSemesterverbaende().elementAt(i));
@@ -1710,7 +1710,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			}
 		}
 		
-		// Pröfen ob der Dozent zum gewönschten Zeitslot verfügbar ist
+		// Prüfen ob der Dozent zum gewünschten Zeitslot verfügbar ist
 		
 		for (int i = 0; i < belegung.getDozenten().size(); i++) {
 			Vector<Belegung> dozentenBelegungen = this.belegungMapper.findByDozent(belegung.getDozenten().elementAt(i));
@@ -1726,7 +1726,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(belegung.getLehrveranstaltung().getId());
 		
-		// Pröfung ob sich die Lehrveranstaltung und die Semesterverbönde im gleichen Studiengang sind
+		// Prüfung ob sich die Lehrveranstaltung und die Semesterverbände im gleichen Studiengang sind
 		
 		Lehrveranstaltung tempLehrveranstaltung = this.lehrveranstaltungMapper.findByKey(vi, true).elementAt(0);
 		
@@ -1746,7 +1746,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new RuntimeException("Lehrveranstaltung und Semesterverband befinden sich nicht im gleichen Studiengang");
 		}
 			
-		// Pröfung ob der Umfang (SWS) einer Lehrveranstaltung för einen Semesterverband bereits erreicht wurde
+		// Prüfung ob der Umfang (SWS) einer Lehrveranstaltung für einen Semesterverband bereits erreicht wurde
 		
 		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
 			Vector<Belegung> tempSemVerBelegungen = this.belegungMapper.findBySemesterverband(belegung.getSemesterverbaende().elementAt(i));
@@ -1769,7 +1769,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 	public Studiengang anlegenStudiengang(String bezeichnung, String kuerzel, Vector<Lehrveranstaltung> lehrveranstaltungen) throws RuntimeException {
 		
-		// Pröfung ob Bezeichung und Kuerzel angegeben wurden
+		// Prüfung ob Bezeichung und Kürzel angegeben wurden
 		
 		StringBuffer tempBezeichnung = new StringBuffer();
 		tempBezeichnung.append(bezeichnung);
