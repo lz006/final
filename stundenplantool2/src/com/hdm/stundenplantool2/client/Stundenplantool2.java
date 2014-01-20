@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -37,6 +38,7 @@ public class Stundenplantool2 implements EntryPoint {
 	private VerticalPanel traegerInfoPanel;
 	private VerticalPanel obenInfoPanel;
 	private VerticalPanel untenInfoPanel;
+	private Label welcomeLabel;
 
 	private DozentForm dF;
 	private BelegungForm bF;
@@ -93,6 +95,10 @@ public class Stundenplantool2 implements EntryPoint {
 		mainPanel = new ScrollPanel();
 		navi = new ScrollPanel();
 
+		welcomeLabel = new Label("Herzlich willkommen im Stundenplantool des Studiengangs Wirtschaftsinformatik und digitale Medien des 4. Semesters!");
+		welcomeLabel.setStyleName("start");
+		mainPanel.add(welcomeLabel);
+		
 		dtvm = new CustomTreeViewModel(verwaltung);
 		cellTree = new CellTree(dtvm, "Root");
 		navi.add(cellTree);
@@ -113,8 +119,7 @@ public class Stundenplantool2 implements EntryPoint {
 		footPanel.add(copyright);
 		footPanel.addStyleName("foot");
 
-		titel = new HTML(
-				"Stundenplan der HdM");
+		titel = new HTML("Stundenplan der HdM");
 		titel.addStyleName("Titel");
 
 		// Logo und Überschrift
@@ -144,9 +149,9 @@ public class Stundenplantool2 implements EntryPoint {
 				+"</br>"
 				+ "</br>Unter <b><i>„Editor – Verwalten“</b></i> können Sie die zuvor angelegten Datensätze ändern und löschen."
 				+ "</br>"
-				+"</br>"
+				+ "</br>"
 				+ "</br>Der Punkt <b><i>„Report“</b></i> ermöglicht es Ihnen, sich Studenten-, Dozenten- und Raumpläne generieren und ausgeben zu lassen.");
-		
+	
 		
 		
 		
