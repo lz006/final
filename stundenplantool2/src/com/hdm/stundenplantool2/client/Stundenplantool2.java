@@ -107,7 +107,7 @@ public class Stundenplantool2 implements EntryPoint {
 
 		image = new Image();
 		image.setUrl("http://www.abload.de/img/widmlogo-frei8qjj3.png");
-		image.setHeight("10em");
+		image.setHeight("5em");
 		image.setAltText("WI-Logo");
 
 		copyright = new HTML("IT-Projekt im 4. Semester &copy; 2014 by Timm Roth (tr047), Tobias Moser (tm066), "
@@ -134,7 +134,7 @@ public class Stundenplantool2 implements EntryPoint {
 		traeger.add(right);
 
 		p = new DockLayoutPanel(Unit.EM);
-		p.addNorth(traeger, 10);
+		p.addNorth(traeger, 5);
 		p.addSouth(footPanel, 5);
 		p.addWest(navi, 25);
 		p.addEast(traegerInfoPanel, 30);
