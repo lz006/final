@@ -1,5 +1,5 @@
 package com.hdm.stundenplantool2.client;
-
+//test
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.shared.GWT;
