@@ -55,14 +55,14 @@ public class LehrveranstaltungForm extends VerticalPanel {
 	TextBox lvBezeichnungTb = new TextBox();
 
 	/**
-	 * TextBox und Label zur Ein-, Ausgabe bzw. Veranschaulichung
+	 * ListBox und Label zur Ein-, Ausgabe bzw. Veranschaulichung
 	 * des Studiensemesters einer Lehrveranstaltung
 	 */
 	Label studiensemesterLabel = new Label("Studiensemester:");
 	ListBox studiensemesterListBox = new ListBox();
 
 	/**
-	 * TextBox und Label zur Ein-, Ausgabe bzw. Veranschaulichung
+	 * ListBox und Label zur Ein-, Ausgabe bzw. Veranschaulichung
 	 * des Umfangs einer Lehrveranstaltung
 	 */
 	Label umfangLabel = new Label("Umfang in SWS:");
@@ -70,7 +70,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 
 	/**
 	 * Widgets um das Hinzufügen von Dozenten zur Lehrveranstaltung
-	 * zu ermöglichen bzw. zu Veranschaulichen
+	 * zu ermöglichen bzw. zu veranschaulichen
 	 */
 	Label dozentLabel = new Label("Dozenten:");
 	ListBox dozentListBox = new ListBox();
@@ -145,7 +145,8 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		studiensemesterListBox.addStyleName("customListBox");
 
 		obenPanel = new VerticalPanel();
-
+		
+		// Anordnen von Widgets
 		obenGrid = new Grid(3, 2);
 		obenGrid.setWidget(0, 0, bezeichnungLabel);
 		obenGrid.setWidget(0, 1, lvBezeichnungTb);
@@ -356,7 +357,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 
 	/**
 	 * Methode die mittels Proxy-Objekt vom Server alle Dozenten anfordert und diese
-	 * in den dafür vorgesehenen Conatainer ablegt sowie das entsprechende DropDown
+	 * in den dafür vorgesehenen Container ablegt sowie das entsprechende DropDown
 	 * (ListBox) befüllt 
 	 */
 	public void ladenDozenten() {
