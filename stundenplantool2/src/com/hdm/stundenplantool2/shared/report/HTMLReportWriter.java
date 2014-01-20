@@ -12,7 +12,7 @@ public class HTMLReportWriter {
 				for (int j = 0; j < 8; j++) {
 					if(j == 0) {
 						result.append("<td style=\"background-color: white; width:400px;height: 60px;rules: all; text-align: center; font-family: bold\"> ");
-						result.append("<b>13:15 - 14:15</b>");
+						result.append("<b style=\"background-color: grey\">13:15 - 14:15</b>");
 						result.append("</td>");
 					}
 					else {
