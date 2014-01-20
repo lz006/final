@@ -51,7 +51,7 @@ public class DozentForm extends VerticalPanel {
 	ListBox listBox;
 	
 	/**
-	 * Container welcher alle Lehrveranstaltungen enthält, aus dem sich er 
+	 * Container welcher alle Lehrveranstaltungen enthält, aus dem sich der 
 	 * User mittels DropDown "bedienen" kann
 	 */
 	Vector<Lehrveranstaltung> alleLV = null;
@@ -68,8 +68,8 @@ public class DozentForm extends VerticalPanel {
 	Dozent shownDozent = null;
 	
 	/**
-	 * Referenz auf des TreeViewModel um Zugriff auf Methoden dieser Klasse 
-	 * zu haben
+	 * Referenz auf des CustomTreeViewModel um Zugriff auf Methoden dieser Klasse 
+	 * zu haben {@link CustomTreeViewModel}
 	 */
 	CustomTreeViewModel dtvm = null;
 
@@ -230,7 +230,7 @@ public class DozentForm extends VerticalPanel {
 							}
 						}
 					}
-					// Falls die gewünschte Lehrveranstaltung noch nicht hinzugefüggt wurde...
+					// Falls die gewünschte Lehrveranstaltung noch nicht hinzugefügt wurde...
 					if (check) {
 						if (shownDozent.getLehrveranstaltungen() == null) {
 							shownDozent.setLehrveranstaltungen(new Vector<Lehrveranstaltung>());
@@ -304,7 +304,7 @@ public class DozentForm extends VerticalPanel {
 		if (shownDozent != null) {
 			if ((shownDozent.getLehrveranstaltungen() != null) && (shownDozent.getLehrveranstaltungen().size() > 0)) {
 				
-				// Für jede Lehrveranstaltung...
+				// Für jede Lehrveranstaltung des Dozenten...
 				for (Lehrveranstaltung lv : shownDozent.getLehrveranstaltungen()) {
 					
 					//...wird im FlexTable ein Eintrag gesetzt und...
@@ -421,7 +421,8 @@ public class DozentForm extends VerticalPanel {
 	}
 
 	/**
-	 * Setzen der Referenz zum CustomTreeViewModel des CellTree
+	 * Setzen der Referenz zum CustomTreeViewModel des CellTree und
+	 * mittelbar setzen der Infotexte
 	 * 
 	 * @param	Referenz auf ein CustomTreeViewModel-Objekt. 
 	 */

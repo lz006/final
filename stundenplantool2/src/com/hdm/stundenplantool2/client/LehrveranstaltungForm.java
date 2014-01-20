@@ -21,52 +21,119 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.hdm.stundenplantool2.shared.*;
 import com.hdm.stundenplantool2.shared.bo.*;
 
+/**
+ * Diese Klasse stellt die zum Anlegen und Bearbeiten einer Lehrveranstaltung notwendige
+ * grafische Benutzeroberfläche bereit
+ * 
+ * @author Roth, Klatt, Zimmermann, Moser, Sonntag, Zanella
+ * @version 1.0
+ * 
+ */
 public class LehrveranstaltungForm extends VerticalPanel {
 
+	/**
+	 * Referenz auf das Proxy-Objekt um mit dem Server kommunizieren zu können
+	 */
 	VerwaltungAsync verwaltung = null;
 
+	/**
+	 * Referenz auf des CustomTreeViewModel um Zugriff auf Methoden dieser Klasse 
+	 * zu haben {@link CustomTreeViewModel}
+	 */
 	CustomTreeViewModel dtvm;
 
+	/**
+	 * Angezeigte Lehrveranstaltung
+	 */
 	Lehrveranstaltung shownLehrveranstaltung = null;
 
+	/**
+	 * TextBox und Label zur Ein-, Ausgabe bzw. Veranschaulichung
+	 * der Bezeichnung einer Lehrveranstaltung
+	 */
 	Label bezeichnungLabel = new Label("Bezeichnung:");
 	TextBox lvBezeichnungTb = new TextBox();
 
+	/**
+	 * TextBox und Label zur Ein-, Ausgabe bzw. Veranschaulichung
+	 * des Studiensemesters einer Lehrveranstaltung
+	 */
 	Label studiensemesterLabel = new Label("Studiensemester:");
 	ListBox studiensemesterListBox = new ListBox();
 
+	/**
+	 * TextBox und Label zur Ein-, Ausgabe bzw. Veranschaulichung
+	 * des Umfangs einer Lehrveranstaltung
+	 */
 	Label umfangLabel = new Label("Umfang in SWS:");
 	ListBox umfangListBox = new ListBox();
 
+	/**
+	 * Widgets um das Hinzufügen von Dozenten zur Lehrveranstaltung
+	 * zu ermöglichen bzw. zu Veranschaulichen
+	 */
 	Label dozentLabel = new Label("Dozenten:");
 	ListBox dozentListBox = new ListBox();
 	Button dozentHinzufuegenButton = new Button("Hinzufügen");
 
+	/**
+	 * Widgets um das Hinzufügen von Studiengängen zur Lehrveranstaltung
+	 * zu ermöglichen bzw. zu Veranschaulichen
+	 */
 	Label studiengangLabel = new Label("Studiengänge:");
 	ListBox studiengangListBox = new ListBox();
 	Button studiengangHinzufuegenButton = new Button("Hinzufügen");
 
+	/**
+	 * Button der je nach Masken-Variante (Anlegen/Ändern) eine 
+	 * Lehrveranstaltung anlegt bzw. ändert
+	 */
 	Button speichernAnlegenButton = new Button();
 	Button loeschenButton;
 
+	/**
+	 * Container welche alle Studiengänge bzw. Dozenten enthalten, 
+	 * aus denen sich der User mittels DropDown "bedienen" kann
+	 */
 	Vector<Studiengang> studiengangVector = null;
 	Vector<Dozent> dozentenVector = null;
 
+	/**
+	 * Container welche alle Studiengänge bzw. Dozenten enthalten, 
+	 * welche der User für eine neue Lehrveranstaltung ausgwählt hat
+	 */
 	Vector<Studiengang> studiengaengeVonNeuerLVVector = null;
 	Vector<Dozent> dozentenVonNeuerLVVector = null;
 
+	/**
+	 * Dynamische Tabellen (FlexTable) welche die zur Lehrveranstaltung 
+	 * referenzierten Dozenten bzw. Studiengänge auflisten
+	 */
 	FlexTable dozentTable;
 	FlexTable sgTable;
 
+	/**
+	 * Panels, welche die Benutzeroberfläche in vier Bereiche einteilen
+	 */
 	VerticalPanel obenPanel;
 	VerticalPanel mittePanel;
 	VerticalPanel untenPanel;
 	HorizontalPanel abschlussPanel;
 
+	/**
+	 * Tabellen (Grids) welche Widgtes strukturiert aufnehmen und selbst
+	 * wiederum Panels (dem Namen entsprechend) zugewiesen werden
+	 */
 	Grid obenGrid;
 	Grid mitteGrid;
 	Grid untenGrid;
 
+	/**
+	 * Komstruktor der alle notwendigen Widgets initialisiert und anordnet,
+	 * so dass das Objekt für weitere Konfigurationen bereit ist
+	 * 
+	 * @param	Referenz auf ein Proxy-Objekt. 
+	 */	
 	public LehrveranstaltungForm(VerwaltungAsync verwaltungA) {
 
 		this.verwaltung = verwaltungA;
@@ -83,6 +150,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		obenGrid.setWidget(2, 0, umfangLabel);
 		obenGrid.setWidget(2, 1, umfangListBox);
 
+		// Füllen der "studiensemesterListBox" mit vordefinierten Einträgen
 		studiensemesterListBox.addItem("1.Semester");
 		studiensemesterListBox.addItem("2.Semester");
 		studiensemesterListBox.addItem("3.Semester");
@@ -95,6 +163,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		studiensemesterListBox.addItem("10.Semester");
 		studiensemesterListBox.addItem("11.Semester");
 
+		// Füllen der "umfangListBox" mit vordefinierten Einträgen
 		umfangListBox.addItem("2");
 		umfangListBox.addItem("4");
 		umfangListBox.addItem("6");
@@ -105,6 +174,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		obenPanel.add(obenGrid);
 		this.add(obenPanel);
 
+		// Initialisierung und Anordnung der Widgets für den "Dozenten-Bereich"
 		mittePanel = new VerticalPanel();
 
 		mitteGrid = new Grid(1, 3);
@@ -112,64 +182,83 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		mitteGrid.setWidget(0, 1, dozentListBox);
 		mitteGrid.setWidget(0, 2, dozentHinzufuegenButton);
 
+		// Füllen des Dozenten- und mittelbar des Studiengang-Containers
 		ladenDozenten();
 
+		// Adden eines ClickHandlers zum "Dozent-Hinzufügen-Button"
 		dozentHinzufuegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
+				/*
+				 *  Zuerst wird anhand "shownLehrveranstaltung" geprüft in welchem Zustand sich  
+				 *  das Benutzerinterface befindet (anlegen/ändern), bei "null" befindet
+				 *  sicher der User in der Anlegen-Variante
+				 */
 				if (shownLehrveranstaltung != null) {
 					boolean check = true;
+					/*
+					 *  Bei Auswahl eines Dozenten wird zunächst geprüft,
+					 *  ob sich dieser bereits im Repertoire der Lehrveranstaltung befindet,
+					 *  sollte dies der Fall sein, wird der gewüschte Dozent nicht
+					 *  hinzugefügt und der User darauf hingewiesen
+					 */
 					if (shownLehrveranstaltung.getDozenten() != null) {
-						for (Dozent dozent : shownLehrveranstaltung
-								.getDozenten()) {
-							if (dozent.getId() == dozentenVector.elementAt(
-									dozentListBox.getSelectedIndex()).getId()) {
+						for (Dozent dozent : shownLehrveranstaltung.getDozenten()) {
+							if (dozent.getId() == dozentenVector.elementAt(dozentListBox.getSelectedIndex()).getId()) {
 								Window.alert("Der Dozent ist bereits hinzugefügt");
 								check = false;
 								break;
 							}
 						}
 					}
+					// Falls der gewünschte Dozent noch nicht hinzugefügt wurde...
 					if (check) {
 						if (shownLehrveranstaltung.getDozenten() == null) {
-							shownLehrveranstaltung
-									.setDozenten(new Vector<Dozent>());
+							shownLehrveranstaltung.setDozenten(new Vector<Dozent>());
 						}
-						shownLehrveranstaltung.getDozenten().addElement(
-								dozentenVector.elementAt(dozentListBox
-										.getSelectedIndex()));
+						/*
+						 * ...wird diese der "shownLehrveranstaltung" hinzugefügt, dabei entspricht die Indexierung
+						 * des DropDowns dem des Dozenten-Containers in dem alle Dozenten vorgehalten werden
+						 */
+						shownLehrveranstaltung.getDozenten().addElement(dozentenVector.elementAt(dozentListBox.getSelectedIndex()));
 						dozentenAnzeigen();
 					}
-				} else {
+				} 
+				/*
+				 *  "else-Zweig" wird durchlaufen wenn die Anlegen-Variante in Gebrauch ist nahezu identisch zum
+				 *  "if-Zweig", nur dass für ein neuer Dozent ein separater Dozenten-Container die hinzugefügten 
+				 *  Dozenten aufnehmen muss
+				 */
+				else {
 					if (dozentenVonNeuerLVVector == null) {
 						dozentenVonNeuerLVVector = new Vector<Dozent>();
 					}
 					boolean check = true;
 					for (Dozent dozent : dozentenVonNeuerLVVector) {
-						if (dozent.getId() == dozentenVector.elementAt(
-								dozentListBox.getSelectedIndex()).getId()) {
+						if (dozent.getId() == dozentenVector.elementAt(dozentListBox.getSelectedIndex()).getId()) {
 							Window.alert("Der Dozent ist bereits hinzugefügt");
 							check = false;
 							break;
 						}
 					}
 					if (check) {
-						dozentenVonNeuerLVVector.addElement(dozentenVector
-								.elementAt(dozentListBox.getSelectedIndex()));
+						dozentenVonNeuerLVVector.addElement(dozentenVector.elementAt(dozentListBox.getSelectedIndex()));
 						dozentenAnzeigen();
 					}
 				}
-
 			}
 		});
 
+		// Initialiseren des FlexTables für die Dozenten
 		dozentTable = new FlexTable();
 		dozentTable.setText(0, 0, "Dozent");
 
+		// Anordnung der Widgets, welche den Dozenten-Bereich betreffen
 		mittePanel.add(mitteGrid);
 		mittePanel.add(dozentTable);
 		this.add(mittePanel);
 
+		// Initialisierung und Anordnung der Widgets für den "Studiengänge-Bereich"
 		untenPanel = new VerticalPanel();
 
 		untenGrid = new Grid(1, 3);
@@ -177,51 +266,64 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		untenGrid.setWidget(0, 1, studiengangListBox);
 		untenGrid.setWidget(0, 2, studiengangHinzufuegenButton);
 
+		// Adden eines ClickHandlers zum "Studiengang-Hinzufügen-Button"
 		studiengangHinzufuegenButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
+				/*
+				 *  Zuerst wird anhand "shownLehrveranstaltung" geprüft in welchem Zustand sich  
+				 *  das Benutzerinterface befindet (anlegen/ändern), bei "null" befindet
+				 *  sicher der User in der Anlegen-Variante
+				 */
 				if (shownLehrveranstaltung != null) {
 					boolean check = true;
+					/*
+					 *  Bei Auswahl eines Studienganges wird zunächst geprüft,
+					 *  ob sich dieser bereits im Repertoire der Lehrveranstaltung befindet,
+					 *  sollte dies der Fall sein, wird der gewüschte Studiengang nicht
+					 *  hinzugefügt und der User darauf hingewiesen
+					 */
 					if (shownLehrveranstaltung.getStudiengaenge() != null) {
-						for (Studiengang sg : shownLehrveranstaltung
-								.getStudiengaenge()) {
-							if (sg.getId() == studiengangVector.elementAt(
-									studiengangListBox.getSelectedIndex())
-									.getId()) {
+						for (Studiengang sg : shownLehrveranstaltung.getStudiengaenge()) {
+							if (sg.getId() == studiengangVector.elementAt(studiengangListBox.getSelectedIndex()).getId()) {
 								Window.alert("Der Studiengang ist bereits hinzugefügt");
 								check = false;
 								break;
 							}
 						}
 					}
+					// Falls der gewünschte Studiengang noch nicht hinzugefügt wurde...
 					if (check) {
 						if (shownLehrveranstaltung.getStudiengaenge() == null) {
-							shownLehrveranstaltung
-									.setStudiengaenge(new Vector<Studiengang>());
+							shownLehrveranstaltung.setStudiengaenge(new Vector<Studiengang>());
 						}
-						shownLehrveranstaltung.getStudiengaenge().addElement(
-								studiengangVector.elementAt(studiengangListBox
-										.getSelectedIndex()));
+						/*
+						 * ...wird diese der "shownLehrveranstaltung" hinzugefügt, dabei entspricht die Indexierung
+						 * des DropDowns dem des Dozenten-Containers in dem alle Dozenten vorgehalten werden
+						 */
+						shownLehrveranstaltung.getStudiengaenge().addElement(studiengangVector.elementAt(studiengangListBox.getSelectedIndex()));
 						studiengaengeAnzeigen();
 					}
-				} else {
+				}
+				/*
+				 *  "else-Zweig" wird durchlaufen wenn die Anlegen-Variante in Gebrauch ist nahezu identisch zum
+				 *  "if-Zweig", nur dass für ein neuer Studiengang ein separater Studiengang-Container die hinzugefügten 
+				 *  Studiengänge aufnehmen muss
+				 */
+				else {
 					if (studiengaengeVonNeuerLVVector == null) {
 						studiengaengeVonNeuerLVVector = new Vector<Studiengang>();
 					}
 					boolean check = true;
 					for (Studiengang sg : studiengaengeVonNeuerLVVector) {
-						if (sg.getId() == studiengangVector.elementAt(
-								studiengangListBox.getSelectedIndex()).getId()) {
+						if (sg.getId() == studiengangVector.elementAt(studiengangListBox.getSelectedIndex()).getId()) {
 							Window.alert("Lie Lehrveranstaltung ist bereits hinzugefügt");
 							check = false;
 							break;
 						}
 					}
 					if (check) {
-						studiengaengeVonNeuerLVVector
-								.addElement(studiengangVector
-										.elementAt(studiengangListBox
-												.getSelectedIndex()));
+						studiengaengeVonNeuerLVVector.addElement(studiengangVector.elementAt(studiengangListBox.getSelectedIndex()));
 						studiengaengeAnzeigen();
 					}
 				}
@@ -229,19 +331,30 @@ public class LehrveranstaltungForm extends VerticalPanel {
 			}
 		});
 
+		// Initialiseren des FlexTables für die Studiengänge
 		sgTable = new FlexTable();
 		sgTable.setText(0, 0, "Studiengang");
 
+		// Anordnung der Widgets, welche den Studiengang-Bereich betreffen
 		untenPanel.add(untenGrid);
 		untenPanel.add(sgTable);
 		this.add(untenPanel);
 
+		/*
+		 *  Erstellung und Anordnung des Schluss-Bereichs, welcher die Buttons
+		 *  je nach Masken-Variante aufnimmt (Speichern/Anlegen/Löschen)
+		 */
 		abschlussPanel = new HorizontalPanel();
 		abschlussPanel.add(speichernAnlegenButton);
 		this.add(abschlussPanel);
 
 	}
 
+	/**
+	 * Methode die mittels Proxy-Objekt vom Server alle Dozenten anfordert und diese
+	 * in den dafür vorgesehenen Conatainer ablegt sowie das entsprechende DropDown
+	 * (ListBox) befüllt 
+	 */
 	public void ladenDozenten() {
 		verwaltung.auslesenAlleDozenten(new AsyncCallback<Vector<Dozent>>() {
 			public void onFailure(Throwable caught) {
@@ -251,17 +364,24 @@ public class LehrveranstaltungForm extends VerticalPanel {
 			public void onSuccess(Vector<Dozent> result) {
 				dozentenVector = result;
 				for (Dozent dozent : result) {
-					dozentListBox.addItem(dozent.getNachname() + " "
-							+ dozent.getVorname());
+					dozentListBox.addItem(dozent.getNachname() + " " + dozent.getVorname());
 				}
+				/*
+				 *  Erst nach erfolgreichem "Ladevorgang" werden die Studiengänge geladen
+				 *  um einen sich gegenseitig blockierende Datenbank-Kommunikation zu verhindern
+				 */
 				ladenStudiengaenge();
 			}
 		});
 	}
 
+	/**
+	 * Methode die mittels Proxy-Objekt vom Server alle Studiengänge anfordert und diese
+	 * in den dafür vorgesehenen Conatainer ablegt sowie das entsprechende DropDown
+	 * (ListBox) befüllt 
+	 */
 	public void ladenStudiengaenge() {
-		verwaltung
-				.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
+		verwaltung.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
 					}
@@ -269,98 +389,113 @@ public class LehrveranstaltungForm extends VerticalPanel {
 					public void onSuccess(Vector<Studiengang> result) {
 						studiengangVector = result;
 						for (Studiengang studiengang : result) {
-							studiengangListBox.addItem(studiengang
-									.getBezeichnung());
+							studiengangListBox.addItem(studiengang.getBezeichnung());
 						}
 					}
 				});
 	}
 
+	/**
+	 * Setzen der Referenz zum CustomTreeViewModel des CellTree und
+	 * mittelbar setzen der Infotexte
+	 * 
+	 * @param	Referenz auf ein CustomTreeViewModel-Objekt. 
+	 */
 	public void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
 		setInfoText();
 	}
 
+	/**
+	 * Setzen der InfoTexte um den User zu unterstützen, bei Klick in ein
+	 * Textfeld werden widgetspezifische Informationen bzw. Restriktionen
+	 * angezeigt
+	 */
 	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben(
-				"<b><u>Anleitung: </u></b></br>"
-						+ "Hier können Sie eine Lehrveranstaltung anlegen/ ändern."										
-						+ "</br>"
-						+ "</br>Eine Dozentin/ ein Dozent muss einer Lehrveranstaltung nicht zwangsläufig zugewiesen werden!"
-						+ "</br>"
-						+ "</br>Einer Lehrveranstaltung muss <b>mindestens ein</b> Studiengang zugewiesen werden!"
-						+ "</br>"
-						+ "</br><b>Außer der Angabe einer Dozentin/ eines Dozenten, sind alle Felder Pflichtfelder!</b>");
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("<b><u>Anleitung: </u></b></br>Hier können Sie eine Lehrveranstaltung anlegen/ ändern."										
+			+ "</br>"
+			+ "</br>Eine Dozentin/ ein Dozent muss einer Lehrveranstaltung nicht zwangsläufig zugewiesen werden!"
+			+ "</br>"
+			+ "</br>Einer Lehrveranstaltung muss <b>mindestens ein</b> Studiengang zugewiesen werden!"
+			+ "</br>"
+			+ "</br><b>Außer der Angabe einer Dozentin/ eines Dozenten, sind alle Felder Pflichtfelder!</b>");
 
 		lvBezeichnungTb.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				dtvm.getStundenplantool2()
-						.setTextToInfoPanelUnten(
-								"<b></br>Für die Bearbeitung der Lehrveranstaltungsbezeichnung bitte folgende Restriktionen beachten:</b>"
-										+ "</br>Die Bezeichnung darf nicht mit einem Sonderzeichen, einem Leerzeichen oder einer Zahl beginnen!"
-										+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich am Ende der Bezeichnung, gefolgt von einer Zahl!</br>Bsp. Softwareentwicklung-2");
+				dtvm.getStundenplantool2().setTextToInfoPanelUnten("<b></br>Für die Bearbeitung der "
+					+ "Lehrveranstaltungsbezeichnung bitte folgende Restriktionen beachten:</b>"
+					+ "</br>Die Bezeichnung darf nicht mit einem Sonderzeichen, einem Leerzeichen oder einer Zahl beginnen!"
+					+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich am Ende der Bezeichnung, gefolgt von einer Zahl!</br>Bsp. Softwareentwicklung-2");
 			}
 		});
 	}
 
+	/**
+	 * Setzen der aus dem CellTree gewählten Lehrveranstaltung (Ändern-Maske)
+	 * 
+	 * @param	Referenz auf ein Lehrveranstaltung-Objekt. 
+	 */
 	public void setShownLehrveranstaltung(Lehrveranstaltung lv) {
 		this.shownLehrveranstaltung = lv;
 	}
 
+	/**
+	 * Methode um den FlexTable, welcher alle der LV zugeordneten Dozenten
+	 * auflistet, abzubilden. Dabei erhält jeder Eintrag mittels Button die
+	 * Möglichkeit, diesen wieder zu entfernen. Die Methode wird in der
+	 * Ändern-Maske zu Beginn und anschließend maskenunabhängig bei jeder
+	 * neuen Auswahl eines Dozenten bzw. deren Löschung aufgerufen 
+	 */
 	public void dozentenAnzeigen() {
 		dozentTable.removeAllRows();
 		dozentTable.setText(0, 0, "Dozent");
 
+		// "if-Zweig" falls Ändern-Maske gegenwärtig
 		if (shownLehrveranstaltung != null) {
-			if ((shownLehrveranstaltung.getDozenten() != null)
-					&& (shownLehrveranstaltung.getDozenten().size() > 0)) {
+			if ((shownLehrveranstaltung.getDozenten() != null) && (shownLehrveranstaltung.getDozenten().size() > 0)) {
+				
+				// Für jeden Dozenten der LV...
 				for (Dozent dozent : shownLehrveranstaltung.getDozenten()) {
+					
+					//...wird im FlexTable ein Eintrag gesetzt und...
 					final int row = dozentTable.getRowCount();
-					dozentTable.setWidget(
-							row,
-							0,
-							new Label(dozent.getNachname() + " "
-									+ dozent.getVorname()));
+					dozentTable.setWidget(row, 0, new Label(dozent.getNachname() + " " + dozent.getVorname()));
 
+					//...ein Button, mit dem der User den Dozenten wieder entfernen kann
 					Button loeschenButton = new Button("X");
 					loeschenButton.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
 
-							int rowIndex = dozentTable.getCellForEvent(event)
-									.getRowIndex();
+							int rowIndex = dozentTable.getCellForEvent(event).getRowIndex();
 							dozentTable.removeRow(rowIndex);
 
-							shownLehrveranstaltung.getDozenten()
-									.removeElementAt(rowIndex - 1);
+							shownLehrveranstaltung.getDozenten().removeElementAt(rowIndex - 1);
 
 						}
 					});
-
 					dozentTable.setWidget(row, 1, loeschenButton);
-
 				}
 			}
-		} else {
-			if ((dozentenVonNeuerLVVector != null)
-					&& (dozentenVonNeuerLVVector.size() > 0)) {
+		} 
+		/*
+		 *  "else-Zweig" wird durchlaufen wenn die Anlegen-Variante in Gebrauch ist nahezu identisch zum
+		 *  "if-Zweig", nur dass für eine neue LV ein separater Dozenten-Container die hinzugefügten 
+		 *  Dozenten aufnehmen muss
+		 */
+		else {
+			if ((dozentenVonNeuerLVVector != null) && (dozentenVonNeuerLVVector.size() > 0)) {
 				for (Dozent dozent : dozentenVonNeuerLVVector) {
 					final int row = dozentTable.getRowCount();
-					dozentTable.setWidget(
-							row,
-							0,
-							new Label(dozent.getNachname() + " "
-									+ dozent.getVorname()));
+					dozentTable.setWidget(row, 0, new Label(dozent.getNachname() + " " + dozent.getVorname()));
 
 					Button loeschenButton = new Button("X");
 					loeschenButton.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
 
-							int rowIndex = dozentTable.getCellForEvent(event)
-									.getRowIndex();
+							int rowIndex = dozentTable.getCellForEvent(event).getRowIndex();
 							dozentTable.removeRow(rowIndex);
 
-							dozentenVonNeuerLVVector
-									.removeElementAt(rowIndex - 1);
+							dozentenVonNeuerLVVector.removeElementAt(rowIndex - 1);
 
 						}
 					});
@@ -372,27 +507,37 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		}
 	}
 
+	/**
+	 * Methode um den FlexTable, welcher alle der LV zugeordneten Studiengänge
+	 * auflistet, abzubilden. Dabei erhält jeder Eintrag mittels Button die
+	 * Möglichkeit, diesen wieder zu entfernen. Die Methode wird in der
+	 * Ändern-Maske zu Beginn und anschließend maskenunabhängig bei jeder
+	 * neuen Auswahl eines Dozenten bzw. deren Löschung aufgerufen 
+	 */
 	public void studiengaengeAnzeigen() {
 		sgTable.removeAllRows();
 		sgTable.setText(0, 0, "Studiengang");
 
+		// "if-Zweig" falls Ändern-Maske gegenwärtig
 		if (shownLehrveranstaltung != null) {
-			if ((shownLehrveranstaltung.getStudiengaenge() != null)
-					&& (shownLehrveranstaltung.getStudiengaenge().size() > 0)) {
+			if ((shownLehrveranstaltung.getStudiengaenge() != null)	&& (shownLehrveranstaltung.getStudiengaenge().size() > 0)) {
+				
+				// Für jeden Studiengang der LV...
 				for (Studiengang sg : shownLehrveranstaltung.getStudiengaenge()) {
+					
+					//...wird im FlexTable ein Eintrag gesetzt und...
 					final int row = sgTable.getRowCount();
 					sgTable.setWidget(row, 0, new Label(sg.getBezeichnung()));
 
+					//...ein Button, mit dem der User den Dozenten wieder entfernen kann
 					Button loeschenButton = new Button("X");
 					loeschenButton.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
 
-							int rowIndex = sgTable.getCellForEvent(event)
-									.getRowIndex();
+							int rowIndex = sgTable.getCellForEvent(event).getRowIndex();
 							sgTable.removeRow(rowIndex);
 
-							shownLehrveranstaltung.getStudiengaenge()
-									.removeElementAt(rowIndex - 1);
+							shownLehrveranstaltung.getStudiengaenge().removeElementAt(rowIndex - 1);
 
 						}
 					});
@@ -401,9 +546,14 @@ public class LehrveranstaltungForm extends VerticalPanel {
 
 				}
 			}
-		} else {
-			if ((studiengaengeVonNeuerLVVector != null)
-					&& (studiengaengeVonNeuerLVVector.size() > 0)) {
+		} 
+		/*
+		 *  "else-Zweig" wird durchlaufen wenn die Anlegen-Variante in Gebrauch ist nahezu identisch zum
+		 *  "if-Zweig", nur dass für eine neue LV ein separater Studiengang-Container die hinzugefügten 
+		 *  Studiengänge aufnehmen muss
+		 */
+		else {
+			if ((studiengaengeVonNeuerLVVector != null)	&& (studiengaengeVonNeuerLVVector.size() > 0)) {
 				for (Studiengang sg : studiengaengeVonNeuerLVVector) {
 					final int row = sgTable.getRowCount();
 					sgTable.setWidget(row, 0, new Label(sg.getBezeichnung()));
@@ -412,12 +562,10 @@ public class LehrveranstaltungForm extends VerticalPanel {
 					loeschenButton.addClickHandler(new ClickHandler() {
 						public void onClick(ClickEvent event) {
 
-							int rowIndex = sgTable.getCellForEvent(event)
-									.getRowIndex();
+							int rowIndex = sgTable.getCellForEvent(event).getRowIndex();
 							sgTable.removeRow(rowIndex);
 
-							studiengaengeVonNeuerLVVector
-									.removeElementAt(rowIndex - 1);
+							studiengaengeVonNeuerLVVector.removeElementAt(rowIndex - 1);
 
 						}
 					});
@@ -429,17 +577,27 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		}
 	}
 
+	/**
+	 * TextBox mit der LV-Bezeichnung füllen (Ändern-Maske) und ListBoxen
+	 * den Attributwerten der LV entsprechend vorauswählen
+	 */
 	public void fillForm() {
 		this.lvBezeichnungTb.setText(shownLehrveranstaltung.getBezeichnung());
-		this.studiensemesterListBox.setSelectedIndex(shownLehrveranstaltung
-				.getStudiensemester() - 1);
-		this.umfangListBox
-				.setSelectedIndex((shownLehrveranstaltung.getUmfang() / 2) - 1);
-
+		this.studiensemesterListBox.setSelectedIndex(shownLehrveranstaltung.getStudiensemester() - 1);
+		this.umfangListBox.setSelectedIndex((shownLehrveranstaltung.getUmfang() / 2) - 1);
 	}
 
+	/**
+	 * Methode welche die Benutzeroberfläche so konfiguriert, dass sie das Ändern einer
+	 * LV ermöglicht (wird von CustomTreeViewModel aus aufgerufen {@link CustomTreeViewModel})
+	 */
 	public void aendernMaske() {
 
+		/*
+		 *  "speichernAnlegenButton" wird entsprechend der Funktion
+		 *  benannt und "bekommt" einen entsprechenden Clickhandler
+		 *  zugewiesen
+		 */
 		speichernAnlegenButton.setText("Speichern");
 
 		speichernAnlegenButton.addClickHandler(new ClickHandler() {
@@ -449,61 +607,52 @@ public class LehrveranstaltungForm extends VerticalPanel {
 				loeschenButton.setEnabled(false);
 
 				shownLehrveranstaltung.setBezeichnung(lvBezeichnungTb.getText());
-				shownLehrveranstaltung
-						.setStudiensemester(studiensemesterListBox
-								.getSelectedIndex() + 1);
-				shownLehrveranstaltung.setUmfang((umfangListBox
-						.getSelectedIndex() * 2) + 2);
+				shownLehrveranstaltung.setStudiensemester(studiensemesterListBox.getSelectedIndex() + 1);
+				shownLehrveranstaltung.setUmfang((umfangListBox.getSelectedIndex() * 2) + 2);
 
-				verwaltung.aendernLehrveranstaltung(shownLehrveranstaltung,
-						new AsyncCallback<Lehrveranstaltung>() {
+				verwaltung.aendernLehrveranstaltung(shownLehrveranstaltung, new AsyncCallback<Lehrveranstaltung>() {
+					public void onFailure(Throwable caught) {
+						Window.alert(caught.getMessage());
+
+						verwaltung.auslesenLehrveranstaltung(shownLehrveranstaltung, new AsyncCallback<Vector<Lehrveranstaltung>>() {
 							public void onFailure(Throwable caught) {
+								DOM.setStyleAttribute(RootPanel.getBodyElement(),"cursor","default");
 								Window.alert(caught.getMessage());
-
-								verwaltung
-										.auslesenLehrveranstaltung(
-												shownLehrveranstaltung,
-												new AsyncCallback<Vector<Lehrveranstaltung>>() {
-													public void onFailure(
-															Throwable caught) {
-														DOM.setStyleAttribute(
-																RootPanel
-																		.getBodyElement(),
-																"cursor",
-																"default");
-														Window.alert(caught
-																.getMessage());
-														speichernAnlegenButton
-																.setEnabled(true);
-														loeschenButton
-																.setEnabled(true);
-													}
-
-													public void onSuccess(
-															Vector<Lehrveranstaltung> result) {
-														dozentTable.clear();
-														sgTable.clear();
-														dtvm.setSelectedLehrveranstaltung(result
-																.elementAt(0));
-														speichernAnlegenButton
-																.setEnabled(true);
-														loeschenButton
-																.setEnabled(true);
-													}
-												});
-
+								speichernAnlegenButton.setEnabled(true);
+								loeschenButton.setEnabled(true);
 							}
 
-							public void onSuccess(Lehrveranstaltung result) {
-								Window.alert("Lehrveranstaltung wurde erfolgreich geändert");
-								dtvm.updateLehrveranstaltung(shownLehrveranstaltung);
+							/*
+							 *  Bei fehlgeschlagener Änderung der LV, wird die LV wieder 
+							 *  in ihrer ursprünglichen Form geladen und die Benutzeroberfläche neu
+							 *  aufgesetzt
+							 */
+							public void onSuccess(Vector<Lehrveranstaltung> result) {
+								dozentTable.clear();
+								sgTable.clear();
+								dtvm.setSelectedLehrveranstaltung(result.elementAt(0));
 								speichernAnlegenButton.setEnabled(true);
 								loeschenButton.setEnabled(true);
 							}
 						});
+
+					}
+
+					/* 
+					 * Bei Erfolgreicher Änderung erfolgt Meldung an der User und
+					 * der lehrveranstaltungDataProvider wird mittelbar aktualisiert
+					 */
+					public void onSuccess(Lehrveranstaltung result) {
+						Window.alert("Lehrveranstaltung wurde erfolgreich geändert");
+						dtvm.updateLehrveranstaltung(shownLehrveranstaltung);
+						speichernAnlegenButton.setEnabled(true);
+						loeschenButton.setEnabled(true);
+					}
+				});
 			}
 		});
 
+		// Initialisieren und Konfigurieren des Löschen-Buttons
 		loeschenButton = new Button("Löschen");
 		abschlussPanel.add(loeschenButton);
 
@@ -513,8 +662,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 				speichernAnlegenButton.setEnabled(false);
 				loeschenButton.setEnabled(false);
 
-				verwaltung.loeschenLehrveranstaltung(shownLehrveranstaltung,
-						new AsyncCallback<Void>() {
+				verwaltung.loeschenLehrveranstaltung(shownLehrveranstaltung, new AsyncCallback<Void>() {
 							public void onFailure(Throwable caught) {
 								Window.alert(caught.getMessage());
 								speichernAnlegenButton.setEnabled(true);
@@ -532,8 +680,17 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		});
 	}
 
+	/**
+	 * Methode welche die Benutzeroberfläche so konfiguriert, dass sie das Anlegen einer
+	 * LV ermöglicht (wird von CustomTreeViewModel aus aufgerufen {@link CustomTreeViewModel})
+	 */
 	public void anlegenMaske() {
 
+		/*
+		 *  "speichernAnlegenButton" wird entsprechend der Funktion
+		 *  benannt und "bekommt" einen entsprechenden Clickhandler
+		 *  zugewiesen
+		 */
 		speichernAnlegenButton.setText("Anlegen");
 
 		speichernAnlegenButton.addClickHandler(new ClickHandler() {
@@ -541,21 +698,22 @@ public class LehrveranstaltungForm extends VerticalPanel {
 
 				speichernAnlegenButton.setEnabled(false);
 
-				if (dozentenVonNeuerLVVector != null
-						&& dozentenVonNeuerLVVector.size() > 0) {
-					verwaltung.anlegenLehrveranstaltung(
-							(umfangListBox.getSelectedIndex() * 2) + 2,
-							lvBezeichnungTb.getText(),
-							studiensemesterListBox.getSelectedIndex() + 1,
-							studiengaengeVonNeuerLVVector,
-							dozentenVonNeuerLVVector,
+				// "if-Zweig" wenn Dozenten ausgewählt wurden (kein muss für den User)
+				if (dozentenVonNeuerLVVector != null && dozentenVonNeuerLVVector.size() > 0) {
+					verwaltung.anlegenLehrveranstaltung((umfangListBox.getSelectedIndex() * 2) + 2, lvBezeichnungTb.getText(),
+							studiensemesterListBox.getSelectedIndex() + 1, studiengaengeVonNeuerLVVector, dozentenVonNeuerLVVector,
 							new AsyncCallback<Lehrveranstaltung>() {
+						
 								public void onFailure(Throwable caught) {
 									Window.alert(caught.getMessage());
 									speichernAnlegenButton.setEnabled(true);
 
 								}
 
+								/* 
+								 * Bei Erfolgreicher Anlegung erfolgt Meldung an der User und
+								 * der lehrveranstaltungDataProvider wird mittelbar aktualisiert
+								 */
 								public void onSuccess(Lehrveranstaltung result) {
 									Window.alert("Lehrveranstaltung wurde erfolgreich angelegt");
 									dtvm.addLehrveranstaltung(result);
@@ -563,19 +721,21 @@ public class LehrveranstaltungForm extends VerticalPanel {
 									speichernAnlegenButton.setEnabled(true);
 								}
 							});
-				} else {
-					verwaltung.anlegenLehrveranstaltung(
-							(umfangListBox.getSelectedIndex() * 2) + 2,
-							lvBezeichnungTb.getText(),
-							studiensemesterListBox.getSelectedIndex() + 1,
-							studiengaengeVonNeuerLVVector,
-							new AsyncCallback<Lehrveranstaltung>() {
+				} 
+				// "else-Zweig" wenn keine Dozenten ausgewählt wurden (kein muss für den User)
+				else {
+					verwaltung.anlegenLehrveranstaltung((umfangListBox.getSelectedIndex() * 2) + 2, lvBezeichnungTb.getText(),
+							studiensemesterListBox.getSelectedIndex() + 1, studiengaengeVonNeuerLVVector, new AsyncCallback<Lehrveranstaltung>() {
 								public void onFailure(Throwable caught) {
 									Window.alert(caught.getMessage());
 									speichernAnlegenButton.setEnabled(true);
 
 								}
 
+								/* 
+								 * Bei Erfolgreicher Anlegung erfolgt Meldung an der User und
+								 * der lehrveranstaltungDataProvider wird mittelbar aktualisiert
+								 */
 								public void onSuccess(Lehrveranstaltung result) {
 									Window.alert("Lehrveranstaltung wurde erfolgreich angelegt");
 									dtvm.addLehrveranstaltung(shownLehrveranstaltung);
@@ -588,6 +748,9 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		});
 	}
 
+	/**
+	 * Neutralisiert die Benutzeroberfläche
+	 */
 	public void clearForm() {
 		this.shownLehrveranstaltung = null;
 		this.lvBezeichnungTb.setText("");
