@@ -138,6 +138,18 @@ public class Stundenplantool2 implements EntryPoint {
 		// Das Info-Panel wird zu anfangs ausgeblendet
 		p.setWidgetHidden(traegerInfoPanel, true);
 
+		setTextToInfoPanelOben("</br><b><u>Anleitung:</b></u>"
+				+ "</br>Links unter dem Menüpunkt <b><i>„Editor - Anlegen“</b></i> können Sie Lehrveranstaltungen,"
+				+ "Dozenten, Belegungen, Räume, Semesterverbände und Studiengänge anlegen."
+				+"</br>"
+				+ "</br>Unter <b><i>„Editor – Verwalten“</b></i> können Sie die zuvor angelegten Datensätze ändern und löschen."
+				+ "</br>"
+				+"</br>"
+				+ "</br>Der Punkt <b><i>„Report“</b></i> ermöglicht es Ihnen, sich Studenten-, Dozenten- und Raumpläne generieren und ausgeben zu lassen.");
+		
+		
+		
+		
 		RootLayoutPanel rlp = RootLayoutPanel.get();
 		rlp.add(p);
 		RootPanel.get().add(rlp);
@@ -256,17 +268,6 @@ public class Stundenplantool2 implements EntryPoint {
 
 	}
 	
-	public void setDtvm(CustomTreeViewModel dtvm) {
-		this.dtvm = dtvm;
-		setInfoText();
-	}
-
-	void setInfoText() {
-		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("<b><u>Anleitung: </u></b></br>"
-						+ "Hier können Sie einen Studiengang anlegen/ ändern."
-						+ "</br><b>Außer der Angabe einer Lehrveranstaltung, sind alle Felder Pflichtfelder!</b></br></br>");
-	}
-
 
 	public void setTextToInfoPanelUnten(String restricts) {
 		p.setWidgetHidden(traegerInfoPanel, false);
