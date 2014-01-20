@@ -104,8 +104,8 @@ public class Stundenplantool2 implements EntryPoint {
 		image.setHeight("10em");
 		image.setAltText("WI-Logo");
 
-		copyright = new HTML("IT-Projekt im 4. Semester &copy;2014 by Timm Roth (tr047), Tobias Moser (tm066), "
-				+ "Lucas Zanella (lz006), Stefan Sonntag (ss305), Gino Sidney (gk024) und Mathias Zimmermann (mz048)");
+		copyright = new HTML("IT-Projekt im 4. Semester &copy; 2014 by Timm Roth (tr047), Tobias Moser (tm066), "
+				+ "Lucas Zanella (lz006), Stefan Sonntag (ss305), Gino Sidney (gk024) & Mathias Zimmermann (mz048)!");
 		copyright.addStyleName("cpLabel");
 
 		footPanel = new VerticalPanel();
@@ -255,6 +255,18 @@ public class Stundenplantool2 implements EntryPoint {
 		obenInfoPanel.add(infoTextObenLabel);
 
 	}
+	
+	public void setDtvm(CustomTreeViewModel dtvm) {
+		this.dtvm = dtvm;
+		setInfoText();
+	}
+
+	void setInfoText() {
+		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("<b><u>Anleitung: </u></b></br>"
+						+ "Hier können Sie einen Studiengang anlegen/ ändern."
+						+ "</br><b>Außer der Angabe einer Lehrveranstaltung, sind alle Felder Pflichtfelder!</b></br></br>");
+	}
+
 
 	public void setTextToInfoPanelUnten(String restricts) {
 		p.setWidgetHidden(traegerInfoPanel, false);
