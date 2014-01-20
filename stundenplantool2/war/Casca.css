@@ -1545,6 +1545,7 @@ td.datePickerMonth {
 }
 
 .start {
+	margin-top: 30px;
 	font-size: 30px;
 	color: #2F4F4F;
 	font-weight: bolder;
