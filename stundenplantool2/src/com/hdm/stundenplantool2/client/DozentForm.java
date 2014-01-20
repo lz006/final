@@ -407,7 +407,7 @@ public class DozentForm extends VerticalPanel {
 			}
 
 			/* 
-			 * Bei Erfolgreicher Änderung erfolgt Meldung an der User und
+			 * Bei Erfolgreicher Änderung erfolgt Meldung an den User und
 			 * der dozentDataProvider wird mittelbar aktualisiert
 			 */
 			public void onSuccess(Dozent result) {

@@ -89,6 +89,10 @@ public class LehrveranstaltungForm extends VerticalPanel {
 	 * Lehrveranstaltung anlegt bzw. ändert
 	 */
 	Button speichernAnlegenButton = new Button();
+	
+	/**
+	 * Button zum löschen einer Lehrveranstaltung
+	 */
 	Button loeschenButton;
 
 	/**
@@ -121,7 +125,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 	HorizontalPanel abschlussPanel;
 
 	/**
-	 * Tabellen (Grids) welche Widgtes strukturiert aufnehmen und selbst
+	 * Tabellen (Grids) welche Widgets strukturiert aufnehmen und selbst
 	 * wiederum Panels (dem Namen entsprechend) zugewiesen werden
 	 */
 	Grid obenGrid;
@@ -596,7 +600,8 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		/*
 		 *  "speichernAnlegenButton" wird entsprechend der Funktion
 		 *  benannt und "bekommt" einen entsprechenden Clickhandler
-		 *  zugewiesen
+		 *  zugewiesen, der für die Abänderung einer LV erforderlichen
+		 *  Funktionalitäten impliziert
 		 */
 		speichernAnlegenButton.setText("Speichern");
 
@@ -639,7 +644,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 					}
 
 					/* 
-					 * Bei Erfolgreicher Änderung erfolgt Meldung an der User und
+					 * Bei Erfolgreicher Änderung erfolgt Meldung an den User und
 					 * der lehrveranstaltungDataProvider wird mittelbar aktualisiert
 					 */
 					public void onSuccess(Lehrveranstaltung result) {
@@ -689,7 +694,8 @@ public class LehrveranstaltungForm extends VerticalPanel {
 		/*
 		 *  "speichernAnlegenButton" wird entsprechend der Funktion
 		 *  benannt und "bekommt" einen entsprechenden Clickhandler
-		 *  zugewiesen
+		 *  zugewiesen, der für das Anlegen einer LV erfoderlichen
+		 *  Funktionalitäten impliziert
 		 */
 		speichernAnlegenButton.setText("Anlegen");
 
@@ -711,7 +717,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 								}
 
 								/* 
-								 * Bei Erfolgreicher Anlegung erfolgt Meldung an der User und
+								 * Bei Erfolgreicher Anlegung erfolgt Meldung an den User und
 								 * der lehrveranstaltungDataProvider wird mittelbar aktualisiert
 								 */
 								public void onSuccess(Lehrveranstaltung result) {
