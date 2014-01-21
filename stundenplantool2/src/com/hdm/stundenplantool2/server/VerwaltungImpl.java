@@ -595,7 +595,6 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		 */
 		if (besetzteRaeumeVector.size() > 0) {
 			Vector<Raum> alleRaeumeVector = raumMapper.findAll();
-			System.out.println(new Date());
 			if (alleRaeumeVector.size() != besetzteRaeumeVector.size()) {
 				for (int i = 0; i < alleRaeumeVector.size(); i++) {
 					boolean check = false;
@@ -1394,22 +1393,15 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 				
 		
-		/* Prüfen ob der Raum genügend Kapazität aufweist für die referenzierten Semesterverbände
-		 * 
-		 * -> Prüfung deaktiviert, da nun nur Räume mit genügend Kapazität dem Client zur Verfügung gestellt werden,
-		 * bei einem verteilten Arbeiten muss diese Prüfung wieder aktiviert werden um eine Konsistenz zu gewährleisten,
-		 * bei nur einem angebunden Client dient die Deaktivierung einer besseren Performance
-		 * Stand 06.01.2014
-		 *
-		
+		// Prüfen ob der Raum genügend Kapazität aufweist für die referenzierten Semesterverbände		
 		int studenten = 0;
 		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
 			studenten = studenten + belegung.getSemesterverbaende().elementAt(i).getAnzahlStudenten();
 		}
 		if (belegung.getRaum().getKapazitaet() < studenten) {
-			throw new RuntimeException("Der gewuenschte Raum hat nicht genuegend Plaetze");
+			throw new RuntimeException("Der gewuenschte Raum hat nicht genuegend Plätze");
 		}
-		*/
+		
 		
 		// Prüfen ob der Raum zum gewönschten Zeitslot noch verfügbar ist
 		
@@ -2046,6 +2038,15 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 					throw new RuntimeException("Bitte fügen Sie jeden Dozenten nur einmal zu einer Belegung");
 				}
 			}
+		}
+		
+		// Prüfen ob der Raum genügend Kapazität aufweist für die referenzierten Semesterverbände		
+		int studenten = 0;
+		for (int i = 0; i < belegung.getSemesterverbaende().size(); i++) {
+			studenten = studenten + belegung.getSemesterverbaende().elementAt(i).getAnzahlStudenten();
+		}
+		if (belegung.getRaum().getKapazitaet() < studenten) {
+			throw new RuntimeException("Der gewuenschte Raum hat nicht genuegend Plätze");
 		}
 		
 		// Prüfung ob das Studiensemester der gewünschten Lehrveranstaltung mit dem der Semesterverbände vereinbar ist		
