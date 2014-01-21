@@ -126,12 +126,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 			else if (object instanceof String && (String) object == "Dozent") {
 				return new Integer(object.hashCode());
 			} 
-			else if (object instanceof String
-					&& (String) object == "Lehrveranstaltung") {
+			else if (object instanceof String && (String) object == "Lehrveranstaltung") {
 				return new Integer(object.hashCode());
 			} 
-			else if (object instanceof String
-					&& (String) object == "Belegung") {
+			else if (object instanceof String && (String) object == "Belegung") {
 				return new Integer(object.hashCode());
 			} 
 			else if (object instanceof String && (String) object == "Raum") {
@@ -185,8 +183,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * in welchem die Reaktionen definiert werden, welche bei Auswahl eines spezifischen Kind-Element-Typs
 	 * angestoßen werden
 	 */
-	private SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>(
-			keyProvider);
+	private SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>(keyProvider);
 
 	/**
 	 * Komstruktor welcher den "SelectionChangeHandler" definiert und dem 

@@ -17,6 +17,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.hdm.stundenplantool2.shared.ReportAsync;
 import com.hdm.stundenplantool2.shared.bo.Dozent;
 
+/**
+ * Diese Klasse stellt die zum Anfordern eines bestimmten Dozentenplans erforderliche
+ * grafische Benutzeroberfläche bereit
+ * 
+ * @author Roth, Klatt, Zimmermann, Moser, Sonntag, Zanella
+ * @version 1.0
+ * 
+ */
 public class DozentenPlanForm extends VerticalPanel {
 
 	private ReportAsync report = null;
@@ -44,37 +52,31 @@ public class DozentenPlanForm extends VerticalPanel {
 
 		generateButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",
-						"wait");
+				DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "wait");
 				dozentListBox.setEnabled(false);
 				generateButton.setEnabled(false);
-				report.createDozentenplan(dozentenVector
-						.elementAt(dozentListBox.getSelectedIndex()),
-						new AsyncCallback<String>() {
-							public void onFailure(Throwable caught) {
-								DOM.setStyleAttribute(
-										RootPanel.getBodyElement(), "cursor",
-										"default");
-								Window.alert(caught.getMessage());
-								generateButton.setEnabled(true);
-								dozentListBox.setEnabled(true);
-							}
+				report.createDozentenplan(dozentenVector.elementAt(dozentListBox.getSelectedIndex()), new AsyncCallback<String>() {
+					public void onFailure(Throwable caught) {
+						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"default");
+						Window.alert(caught.getMessage());
+						generateButton.setEnabled(true);
+						dozentListBox.setEnabled(true);
+					}
 
-							public void onSuccess(String result) {
-								DOM.setStyleAttribute(
-										RootPanel.getBodyElement(), "cursor",
-										"default");
-								dozentListBox.setEnabled(true);
-								generateButton.setEnabled(true);
-								if (result != null && result.length() > 1) {
-									reportPanel.clear();
-									reportPanel.add(new HTML(result));
-									createWindow(result);
-								} else {
-									Window.alert("Zum gewählten Dozent sind keine Belegungen vorhanden");
+					public void onSuccess(String result) {
+						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"default");
+						dozentListBox.setEnabled(true);
+						generateButton.setEnabled(true);
+						if (result != null && result.length() > 1) {
+						reportPanel.clear();
+						reportPanel.add(new HTML(result));
+						createWindow(result);
+						} 
+						else {
+								Window.alert("Zum gewählten Dozent sind keine Belegungen vorhanden");
 								}
 							}
-						});
+					});
 			}
 		});
 
@@ -99,8 +101,7 @@ public class DozentenPlanForm extends VerticalPanel {
 				dozentListBox.setEnabled(true);
 				dozentenVector = result;
 				for (Dozent dozent : result) {
-					dozentListBox.addItem(dozent.getNachname() + " "
-							+ dozent.getVorname());
+					dozentListBox.addItem(dozent.getNachname() + " " + dozent.getVorname());
 				}
 			}
 
@@ -113,9 +114,7 @@ public class DozentenPlanForm extends VerticalPanel {
 		myHeight = window.innerHeight;
 		var win = window.open("", "win", myWidth, myHeight);
 		win.document.open("text/html", "replace");
-		win.document
-				.write("<HTML><HEAD><TITLE>Dozentenplan</TITLE></HEAD><BODY>"
-						+ html + "</BODY></HTML>");
+		win.document.write("<HTML><HEAD><TITLE>Dozentenplan</TITLE></HEAD><BODY>"+ html + "</BODY></HTML>");
 		win.document.close();
 	}-*/;
 

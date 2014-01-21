@@ -1964,7 +1964,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		*/
 		
-		// Prüfen ob die Bezeichnung oder das Kürzel bereits vorhanden sind		
+		// Prüfen ob die Bezeichnung bereits vorhanden ist		
 		Vector<Lehrveranstaltung> alleLVs = this.lehrveranstaltungMapper.findAll(false);
 				
 		for (Lehrveranstaltung l : alleLVs) {
