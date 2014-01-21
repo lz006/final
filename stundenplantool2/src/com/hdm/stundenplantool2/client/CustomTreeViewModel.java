@@ -20,8 +20,21 @@ import java.util.List;
 
 import com.google.gwt.view.client.ListDataProvider;
 
+/**
+ * Diese Klasse stellt die Funktionalität des im Projekt verwendeten CellTree
+ * bereit. Sie definiert die Knoten eines Baumes und dessen Reaktionen auf
+ * Ereignisse. 
+ * 
+ * @author Rathke (implement: Roth, Klatt, Zimmermann, Moser, Sonntag, Zanella)
+ * @version 1.0
+ * 
+ */
 public class CustomTreeViewModel implements TreeViewModel {
 
+	/**
+	 * Referenzen auf alle Instanzen der "Formklassen" um Zugriff auf deren Methoden
+	 * zu haben
+	 */
 	private DozentForm dF;
 	private BelegungForm bF;
 	private LehrveranstaltungForm lF;
@@ -29,10 +42,20 @@ public class CustomTreeViewModel implements TreeViewModel {
 	private SemesterverbandForm svF;
 	private RaumForm rF;
 
+	/**
+	 * Referenz auf die Entry-Point-Klasse um Zugriff auf deren Methoden zu haben
+	 */
 	Stundenplantool2 spt2;
 
+	/**
+	 * Referenz auf das Proxy-Objekt um mit dem Server kommunizieren zu können
+	 */
 	private VerwaltungAsync verwaltung = null;
 
+	/**
+	 * Container welche alle Objekte enthalten, welche im Tree als Blätter oder
+	 * Knoten abgebildet werden
+	 */
 	private ListDataProvider<Lehrveranstaltung> lehrveranstaltungDataProvider;
 	private ListDataProvider<Dozent> dozentDataProvider;
 	private ListDataProvider<Raum> raumDataProvider;
@@ -40,6 +63,9 @@ public class CustomTreeViewModel implements TreeViewModel {
 	private ListDataProvider<Studiengang> studiengangDataProvider;
 	private ListDataProvider<String> dummyDataProvider;
 
+	/**
+	 * Flags die zur Bestimmung dienen, wann angezeigte Studiengänge
+	 */
 	private boolean unterMenuLVzuSG = false;
 	private boolean unterMenuSVzuSG = false;
 

@@ -1430,7 +1430,8 @@ public class BelegungForm extends VerticalPanel {
 							}
 
 							Vector<Dozent> tempDozenten = new Vector<Dozent>();
-
+							
+							// 1.Dozent
 							if (lbv.elementAt(tempDozent1ListBoxPointer).getSelectedIndex() > 0	&& 
 									(!(lbv.elementAt(tempDozent1ListBoxPointer).getValue(lbv.elementAt(tempDozent1ListBoxPointer).getSelectedIndex()).equals("kein Dozent")))) {
 								
@@ -1438,15 +1439,18 @@ public class BelegungForm extends VerticalPanel {
 								check1 = false;
 
 							}
-							if (lbv.elementAt(tempDozent1ListBoxPointer).getSelectedIndex() == 0) {
+							if (lbv.elementAt(tempDozent1ListBoxPointer).getSelectedIndex() == 0 && 
+									(!(lbv.elementAt(tempDozent1ListBoxPointer).getValue(lbv.elementAt(tempDozent1ListBoxPointer).getSelectedIndex()).equals("kein Dozent")))) {
 								
 								tempDozenten.add(svBelegungen.elementAt(tempBelegungPointer).getDozenten().elementAt(0));
-
 							}
 
-							if (lbv.elementAt(tempDozent1ListBoxPointer).getValue(lbv.elementAt(tempDozent1ListBoxPointer).getSelectedIndex()).equals("kein Dozent")) {
+							if (lbv.elementAt(tempDozent1ListBoxPointer).getValue(lbv.elementAt(tempDozent1ListBoxPointer).getSelectedIndex()).equals("kein Dozent") 
+									&& svBelegungen.elementAt(tempBelegungPointer).getDozenten().elementAt(0) != null) {
 								check1 = false;
 							}
+							
+							// 2.Dozent
 							if (lbv.elementAt(tempDozent2ListBoxPointer).getSelectedIndex() > 0	&& 
 									(!(lbv.elementAt(tempDozent2ListBoxPointer).getValue(lbv.elementAt(tempDozent2ListBoxPointer).getSelectedIndex()).equals("kein Dozent")))) {
 								
@@ -1454,12 +1458,33 @@ public class BelegungForm extends VerticalPanel {
 								check1 = false;
 
 							}
-							if (lbv.elementAt(tempDozent3ListBoxPointer).getSelectedIndex() > 0	&& 
+							if (lbv.elementAt(tempDozent2ListBoxPointer).getSelectedIndex() == 0 && svBelegungen.elementAt(tempBelegungPointer).getDozenten().size() > 1 && 
 									(!(lbv.elementAt(tempDozent2ListBoxPointer).getValue(lbv.elementAt(tempDozent2ListBoxPointer).getSelectedIndex()).equals("kein Dozent")))) {
+								
+								tempDozenten.add(svBelegungen.elementAt(tempBelegungPointer).getDozenten().elementAt(1));
+
+							}
+							if (lbv.elementAt(tempDozent2ListBoxPointer).getValue(lbv.elementAt(tempDozent2ListBoxPointer).getSelectedIndex()).equals("kein Dozent") 
+									&& svBelegungen.elementAt(tempBelegungPointer).getDozenten().elementAt(1) != null) {
+								check1 = false;
+							}
+							
+							// 3.Dozent
+							if (lbv.elementAt(tempDozent3ListBoxPointer).getSelectedIndex() > 0	&& 
+									(!(lbv.elementAt(tempDozent3ListBoxPointer).getValue(lbv.elementAt(tempDozent3ListBoxPointer).getSelectedIndex()).equals("kein Dozent")))) {
 								
 								tempDozenten.add(dozentenVectorforListBox.elementAt(lbv.elementAt(tempDozent3ListBoxPointer).getSelectedIndex() - 1));
 								check1 = false;
 
+							}
+							if (lbv.elementAt(tempDozent3ListBoxPointer).getSelectedIndex() == 0 && svBelegungen.elementAt(tempBelegungPointer).getDozenten().size() > 2 && 
+									(!(lbv.elementAt(tempDozent3ListBoxPointer).getValue(lbv.elementAt(tempDozent3ListBoxPointer).getSelectedIndex()).equals("kein Dozent")))) {
+								
+								tempDozenten.add(svBelegungen.elementAt(tempBelegungPointer).getDozenten().elementAt(2));
+							}
+							if (lbv.elementAt(tempDozent3ListBoxPointer).getValue(lbv.elementAt(tempDozent3ListBoxPointer).getSelectedIndex()).equals("kein Dozent") 
+									&& svBelegungen.elementAt(tempBelegungPointer).getDozenten().elementAt(2) != null) {
+								check1 = false;
 							}
 
 							svBelegungen.elementAt(tempBelegungPointer).setDozenten(tempDozenten);
@@ -1514,57 +1539,139 @@ public class BelegungForm extends VerticalPanel {
 											focusRaumListBoxPointer = null;
 											focusAendernButtonPointer = null;
 										}
-
+										
 										if (focusDozentListBoxPointer != null) {
 											String tempFirstDozent1Item;
 											String tempFirstDozent2Item;
 											String tempFirstDozent3Item;
-
+											
 											if (focusOneOfThreeDozentListBoxPointer == 1) {
 												tempFirstDozent1Item = lbv.elementAt(focusDozentListBoxPointer).getValue(lbv.elementAt(focusDozentListBoxPointer).getSelectedIndex());
-												tempFirstDozent2Item = lbv.elementAt(focusDozentListBoxPointer + 1).getValue(lbv.elementAt(focusDozentListBoxPointer + 1).getSelectedIndex());
+											    tempFirstDozent2Item = lbv.elementAt(focusDozentListBoxPointer + 1).getValue(lbv.elementAt(focusDozentListBoxPointer + 1).getSelectedIndex());
 												tempFirstDozent3Item = lbv.elementAt(focusDozentListBoxPointer + 2).getValue(lbv.elementAt(focusDozentListBoxPointer + 2).getSelectedIndex());
-
+												
 												lbv.elementAt(focusDozentListBoxPointer).clear();
 												lbv.elementAt(focusDozentListBoxPointer + 1).clear();
 												lbv.elementAt(focusDozentListBoxPointer + 2).clear();
-
+												
+												// ListBox-Auswahl wird nach links gerückt
+												if (tempFirstDozent1Item.equals("kein Dozent")) {
+													if (tempFirstDozent2Item.equals("kein Dozent") || tempFirstDozent2Item.equals("---")) {
+														tempFirstDozent1Item = tempFirstDozent3Item;
+														tempFirstDozent2Item = "---";
+														tempFirstDozent3Item = "---";
+													}
+												}
+												if (tempFirstDozent1Item.equals("kein Dozent")) {
+													if (!tempFirstDozent2Item.equals("kein Dozent") || !tempFirstDozent2Item.equals("---")) {
+														tempFirstDozent1Item = tempFirstDozent2Item;
+													}
+													if (!tempFirstDozent3Item.equals("kein Dozent") || !tempFirstDozent3Item.equals("---")) {
+														tempFirstDozent2Item = tempFirstDozent3Item;
+														tempFirstDozent3Item = "---";
+													}
+													else {
+														tempFirstDozent2Item = "---";
+														tempFirstDozent3Item = "---";
+													}
+												}
+												if (!tempFirstDozent1Item.equals("kein Dozent") && (tempFirstDozent2Item.equals("kein Dozent") || tempFirstDozent2Item.equals("---")) &&
+														((!tempFirstDozent3Item.equals("kein Dozent") && !tempFirstDozent3Item.equals("---")))) {
+													tempFirstDozent2Item = tempFirstDozent3Item;
+													tempFirstDozent3Item = "---";
+												}
+												
 												lbv.elementAt(focusDozentListBoxPointer).addItem(tempFirstDozent1Item);
 												lbv.elementAt(focusDozentListBoxPointer + 1).addItem(tempFirstDozent2Item);
 												lbv.elementAt(focusDozentListBoxPointer + 2).addItem(tempFirstDozent3Item);
-											} 
+												
+											}
 											else if (focusOneOfThreeDozentListBoxPointer == 2) {
 												tempFirstDozent1Item = lbv.elementAt(focusDozentListBoxPointer - 1).getValue(lbv.elementAt(focusDozentListBoxPointer - 1).getSelectedIndex());
 												tempFirstDozent2Item = lbv.elementAt(focusDozentListBoxPointer).getValue(lbv.elementAt(focusDozentListBoxPointer).getSelectedIndex());
 												tempFirstDozent3Item = lbv.elementAt(focusDozentListBoxPointer + 1).getValue(lbv.elementAt(focusDozentListBoxPointer + 1).getSelectedIndex());
-
+												
 												lbv.elementAt(focusDozentListBoxPointer - 1).clear();
 												lbv.elementAt(focusDozentListBoxPointer).clear();
 												lbv.elementAt(focusDozentListBoxPointer + 1).clear();
-
+												
+												// ListBox-Auswahl wird nach links gerückt
+												if (tempFirstDozent1Item.equals("kein Dozent")) {
+													if (tempFirstDozent2Item.equals("kein Dozent") || tempFirstDozent2Item.equals("---")) {
+														tempFirstDozent1Item = tempFirstDozent3Item;
+														tempFirstDozent2Item = "---";
+														tempFirstDozent3Item = "---";
+													}
+												}
+												if (tempFirstDozent1Item.equals("kein Dozent")) {
+													if (!tempFirstDozent2Item.equals("kein Dozent") || !tempFirstDozent2Item.equals("---")) {
+														tempFirstDozent1Item = tempFirstDozent2Item;
+													}
+													if (!tempFirstDozent3Item.equals("kein Dozent") || !tempFirstDozent3Item.equals("---")) {
+														tempFirstDozent2Item = tempFirstDozent3Item;
+														tempFirstDozent3Item = "---";
+													}
+													else {
+														tempFirstDozent2Item = "---";
+														tempFirstDozent3Item = "---";
+													}
+												}
+												if (!tempFirstDozent1Item.equals("kein Dozent") && (tempFirstDozent2Item.equals("kein Dozent") || tempFirstDozent2Item.equals("---")) &&
+														((!tempFirstDozent3Item.equals("kein Dozent") && !tempFirstDozent3Item.equals("---")))) {
+													tempFirstDozent2Item = tempFirstDozent3Item;
+													tempFirstDozent3Item = "---";
+												}
+												
 												lbv.elementAt(focusDozentListBoxPointer - 1).addItem(tempFirstDozent1Item);
 												lbv.elementAt(focusDozentListBoxPointer).addItem(tempFirstDozent2Item);
 												lbv.elementAt(focusDozentListBoxPointer + 1).addItem(tempFirstDozent3Item);
-											} 
+											}
 											else {
 												tempFirstDozent1Item = lbv.elementAt(focusDozentListBoxPointer - 2).getValue(lbv.elementAt(focusDozentListBoxPointer - 2).getSelectedIndex());
 												tempFirstDozent2Item = lbv.elementAt(focusDozentListBoxPointer - 1).getValue(lbv.elementAt(focusDozentListBoxPointer - 1).getSelectedIndex());
 												tempFirstDozent3Item = lbv.elementAt(focusDozentListBoxPointer).getValue(lbv.elementAt(focusDozentListBoxPointer).getSelectedIndex());
-
+												
 												lbv.elementAt(focusDozentListBoxPointer - 2).clear();
 												lbv.elementAt(focusDozentListBoxPointer - 1).clear();
 												lbv.elementAt(focusDozentListBoxPointer).clear();
-
+												
+												// ListBox-Auswahl wird nach links gerückt
+												if (tempFirstDozent1Item.equals("kein Dozent")) {
+													if (tempFirstDozent2Item.equals("kein Dozent") || tempFirstDozent2Item.equals("---")) {
+														tempFirstDozent1Item = tempFirstDozent3Item;
+														tempFirstDozent2Item = "---";
+														tempFirstDozent3Item = "---";
+													}
+												}
+												if (tempFirstDozent1Item.equals("kein Dozent")) {
+													if (!tempFirstDozent2Item.equals("kein Dozent") || !tempFirstDozent2Item.equals("---")) {
+														tempFirstDozent1Item = tempFirstDozent2Item;
+													}
+													if (!tempFirstDozent3Item.equals("kein Dozent") || !tempFirstDozent3Item.equals("---")) {
+														tempFirstDozent2Item = tempFirstDozent3Item;
+														tempFirstDozent3Item = "---";
+													}
+													else {
+														tempFirstDozent2Item = "---";
+														tempFirstDozent3Item = "---";
+													}
+												}
+												if (!tempFirstDozent1Item.equals("kein Dozent") && (tempFirstDozent2Item.equals("kein Dozent") || tempFirstDozent2Item.equals("---")) &&
+														((!tempFirstDozent3Item.equals("kein Dozent") && !tempFirstDozent3Item.equals("---")))) {
+													tempFirstDozent2Item = tempFirstDozent3Item;
+													tempFirstDozent3Item = "---";
+												}
+												
 												lbv.elementAt(focusDozentListBoxPointer - 2).addItem(tempFirstDozent1Item);
 												lbv.elementAt(focusDozentListBoxPointer - 1).addItem(tempFirstDozent2Item);
 												lbv.elementAt(focusDozentListBoxPointer).addItem(tempFirstDozent3Item);
 											}
-
+											
 											dozentenVectorforListBox = null;
 											focusBelegungPointer = null;
 											focusDozentListBoxPointer = null;
 											focusOneOfThreeDozentListBoxPointer = null;
-											focusAendernButtonPointer = null;
+											focusAendernButtonPointer = null;										
 										}
 
 										String itemLVListBox = lbv.elementAt(tempLvListBoxPointer).getValue(lbv.elementAt(tempLvListBoxPointer).getSelectedIndex());
