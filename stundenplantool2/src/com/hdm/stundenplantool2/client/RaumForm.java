@@ -132,8 +132,8 @@ public class RaumForm extends VerticalPanel {
 			public void onFocus(FocusEvent event) {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("<b></br>Für die Bearbeitung der Raumbezeichnung bitte "
 					+ "folgende Restriktionen beachten:</b>"
-					+ "</br>Die Bezeichnung darf nur mit einem “W“/ “W-N“ beginnen, gefolgt von einer dreistelligen Zahl von 0-9!"
-					+ "</br>Bsp. W111/ W-N111");
+					+ "</br>Die Bezeichnung darf nur mit einem „W“/ „N“/ „W-N“  beginnen, gefolgt von einer dreistelligen Zahl von 0-9!"
+					+ "</br>Bsp. W111/ N111/ W-N111");
 			}
 		});
 
