@@ -150,7 +150,16 @@ public class Stundenplantool2 implements EntryPoint {
 				+ "</br>Unter <b><i>„Editor – Verwalten“</b></i> können Sie die zuvor angelegten Datensätze ändern und löschen."
 				+ "</br>"
 				+ "</br>"
-				+ "</br>Der Punkt <b><i>„Report“</b></i> ermöglicht es Ihnen, sich Studenten-, Dozenten- und Raumpläne generieren und ausgeben zu lassen.");
+				+ "</br>Der Punkt <b><i>„Report“</b></i> ermöglicht es Ihnen, sich Studenten-, Dozenten- und Raumpläne generieren und ausgeben zu lassen."
+				+ "</br>"
+				+ "</br>"
+				+ "</br>"
+				+ "</br>Wenn Sie links unten auf den Button <b><i>„Navigation ausblenden“</b></i> klicken, wird das Navigationsmenü links (Editor/ Report) komplett ausgeblendet."
+				+ "</br>Mit einem anschließenden Klick auf denselben Button, wird die Navigation wieder eingeblendet."
+				+ "</br>"
+				+ "</br>Wenn Sie links unten auf den Button <b><i>„Infotext ausblenden“</b></i> klicken, werden die Hinweise rechts komplett ausgeblendet."
+				+ "</br>Mit einem anschließenden Klick auf denselben Button, werden die Hinweise wieder eingeblendet.");
+
 	
 		
 		
