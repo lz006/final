@@ -64,15 +64,32 @@ public class CustomTreeViewModel implements TreeViewModel {
 	private ListDataProvider<String> dummyDataProvider;
 
 	/**
-	 * Flags die zur Bestimmung dienen, wann angezeigte Studiengänge
+	 * Flags die zur Bestimmung dienen, wann angezeigte Studiengänge "leaf" sind,
+	 * da Studiengänge auch zu weiteren Untergliederung von Lehrveranstaltungen
+	 * und Semesterverbände benutzt werden
 	 */
 	private boolean unterMenuLVzuSG = false;
 	private boolean unterMenuSVzuSG = false;
 
+	/**
+	 * Referenz auf das CellTree-Objekt um Zugriff auf dessen Methoden zu haben
+	 */
 	private CellTree cellTree = null;
 
+	/**
+	 * Referenz auf das (Root)TreeNode-Objekt des CellTrees um Zugriff auf dessen 
+	 * Kindknoten zu bekommen, damit Knoten automatisch geschlossen werden können.
+	 * Dies dient dem Zweck, zu verhindern, dass Studiengänge mehrfach und unter
+	 * verschiedenen Gesichtspunkten im CellTree sichtbar sind, was zu Problemen
+	 * führt
+	 */
 	private TreeNode rootNode;
 
+	/**
+	 * ProvidesKey<Object>-Objekt welches der Konstruktor der SingleSelectionModel<Object>-Klasse
+	 * als Argument verlangt. Dies dient zur eindeutigen Identifikation eines jeden Kindelements
+	 * im CellTree
+	 */
 	private ProvidesKey<Object> keyProvider = new ProvidesKey<Object>() {
 		public Integer getKey(Object object) {
 
@@ -161,19 +178,36 @@ public class CustomTreeViewModel implements TreeViewModel {
 			}
 		}
 	};
-
+	
+	/**
+	 * SingleSelectionModel<Object>-Objekt welches der Konstruktor der DefaultNodeInfo<String>-Klasse
+	 * als Argument verlangt. Das SingleSelectionModel<Object>-Objekt enthält einen "SelectionChangeHandler",
+	 * in welchem die Reaktionen definiert werden, welche bei Auswahl eines spezifischen Kind-Element-Typs
+	 * angestoßen werden
+	 */
 	private SingleSelectionModel<Object> selectionModel = new SingleSelectionModel<Object>(
 			keyProvider);
 
+	/**
+	 * Komstruktor welcher den "SelectionChangeHandler" definiert und dem 
+	 * "selectionModel" hinzufügt, so dass der CellTree-Funktionsbereit ist
+	 * 
+	 * @param	Referenz auf ein Proxy-Objekt. 
+	 */
 	public CustomTreeViewModel(VerwaltungAsync verwaltungA) {
 
 		this.verwaltung = verwaltungA;
 
+		// Initialisieren, definieren und "adden" eines "SelectionChangeHandlers"
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
 			public void onSelectionChange(SelectionChangeEvent event) {
 				Object selection = selectionModel.getSelectedObject();
 
+				/*
+				 *  Bei Klick auf ein "Dozent-Objekt", wird dieses erneut geladen und
+				 *  mittelbar die DozentForm in den Arbeitsbereich der GUI geladen
+				 */
 				if (selection instanceof Dozent) {
 
 					DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "wait");
@@ -190,6 +224,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 					});
 
 				} 
+				/*
+				 *  Bei Klick auf ein "Lehrveranstaltung-Objekt", wird dieses erneut geladen und
+				 *  mittelbar die LehrveranstaltungForm in den Arbeitsbereich der GUI geladen
+				 */
 				else if (selection instanceof Lehrveranstaltung) {
 
 					verwaltung.auslesenLehrveranstaltung((Lehrveranstaltung) selection,	new AsyncCallback<Vector<Lehrveranstaltung>>() {
@@ -204,10 +242,18 @@ public class CustomTreeViewModel implements TreeViewModel {
 					});
 
 				} 
+				/*
+				 *  Bei Klick auf ein "Raum-Objekt", wird  mittelbar die RaumForm 
+				 *  in den Arbeitsbereich der GUI geladen
+				 */
 				else if (selection instanceof Raum) {
 					setSelectedRaum((Raum) selection);
 					
 				} 
+				/*
+				 *  Bei Klick auf ein "Semesterverband-Objekt", wird dieses erneut geladen und
+				 *  mittelbar die SemesterverbandForm in den Arbeitsbereich der GUI geladen
+				 */
 				else if (selection instanceof Semesterverband) {
 
 					verwaltung.auslesenSemesterverband((Semesterverband) selection,	new AsyncCallback<Vector<Semesterverband>>() {
@@ -221,6 +267,11 @@ public class CustomTreeViewModel implements TreeViewModel {
 						}
 					});
 				} 
+				/*
+				 *  Bei Klick auf ein "Semesterverband-Objekt", wird dieses erneut geladen und
+				 *  mittelbar die SemesterverbandForm in den Arbeitsbereich der GUI geladen
+				 *  (Voraussetzung: unterMenuLVzuSG = false && unterMenuSVzuSG = false)
+				 */
 				else if (selection instanceof Studiengang && !unterMenuLVzuSG && !unterMenuSVzuSG) {
 
 					verwaltung.auslesenStudiengang((Studiengang) selection,	new AsyncCallback<Vector<Studiengang>>() {
@@ -235,6 +286,11 @@ public class CustomTreeViewModel implements TreeViewModel {
 					});
 
 				} 
+				
+				/*
+				 *  Bei Klick auf ein "String-Objekt" wird die entsprechende Formklasse in der
+				 *  "Anlegen-Variante" in die in den Arbeitsbereich GUI geladen
+				 */
 				else if (selection instanceof String && (String) selection == "Belegungen") {
 					setSelectedBelegung();
 				} 
@@ -257,19 +313,25 @@ public class CustomTreeViewModel implements TreeViewModel {
 					raumAnlegenMaske();
 				}
 				else if (selection instanceof String && (String) selection == "Studentenplan") {
-					setSelectedStudentenplan((String) selection);
+					setSelectedStudentenplan();
 				}
 				else if (selection instanceof String && (String) selection == "Dozentenplan") {
-					setSelectedDozentenplan((String) selection);
+					setSelectedDozentenplan();
 				}
 				else if (selection instanceof String && (String) selection == "Raumplan") {
-					setSelectedRaumplan((String) selection);
+					setSelectedRaumplan();
 				}
 			}
 		});
 
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen einen Dozenten zu bearbeiten
+	 * 
+	 * @param	Referenz auf ein Dozent-Objekt, welches Gegenstand der Bearbeitung ist 
+	 */
 	public void setSelectedDozent(Dozent dozent) {
 		spt2.clearInfoPanels();
 		spt2.setDozentFormToMain();
@@ -281,6 +343,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 		DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor", "default");
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen einen Dozenten anzulegen
+	 */
 	public void dozentAnlegenMaske() {
 		spt2.clearInfoPanels();
 		spt2.setDozentFormToMain();
@@ -288,6 +354,12 @@ public class CustomTreeViewModel implements TreeViewModel {
 		dF.noVisibiltyAendernButtons();
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen eine Lehrveranstaltung zu bearbeiten
+	 * 
+	 * @param	Referenz auf ein Lehrveranstaltung-Objekt, welches Gegenstand der Bearbeitung ist 
+	 */
 	public void setSelectedLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
 		spt2.clearInfoPanels();
 		spt2.setLehrveranstaltungFormToMain();
@@ -299,6 +371,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 		this.lF.aendernMaske();
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen eine Lehrveranstaltung anzulegen
+	 */
 	public void lehrveranstaltungAnlegenMaske() {
 		spt2.clearInfoPanels();
 		spt2.setLehrveranstaltungFormToMain();
@@ -306,6 +382,12 @@ public class CustomTreeViewModel implements TreeViewModel {
 		this.lF.anlegenMaske();
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen einen Raum zu bearbeiten
+	 * 
+	 * @param	Referenz auf ein Raum-Objekt, welches Gegenstand der Bearbeitung ist 
+	 */
 	public void setSelectedRaum(Raum raum) {
 		spt2.clearInfoPanels();
 		spt2.setRaumFormToMain();
@@ -315,6 +397,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 		this.rF.aendernMaske();
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen einen Raum anzulegen
+	 */
 	public void raumAnlegenMaske() {
 		spt2.clearInfoPanels();
 		spt2.setRaumFormToMain();
@@ -322,6 +408,12 @@ public class CustomTreeViewModel implements TreeViewModel {
 		this.rF.anlegenMaske();
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen einen Semesterverband zu bearbeiten
+	 * 
+	 * @param	Referenz auf ein Semesterverband-Objekt, welches Gegenstand der Bearbeitung ist 
+	 */
 	public void setSelectedSemesterverband(Semesterverband semesterverband) {
 		spt2.clearInfoPanels();
 		spt2.setSemesterverbandFormToMain();
@@ -331,6 +423,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 		this.svF.aendernMaske();
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen einen Semesterverband anzulegen
+	 */
 	public void semesterverbandAnlegenMaske() {
 		spt2.clearInfoPanels();
 		spt2.setSemesterverbandFormToMain();
@@ -340,6 +436,12 @@ public class CustomTreeViewModel implements TreeViewModel {
 
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen einen Studiengang zu bearbeiten
+	 * 
+	 * @param	Referenz auf ein Studiengang-Objekt, welches Gegenstand der Bearbeitung ist 
+	 */
 	public void setSelectedStudiengang(Studiengang studiengang) {
 		spt2.clearInfoPanels();
 		spt2.setStudiengangFormToMain();
@@ -351,6 +453,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 		this.sgF.aendernMaske();
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen einen Studiengang anzulegen
+	 */
 	public void studiengangAnlegenMaske() {
 		spt2.clearInfoPanels();
 		spt2.setStudiengangFormToMain();
@@ -358,6 +464,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 		this.sgF.anlegenMaske();
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen eine Belegung zu bearbeiten
+	 */
 	public void setSelectedBelegung() {
 		spt2.clearInfoPanels();
 		this.spt2.setBelegungFormToMain();
@@ -366,6 +476,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 		this.bF.ladenStudiengaenge();
 	}
 
+	/**
+	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
+	 * User ermöglichen eine Belegung anzulegen
+	 */
 	public void belegungAnlegenMaske() {
 		spt2.clearInfoPanels();
 		this.spt2.setBelegungFormToMain();
@@ -374,20 +488,42 @@ public class CustomTreeViewModel implements TreeViewModel {
 		this.bF.ladenStudiengaenge();
 	}
 
-	public void setSelectedStudentenplan(String knoten) {
+	/**
+	 * Methode welche wiederum die Oberfläche in die Arbeitsfläche der
+	 * GUI läd, die es dem User ermöglicht sich einen Studentenplan
+	 * erzeugen zu lassen
+	 */
+	public void setSelectedStudentenplan() {
 		this.spt2.setStudentenPlanFormToMain();
 	}
 
-	public void setSelectedDozentenplan(String knoten) {
+	/**
+	 * Methode welche wiederum die Oberfläche in die Arbeitsfläche der
+	 * GUI läd, die es dem User ermöglicht sich einen Dozentenplan
+	 * erzeugen zu lassen
+	 */
+	public void setSelectedDozentenplan() {
 		this.spt2.setDozentenPlanFormToMain();
 	}
 
-	public void setSelectedRaumplan(String knoten) {
+	/**
+	 * Methode welche wiederum die Oberfläche in die Arbeitsfläche der
+	 * GUI läd, die es dem User ermöglicht sich einen Raumplan
+	 * erzeugen zu lassen
+	 */
+	public void setSelectedRaumplan() {
 		this.spt2.setRaumPlanFormToMain();
 	}
 
+	/**
+	 * Methode welche das Interface "TreeViewModel" vorschreibt. Hier werden die Kind-Elemente
+	 * eines jeden Knoten im CellTree definiert
+	 * 
+	 * @param	Generic, welches das gegenwärtig gewählte Knoten-Element repräsentiert  
+	 */
 	public <T> NodeInfo<?> getNodeInfo(T value) {
 
+		// Wurzelknoten enthält "Editor" und "Report" als Kind-Elemente
 		if (value instanceof String && (String) value == "Root") {
 
 			unterMenuLVzuSG = false;
@@ -403,7 +539,8 @@ public class CustomTreeViewModel implements TreeViewModel {
 
 			return new DefaultNodeInfo<String>(dummyDataProvider, new DummyCell(), selectionModel, null);
 		}
-
+		
+		// "Editor" enthält "Anlegen" und "Verwalten" als Kind-Elemente		
 		if (value instanceof String && (String) value == "Editor") {
 
 			unterMenuLVzuSG = false;
@@ -420,6 +557,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 			return new DefaultNodeInfo<String>(dummyDataProvider, new DummyCell(), selectionModel, null);
 		}
 
+		// "Anlegen" enthält die anlegbaren BusinessObjects in String-Repräsentation als Kind-Elemente
 		if (value instanceof String && (String) value == "Anlegen") {
 
 			unterMenuLVzuSG = false;
@@ -444,6 +582,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 			return new DefaultNodeInfo<String>(dummyDataProvider, new DummyCell(), selectionModel, null);
 		}
 
+		// "Anlegen" enthält die editierbaren BusinessObjects in String-Repräsentation als Kind-Elemente
 		if (value instanceof String && (String) value == "Verwalten") {
 
 			addOpenHandler();
@@ -470,29 +609,35 @@ public class CustomTreeViewModel implements TreeViewModel {
 			return new DefaultNodeInfo<String>(dummyDataProvider, new DummyCell(), selectionModel, null);
 		}
 
+		/*
+		 *  "Lehrveranstaltungen" enthält alle Studiengang-Objekte als Kind-Elemente,
+		 *  diese dienen nur zu weiteren Untergliederung der eigentlichen Lehrveranstaltungen
+		 */
 		if (value instanceof String && (String) value == "Lehrveranstaltungen") {
 
 			unterMenuLVzuSG = true;
 			unterMenuSVzuSG = false;
 
 			studiengangDataProvider = new ListDataProvider<Studiengang>();
-			verwaltung
-					.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
-						public void onFailure(Throwable t) {
-							Window.alert(t.toString());
-						}
+			verwaltung.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
+				public void onFailure(Throwable t) {
+					Window.alert(t.toString());
+				}
 
-						public void onSuccess(Vector<Studiengang> studiengaenge) {
-							for (Studiengang studiengang : studiengaenge) {
-								studiengangDataProvider.getList().add(
-										studiengang);
-							}
-						}
-					});
+				public void onSuccess(Vector<Studiengang> studiengaenge) {
+					for (Studiengang studiengang : studiengaenge) {
+						studiengangDataProvider.getList().add(studiengang);
+					}
+				}
+			});
 
 			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider, new StudiengangCell(), selectionModel, null);
 		}
 
+		/*
+		 *  Studiengang-Objekte enthalten alle Lehrveranstaltungs-Objekte als Kind-Elemente
+		 *  (Voraussetzung: unterMenuLVzuSG = true)
+		 */
 		if (value instanceof Studiengang && unterMenuLVzuSG) {
 
 			unterMenuLVzuSG = true;
@@ -505,11 +650,9 @@ public class CustomTreeViewModel implements TreeViewModel {
 							Window.alert(t.toString());
 						}
 
-						public void onSuccess(
-								Vector<Lehrveranstaltung> lehrveranstaltungen) {
+						public void onSuccess(Vector<Lehrveranstaltung> lehrveranstaltungen) {
 							for (Lehrveranstaltung lehrveranstaltung : lehrveranstaltungen) {
-								lehrveranstaltungDataProvider.getList().add(
-										lehrveranstaltung);
+								lehrveranstaltungDataProvider.getList().add(lehrveranstaltung);
 							}
 						}
 					});
@@ -518,6 +661,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 					selectionModel, null);
 		}
 
+		// "Dozenten" enthält Dozenten-Objekte als Kind-Elemente
 		if (value instanceof String && (String) value == "Dozenten") {
 
 			unterMenuLVzuSG = false;
@@ -525,22 +669,22 @@ public class CustomTreeViewModel implements TreeViewModel {
 
 			dozentDataProvider = new ListDataProvider<Dozent>();
 
-			verwaltung
-					.auslesenAlleDozenten(new AsyncCallback<Vector<Dozent>>() {
-						public void onFailure(Throwable caught) {
-							Window.alert(caught.getMessage());
-						}
+			verwaltung.auslesenAlleDozenten(new AsyncCallback<Vector<Dozent>>() {
+				public void onFailure(Throwable caught) {
+					Window.alert(caught.getMessage());
+				}
 
-						public void onSuccess(Vector<Dozent> dozenten) {
-							for (Dozent dozent : dozenten) {
-								dozentDataProvider.getList().add(dozent);
-							}
-						}
-					});
+				public void onSuccess(Vector<Dozent> dozenten) {
+					for (Dozent dozent : dozenten) {
+						dozentDataProvider.getList().add(dozent);
+					}
+				}
+			});
 
 			return new DefaultNodeInfo<Dozent>(dozentDataProvider, new DozentCell(), selectionModel, null);
 		}
 
+		// "Räume" enthält Raum-Objekte als Kind-Elemente
 		if (value instanceof String && (String) value == "Räume") {
 
 			unterMenuLVzuSG = false;
@@ -562,78 +706,79 @@ public class CustomTreeViewModel implements TreeViewModel {
 			return new DefaultNodeInfo<Raum>(raumDataProvider, new RaumCell(), selectionModel, null);
 		}
 
+		/*
+		 *  "Semesterverbände" enthält alle Studiengang-Objekte als Kind-Elemente,
+		 *  diese dienen nur zu weiteren Untergliederung der eigentlichen Semesterverbände
+		 */
 		if (value instanceof String && (String) value == "Semesterverbände") {
 
 			unterMenuLVzuSG = false;
 			unterMenuSVzuSG = true;
 
 			studiengangDataProvider = new ListDataProvider<Studiengang>();
-			verwaltung
-					.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
-						public void onFailure(Throwable t) {
-							Window.alert(t.toString());
-						}
+			verwaltung.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
+				public void onFailure(Throwable t) {
+					Window.alert(t.toString());
+				}
 
-						public void onSuccess(Vector<Studiengang> studiengaenge) {
-							for (Studiengang studiengang : studiengaenge) {
-								studiengangDataProvider.getList().add(
-										studiengang);
-							}
-						}
-					});
+				public void onSuccess(Vector<Studiengang> studiengaenge) {
+					for (Studiengang studiengang : studiengaenge) {
+						studiengangDataProvider.getList().add(studiengang);
+					}
+				}
+			});
 
 			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider, new StudiengangCell(), selectionModel, null);
 		}
 
+		/*
+		 *  Studiengang-Objekte enthalten alle Semesterverband-Objekte als Kind-Elemente
+		 *  (Voraussetzung: unterMenuSVzuSG = true)
+		 */
 		if (value instanceof Studiengang && unterMenuSVzuSG) {
 
 			unterMenuLVzuSG = false;
 			unterMenuSVzuSG = true;
 
 			semesterVerbandDataProvider = new ListDataProvider<Semesterverband>();
-			verwaltung.auslesenSemesterverbaendeNachStudiengang(
-					(Studiengang) value,
-					new AsyncCallback<Vector<Semesterverband>>() {
-						public void onFailure(Throwable caught) {
-							Window.alert(caught.getMessage());
-						}
+			verwaltung.auslesenSemesterverbaendeNachStudiengang((Studiengang) value, new AsyncCallback<Vector<Semesterverband>>() {
+				public void onFailure(Throwable caught) {
+					Window.alert(caught.getMessage());
+				}
 
-						public void onSuccess(
-								Vector<Semesterverband> semesterverbaende) {
-							for (Semesterverband semesterverband : semesterverbaende) {
-								semesterVerbandDataProvider.getList().add(
-										semesterverband);
-							}
-						}
-					});
+				public void onSuccess(Vector<Semesterverband> semesterverbaende) {
+					for (Semesterverband semesterverband : semesterverbaende) {
+						semesterVerbandDataProvider.getList().add(semesterverband);
+					}
+				}
+			});
 
-			return new DefaultNodeInfo<Semesterverband>(semesterVerbandDataProvider, new SemesterverbandCell(),
-					selectionModel, null);
+			return new DefaultNodeInfo<Semesterverband>(semesterVerbandDataProvider, new SemesterverbandCell(),	selectionModel, null);
 		}
 
+		// "Studiengänge" enthält Studiengang-Objekte als Kind-Elemente
 		if (value instanceof String && (String) value == "Studiengänge") {
 
 			unterMenuLVzuSG = false;
 			unterMenuSVzuSG = false;
 
 			studiengangDataProvider = new ListDataProvider<Studiengang>();
-			verwaltung
-					.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
-						public void onFailure(Throwable t) {
-							Window.alert(t.toString());
-						}
+			verwaltung.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
+				public void onFailure(Throwable t) {
+					Window.alert(t.toString());
+				}
 
-						public void onSuccess(Vector<Studiengang> studiengaenge) {
-							for (Studiengang studiengang : studiengaenge) {
-								studiengangDataProvider.getList().add(
-										studiengang);
-							}
-						}
-					});
+				public void onSuccess(Vector<Studiengang> studiengaenge) {
+					for (Studiengang studiengang : studiengaenge) {
+						studiengangDataProvider.getList().add(studiengang);
+					}
+				}
+			});
 
 			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider, new StudiengangCell(), selectionModel, null);
 		}
 
+		// "Report" enthält "Studentenplan", "Dozentenplan" und "Raumplan" als Kind-Elemente
 		if (value instanceof String && (String) value == "Report") {
 
 			spt2.popupInfo();
@@ -658,7 +803,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 
 	}
 
-	void updateDozent(Dozent dozent) {
+	public void updateDozent(Dozent dozent) {
 		List<Dozent> dozentList = dozentDataProvider.getList();
 		int i = 0;
 		for (Dozent a : dozentList) {
