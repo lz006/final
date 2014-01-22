@@ -65,7 +65,7 @@ public class StudiengangForm extends VerticalPanel {
 	 * Widgets um das Hinzufügen von Lehrveranstaltungen zum Studiengang
 	 * zu ermöglichen bzw. zu veranschaulichen
 	 */
-	Label lvLabel = new Label("Lehreranstaltungen:");
+	Label lvLabel = new Label("Lehrveranstaltungen:");
 	ListBox lvListBox;
 	Button hinzufuegenButton;
 
