@@ -87,7 +87,7 @@ public class DozentForm extends VerticalPanel {
 	HorizontalPanel dozentButtonsPanel;
 
 	/**
-	 * Komstruktor der alle notwendigen Widgets initialisiert und anordnet,
+	 * Konstruktor der alle notwendigen Widgets initialisiert und anordnet,
 	 * so dass das Objekt für weitere Konfigurationen bereit ist
 	 * 
 	 * @param	Referenz auf ein Proxy-Objekt. 
@@ -441,7 +441,7 @@ public class DozentForm extends VerticalPanel {
 		// Allgemeiner Leitfaden
 		this.dtvm.getStundenplantool2().setTextToInfoPanelOben("<b><u>Anleitung: </u></b></br>"
 								+ "Hier können Sie eine/ n Dozentin/ Dozenten und deren/ dessen Lehrveranstaltungen anlegen."
-								+ "</br><b>Alle Felder sind Pflichtfelder!</b>");
+								+ "</br><b>Außer der Angabe einer Lehrveranstaltung, sind alle Felder Pflichtfelder!</b>");
 		
 		// Info zur Eingabe des Vornamens
 		vornameTb.addFocusHandler(new FocusHandler() {
