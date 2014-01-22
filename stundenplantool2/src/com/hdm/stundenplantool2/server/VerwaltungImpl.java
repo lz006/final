@@ -1403,7 +1403,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		
 		
-		// Prüfen ob der Raum zum gewönschten Zeitslot noch verfügbar ist
+		// Prüfen ob der Raum zum gewänschten Zeitslot noch verfügbar ist
 		
 		/*
 		 * Prüfung deaktiviert, da nun nur freie Räume dem Client zur Verfügung gestellt werden
