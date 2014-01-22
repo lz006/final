@@ -1,5 +1,5 @@
 package com.hdm.stundenplantool2.client;
-//test1
+
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.shared.GWT;
@@ -20,17 +20,61 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.hdm.stundenplantool2.shared.*;
 
+/**
+ * Entry-Point-Klasse des Projekts <b>Stundenplantool2</b>.
+ */
 public class Stundenplantool2 implements EntryPoint {
 
+	/**
+	 * Referenz auf das Proxy-Objekte um mit dem Server kommunizieren zu können
+	 */
 	private final VerwaltungAsync verwaltung = GWT.create(Verwaltung.class);
 	private final ReportAsync report = GWT.create(Report.class);
+	
+	/**
+	 * CellTree welcher dauerhaft auf der linken Seite der Benutzeroberfläche
+	 * dem User zur Navigation durch die Funktionen des "Stundentools2" dient
+	 */
 	private CellTree cellTree;
+	
+	/**
+	 * Klasse welche das TreeViewModel-Interface implementiert. Diese Referenz
+	 * wird benötigt um Zugriff auf deren Methoden zu bekommen. Zusätzlich wird
+	 * ein solches Objekt vom CellTree-Knostruktur als Argument verlangt
+	 */
 	private CustomTreeViewModel dtvm;
+	
+	/**
+	 * Panel welches den gesamten Bildschirm in verschiedene Bereiche einteilt
+	 */
 	private DockLayoutPanel p;
+	
+	/**
+	 * Referenz auf das Titelbild
+	 */
 	private Image image;
+	
+	/**
+	 * ScrollPanel, welches den CellTree aufnimmt. Dadurch dass die Anzahl der Kind-Elemente
+	 * nicht vorhersebar ist, muss der User bei Bedarf "scrollen" können, um den gewünschten
+	 * Bereich sichtbar zu machen
+	 */
 	private ScrollPanel navi;
+	
+	/**
+	 * Panel, welches den unteren Bereich der Benutzeroberfläche darstellt und weitere Widgets
+	 * aufnimmt
+	 */
 	private VerticalPanel footPanel;
+	
+	/**
+	 * HTML-Tag, welcher den Namen der Projektbeteiligten im Footer auflistet
+	 */
 	private HTML copyright;
+	
+	/**
+	 * HTML-Tag, für den Titel im Head-Bereich
+	 */
 	private HTML titel;
 	private HorizontalPanel traeger;
 	private HorizontalPanel left;
@@ -58,7 +102,12 @@ public class Stundenplantool2 implements EntryPoint {
 	boolean check1 = false;
 	boolean check2 = false;
 
-	@Override
+	/**
+	   * Da diese Klasse die Implementierung des Interface <code>EntryPoint</code>
+	   * zusichert, benötigen wir eine Methode
+	   * <code>public void onModuleLoad()</code>. Diese ist das GWT-Pendant der
+	   * <code>main()</code>-Methode normaler Java-Applikationen.
+	   */
 	public void onModuleLoad() {
 
 		visibilityTreeButton = new Button("Navigation ausblenden");
