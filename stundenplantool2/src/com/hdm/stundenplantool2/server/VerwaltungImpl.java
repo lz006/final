@@ -1402,10 +1402,9 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new RuntimeException("Der gewuenschte Raum hat nicht genuegend Plätze");
 		}
 		
-		
-		// Prüfen ob der Raum zum gewänschten Zeitslot noch verfügbar ist
-		
+				
 		/*
+		 * Prüfen ob der Raum zum gewänschten Zeitslot noch verfügbar ist
 		 * Prüfung deaktiviert, da nun nur freie Räume dem Client zur Verfügung gestellt werden
 		 * Bei einem verteilten Arbeiten muss diese Prüfung wieder aktiviert werden um eine Konsistenz zu gewährleisten.
 		 * Stand: 05.01.2013
