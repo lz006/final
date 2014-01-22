@@ -1142,7 +1142,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		StringBuffer eText1 = new StringBuffer("Verbindungen zu Studiengängen können nicht entfernt werden.\nFolgende Belegungen müssen zuerst "
 				+ "entfernt oder einem anderen Semesterverband zugeordnet werden: \n\n");
 		
-		// Zuerst wird geprüft ob fehlende Studiengönge identifiziert wurden
+		// Zuerst wird geprüft ob fehlende Studiengänge identifiziert wurden
 		if (tempStudiengangIDs.size() > 0) {
 			// Nun werden die Belegungen dieser Lehrveranstaltung geladen
 			Vector<Belegung> tempBelegungen = this.belegungMapper.findByLehrveranstaltung(lehrveranstaltung);
@@ -1215,21 +1215,21 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		StringBuffer eText2 = new StringBuffer("Die Verbindung zu bestimmten Dozenten kann nicht gelöscht werden.\nFolgende Belegungen müssen zuerst "
 				+ "entfernt oder von einem anderen Dozenten übernommen werden: ");
 				
-				// Zuerst wird gepröft, ob Dozenten "dieser" Lehrveranstaltung nicht mehr zugeordnet sein sollen 		
+				// Zuerst wird geprüft, ob Dozenten "dieser" Lehrveranstaltung nicht mehr zugeordnet sein sollen 		
 				if (tempDozentIDs.size() > 0) {
 					// Die Dozenten die "dieser" Lehrveranstaltung nicht mehr zugeordnet sein sollen werden nun geladen
 					Vector<Dozent> tempDozenten = this.dozentMapper.findByKey(tempDozentIDs, true);
-					// För jede dieser Dozenten wird nun auf vorhandene Belegungen geprüft
+					// Für jede dieser Dozenten wird nun auf vorhandene Belegungen geprüft
 					if (tempDozenten != null && tempDozenten.size() > 0) {
 						for (int i = 0; i < tempDozenten.size(); i++) {
 							if (tempDozenten.elementAt(i).getBelegungen() != null && tempDozenten.elementAt(i).getBelegungen().size() > 0) {
 								// Sollte ein Dozent Belegungen referenzieren, werden diese nun geladen
 								Vector<Belegung> tempBelegungen = this.belegungMapper.findByDozent(tempDozenten.elementAt(i));
 								/*
-								 *  Bei jeder Belegung wird schlieölich gepröft, ob diese der "hier" zu öndernden
+								 *  Bei jeder Belegung wird schließlich geprüft, ob diese der "hier" zu ändernden
 								 *  Lehrveranstaltung (Methoden-Parameter) entspricht. Sollte dies der Fall sein, kann 
-								 *  eine önderung nicht durchgeföhrt werden, da zuerst die Belegungen der zu löschenden 
-								 *  Dozenten gelöscht werden mössen oder aber sie mössen einem anderen Dozenten zugeordnet
+								 *  eine Änderung nicht durchgeführt werden, da zuerst die Belegungen der zu löschenden 
+								 *  Dozenten gelöscht werden müssen oder aber sie müssen einem anderen Dozenten zugeordnet
 								 *  werden
 								 */
 								for (int j = 0; j < tempBelegungen.size(); j++) {
@@ -1580,8 +1580,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Vector mit ID's der Lehrveranstaltungen, welche nicht mehr dem hier zu ändernden Studiengang zugeordnet sind
 		Vector<Integer> tempLehrveranstaltungIDs = new Vector<Integer>();
 						
-		// Auslesen der ID's derer Lehrveranstaltungen, welche nicht mehr dem hier zu ändernden Studiengang zugeordnet sind
-						
+		// Auslesen der ID's derer Lehrveranstaltungen, welche nicht mehr dem hier zu ändernden Studiengang zugeordnet sind						
 		Integer a1 = null;
 				
 		if ((oldStudiengang.elementAt(0).getLehrveranstaltungen() != null && oldStudiengang.elementAt(0).getLehrveranstaltungen().size() > 0) &&
@@ -1609,7 +1608,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			Vector<Lehrveranstaltung> lostLV = this.lehrveranstaltungMapper.findByKey(tempLehrveranstaltungIDs, true);
 			for (Lehrveranstaltung lv : lostLV) {
 				if (lv.getStudiengaenge().size() == 1) {
-					throw new RuntimeException("Diese Lehrveranstaltung" + lv.getBezeichnung() + "kann nicht entfernt werden, da sie durch keinen anderen Studiengang referenziert wird\n"
+					throw new RuntimeException("Diese Lehrveranstaltung " + lv.getBezeichnung() + " kann nicht entfernt werden, da sie durch keinen anderen Studiengang referenziert wird\n"
 							+ "Bei Bedarf löschen Sie bitte diese Lehrveranstaltung oder weisen ihr einen anderen Studiengang zu");
 				}
 			}

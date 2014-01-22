@@ -20,6 +20,18 @@ import com.hdm.stundenplantool2.shared.bo.Dozent;
  */
 public class DummyCell extends AbstractCell<String> {
 
+	/**
+	 * Abstrakte Methode der Klasse AbstractCell<T> welche nicht-abstrakt überschrieben
+	 * werden muss. Ihr wird u.a. ein Objekt eines definierten Kind-Element-Typs als
+	 * Argument übergeben und gewünschte Attributwerte dessen, werden innerhalb eines
+	 * <div>-Tags gesetzt. Diese Attributwerte ergeben jenen Text, welcher in den Zellen
+	 * des CellTrees schlißlich sichtbar ist.
+	 * 
+	 *  @param	Context-Objekt, welches Kontextinformationen enthält
+	 *  		String-Objekt, welches den definierten Kind-Element-Typ enthält
+	 *  		SafeHtmlBuilder-Objekt, welches zuständig für die Erzeugung von
+	 *  		anzeigbaren HTML-Tags benötigt wird
+	 */
 	public void render(Context context, String value, SafeHtmlBuilder sb) {
 
 		if (value == null) {
