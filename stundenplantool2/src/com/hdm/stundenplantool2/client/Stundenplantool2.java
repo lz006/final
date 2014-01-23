@@ -587,6 +587,7 @@ public class Stundenplantool2 implements EntryPoint {
 	 * @param	String-Objekt, welches des Infotext enthält
 	 */
 	public void setTextToInfoPanelUnten(String restricts) {
+		untenInfoPanel.clear();
 		HTML infoTextUntenLabel = new HTML(restricts);
 		infoTextUntenLabel.setStyleName("infoTextUntenLabel");
 		untenInfoPanel.add(infoTextUntenLabel);
