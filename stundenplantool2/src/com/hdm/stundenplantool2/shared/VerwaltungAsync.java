@@ -155,5 +155,7 @@ public interface VerwaltungAsync {
 	 * 				und zu speichern
 	 * ***********************************************************************************************
 	 */	
+	
+	void closeConnection(AsyncCallback<Void> callback) throws RuntimeException;
 
 }

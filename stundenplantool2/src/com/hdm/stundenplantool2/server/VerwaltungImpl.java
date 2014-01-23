@@ -2368,5 +2368,16 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	 * ***********************************************************************************************
 	 */
 	
+	/**
+	 * Methode welche mittelbar und auf "Wunsch" des Clients, die DB-Verbindung kappt
+	 * 
+	 * @throws 	RuntimeException, welche von DBConnection.closeConnection();
+	 * 			weitergereicht wird und hier ebenfalls wieder weitergegeben
+	 * 			wird.
+	 */
+	public void closeConnection() throws RuntimeException {
+		DBConnection.closeConnection();
+	}
+	
 	
 }

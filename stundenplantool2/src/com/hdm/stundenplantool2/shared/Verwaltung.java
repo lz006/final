@@ -581,4 +581,6 @@ public interface Verwaltung extends RemoteService {
 	 * 				und zu speichern
 	 * ***********************************************************************************************
 	 */
+	
+	void closeConnection() throws RuntimeException;
 }

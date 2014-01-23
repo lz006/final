@@ -1,11 +1,14 @@
 package com.hdm.stundenplantool2.client;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -408,6 +411,24 @@ public class Stundenplantool2 implements EntryPoint {
 
 		// Setzen einer Selbst-Referenz zur "TreeViewModel-Instanz"
 		dtvm.setStundenplantool2(this);
+		
+		/*
+		 *  Registrieren eines CloseHandlers, damit beim schließen des 
+		 *  Fensters die Datenbankverbindung geschlossen wird.
+		 */
+		Window.addCloseHandler(new CloseHandler() {			
+			public void onClose(CloseEvent event) {
+				verwaltung.closeConnection(new AsyncCallback<Void>() {
+					public void onFailure(Throwable caught) {
+						Window.alert("Fehler beim Trennen der Datenbankverbindung aufgetreten");
+					}
+					public void onSuccess(Void result) {
+						
+					}
+				});
+			}
+			
+		});
 
 	}
 
@@ -554,8 +575,6 @@ public class Stundenplantool2 implements EntryPoint {
 	 */
 	public void setTextToInfoPanelOben(String anleitung) {
 		visibilityInfoPanelsButton.setVisible(true);
-		p.setWidgetHidden(traegerInfoPanel, false);
-		obenInfoPanel.clear();
 		HTML infoTextObenLabel = new HTML(anleitung);
 		infoTextObenLabel.setStyleName("infoTextObenLabel");
 		obenInfoPanel.add(infoTextObenLabel);
@@ -568,8 +587,6 @@ public class Stundenplantool2 implements EntryPoint {
 	 * @param	String-Objekt, welches des Infotext enthält
 	 */
 	public void setTextToInfoPanelUnten(String restricts) {
-		p.setWidgetHidden(traegerInfoPanel, false);
-		untenInfoPanel.clear();
 		HTML infoTextUntenLabel = new HTML(restricts);
 		infoTextUntenLabel.setStyleName("infoTextUntenLabel");
 		untenInfoPanel.add(infoTextUntenLabel);
@@ -579,13 +596,8 @@ public class Stundenplantool2 implements EntryPoint {
 	 * Methode welche Infotexte aus den InfoPanels entfernt
 	 */
 	public void clearInfoPanels() {
-		p.setWidgetHidden(traegerInfoPanel, true);
 		obenInfoPanel.clear();
 		untenInfoPanel.clear();
-		if (check2) {
-			check2 = false;
-			visibilityInfoPanelsButton.setText("Infotext ausblenden");
-		}
 	}
 
 	/**
