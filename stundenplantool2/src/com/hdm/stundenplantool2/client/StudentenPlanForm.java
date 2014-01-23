@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.hdm.stundenplantool2.shared.ReportAsync;
 import com.hdm.stundenplantool2.shared.bo.*;
+import com.hdm.stundenplantool2.shared.report.Studentenplan;
 
 /**
  * Diese Klasse stellt die zum Anfordern eines bestimmten Studentenplans erforderliche
@@ -111,7 +112,7 @@ public class StudentenPlanForm extends VerticalPanel {
 				svListBox.setEnabled(false);
 				generateButton.setEnabled(false);
 				
-				report.createStudentenplan(svVector.elementAt(svListBox.getSelectedIndex()), new AsyncCallback<String>() {
+				report.createStudentenplan(svVector.elementAt(svListBox.getSelectedIndex()), new AsyncCallback<Studentenplan>() {
 					public void onFailure(Throwable caught) {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"default");
 						Window.alert(caught.getMessage());
@@ -129,15 +130,15 @@ public class StudentenPlanForm extends VerticalPanel {
 					 * 
 					 * @param	String, welcher HTML-Tags enthält
 					 */
-					public void onSuccess(String result) {
+					public void onSuccess(Studentenplan result) {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"default");
 						sgListBox.setEnabled(true);
 						svListBox.setEnabled(true);
 						generateButton.setEnabled(true);
-						if (result != null && result.length() > 1) {
+						if (result.getHtmlTable() != null && result.getHtmlTable().length() > 1) {
 							reportPanel.clear();
-							reportPanel.add(new HTML(result));
-							createWindow(result);
+							reportPanel.add(new HTML(result.getHtmlTable()));
+							createWindow(result.getHtmlTable());
 						} 
 						else {
 							Window.alert("Zum gewählten Semesterverband sind keine Belegungen vorhanden");

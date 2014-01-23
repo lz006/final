@@ -16,6 +16,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.hdm.stundenplantool2.shared.ReportAsync;
 import com.hdm.stundenplantool2.shared.bo.Dozent;
+import com.hdm.stundenplantool2.shared.report.Dozentenplan;
 
 /**
  * Diese Klasse stellt die zum Anfordern eines bestimmten Dozentenplans erforderliche
@@ -88,7 +89,7 @@ public class DozentenPlanForm extends VerticalPanel {
 				dozentListBox.setEnabled(false);
 				generateButton.setEnabled(false);
 				
-				report.createDozentenplan(dozentenVector.elementAt(dozentListBox.getSelectedIndex()), new AsyncCallback<String>() {
+				report.createDozentenplan(dozentenVector.elementAt(dozentListBox.getSelectedIndex()), new AsyncCallback<Dozentenplan>() {
 					public void onFailure(Throwable caught) {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"default");
 						Window.alert(caught.getMessage());
@@ -105,14 +106,14 @@ public class DozentenPlanForm extends VerticalPanel {
 					 * 
 					 * @param	String, welcher HTML-Tags enthält
 					 */
-					public void onSuccess(String result) {
+					public void onSuccess(Dozentenplan result) {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"default");
 						dozentListBox.setEnabled(true);
 						generateButton.setEnabled(true);
-						if (result != null && result.length() > 1) {
+						if (result.getHtmlTable() != null && (result.getHtmlTable().length() > 1)) {
 						reportPanel.clear();
-						reportPanel.add(new HTML(result));
-						createWindow(result);
+						reportPanel.add(new HTML(result.getHtmlTable()));
+						createWindow(result.getHtmlTable());
 						} 
 						else {
 								Window.alert("Zum gewählten Dozent sind keine Belegungen vorhanden");

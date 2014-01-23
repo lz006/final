@@ -8,23 +8,108 @@ import com.hdm.stundenplantool2.shared.bo.Dozent;
 import com.hdm.stundenplantool2.shared.bo.Raum;
 import com.hdm.stundenplantool2.shared.bo.Semesterverband;
 import com.hdm.stundenplantool2.shared.bo.Studiengang;
+import com.hdm.stundenplantool2.shared.report.Dozentenplan;
+import com.hdm.stundenplantool2.shared.report.Raumplan;
+import com.hdm.stundenplantool2.shared.report.Studentenplan;
 
-
+/**
+ * <p>
+ * Synchrone Schnittstelle für eine RPC-fähige Klasse zur Erstellung von
+ * Reports. Diese Schnittstelle benutzt die gleiche Realisierungsgrundlage wie
+ * das Paar {@link Verwaltung} und {@link VerwaltungImpl}. Zu
+ * technischen Erläuterung etwa bzgl. GWT RPC bzw. {@link RemoteServiceServlet}
+ * siehe {@link Verwaltung} und {@link VerwaltungImpl}.
+ * </p>
+ * <p>
+ * Ein ReportGenerator bietet die Möglichkeit, eine Menge von Berichten
+ * (Reports) zu erstellen, die Menge von Daten bzgl. bestimmter Sachverhalte des
+ * Systems zweckspezifisch darstellen.
+ * </p>
+ * <p>
+ * Die Klasse bietet eine Reihe von <code>create...</code>-Methoden, mit deren
+ * Hilfe die Reports erstellt werden können. Jede dieser Methoden besitzt eine
+ * dem Anwendungsfall entsprechende Parameterliste. Diese Parameter benötigt der
+ * der Generator, um den Report erstellen zu können.
+ * </p>
+ * 
+ * @author 	Thies, Moser, Sonntag, Zanella
+ * @version	1
+ */
 @RemoteServiceRelativePath("report")
 public interface Report extends RemoteService {
 
-	String createStudentenplan(Semesterverband sv) throws RuntimeException;
+	/**
+	 * Methode um einen Studentenplan anhand eines Semesterverbandes zu erstellen
+	 * 
+	 * @param	Semesterverband-Objekt, aufgrund dessen der Report/Plan erstellt 
+	 * 			werden sollen
+	 * @return	Studentenplan-Objekt welches die "Ergebnis-HTML-Tabelle" enhtält
+	 */
+	Studentenplan createStudentenplan(Semesterverband sv) throws RuntimeException;
 	
+	/**
+	 * Methode um alle Studiengänge mittels Methode aus der Klasse VerwaltungImpl {@see VerwaltungImpl} 
+	 * (Diese Studiengang-Objekte enthalten keine Referenzen zu Semesterverband- und 
+	 * Lehrveranstaltungs- Objekten. Diese Methode dient nur dazu um in gewissen Situationen einen 
+	 * Performancevorteil zu erzielen)
+	 * 
+	 * @return	Vector mit Studiengängen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	Vector<Semesterverband> auslesenSemesterverbaendeNachStudiengang(Studiengang sg) throws RuntimeException;
 	
+	/**
+	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts mittels Methode aus 
+	 * der Klasse VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
+	 * 
+	 * @param	Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
+	 * @return	Vector mit Semesterverbänden
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	Vector<Studiengang> auslesenAlleStudiengaengeOhneSVuLV() throws RuntimeException;
 	
-	String createDozentenplan(Dozent dozent) throws RuntimeException;
+	/**
+	 * Methode um einen Dozentenplan anhand eines Dozenten zu erstellen
+	 * 
+	 * @param	Dozent-Objekt, aufgrund dessen der Report/Plan erstellt 
+	 * 			werden sollen
+	 * @return	Dozentenplan-Objekt welches die "Ergebnis-HTML-Tabelle" enhtält
+	 */
+	Dozentenplan createDozentenplan(Dozent dozent) throws RuntimeException;
 	
+	/**
+	 * Methode um alle Dozenten mittels Methode aus der Klasse 
+	 * VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
+	 * 
+	 * @return	Vector mit Dozenten
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */
 	Vector<Dozent> auslesenAlleDozenten() throws RuntimeException;
 	
-	String createRaumplan(Raum raum) throws RuntimeException;
+	/**
+	 * Methode um einen Raumplan anhand eines Raumes zu erstellen
+	 * 
+	 * @param	Raum-Objekt, aufgrund dessen der Report/Plan erstellt 
+	 * 			werden sollen
+	 * @return	Raumplan-Objekt welches die "Ergebnis-HTML-Tabelle" enhtält
+	 */
+	Raumplan createRaumplan(Raum raum) throws RuntimeException;
 	
+	/**
+	 * Methode um alle Räume mittels Methode aus der Klasse 
+	 * VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
+	 * 
+	 * @return	Vector mit Räumen
+	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
+	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
+	 * 			weitergereicht. 
+	 */	
 	Vector<Raum> auslesenAlleRaeume() throws RuntimeException;
 	
 }

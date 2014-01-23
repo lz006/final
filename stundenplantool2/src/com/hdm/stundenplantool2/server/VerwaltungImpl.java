@@ -67,8 +67,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * Probleme auf der Server-Seite in einfacher Weise auf die Client-Seite
  * transportiert und dort individuell behandelt werden.
  * 
- * @see BankAdministration
- * @see BankAdministrationAsync
+ * @see Verwaltung
+ * @see VeraltungAsync
  * @see RemoteServiceServlet
  * @author Thies, Moser, Sonntag, Zanella
  * @version 1
