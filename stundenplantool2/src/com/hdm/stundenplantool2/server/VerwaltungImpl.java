@@ -2283,8 +2283,8 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	 * Methode um einen neuen Studiengang mittels Mapper-Objekt in der DB zu speichern
 	 * (Überladen der Methode "anlegenStudiengang(...)")
 	 * 
-	 * @param	Bezeichnung des neuen Studiengangs
-	 * 			Kürzel des neuen Studiengangs
+	 * @param	bezeichnung des neuen Studiengangs
+	 * 			kuerzel des neuen Studiengangs
 	 * @return	Studiengang-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -2303,8 +2303,8 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	/**
 	 * Methode um einen neuen Raum mittels Mapper-Objekt in der DB zu speichern
 	 * 
-	 * @param	Bezeichnung des neuen Raumes
-	 * 			Kapazität des neuen Raumes
+	 * @param	bezeichnung des neuen Raumes
+	 * 			kapazitaet des neuen Raumes
 	 * @return	Raum-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
