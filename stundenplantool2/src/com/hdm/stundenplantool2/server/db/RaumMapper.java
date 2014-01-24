@@ -88,7 +88,6 @@ public class RaumMapper {
 	 * Methode um einen Raum in der DB zu aktualisieren
 	 * 
 	 * @param	raum - Objekt welches aktualisiert werden soll 			
-	 * @return	Raum-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */

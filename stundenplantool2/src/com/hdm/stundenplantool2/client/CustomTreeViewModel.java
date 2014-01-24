@@ -327,7 +327,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
 	 * User ermöglichen einen Dozenten zu bearbeiten
 	 * 
-	 * @param	dozent- Referenz auf ein Dozent-Objekt, welches Gegenstand der Bearbeitung ist 
+	 * @param	dozent - Referenz auf ein Dozent-Objekt, welches Gegenstand der Bearbeitung ist 
 	 */
 	public void setSelectedDozent(Dozent dozent) {
 		spt2.clearInfoPanels();

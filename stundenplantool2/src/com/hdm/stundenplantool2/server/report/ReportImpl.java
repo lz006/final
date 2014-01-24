@@ -12,7 +12,7 @@ import com.hdm.stundenplantool2.shared.Report;
 /**
  * Implementierung des <code>Report</code>-Interface. Die technische
  * Realisierung bzgl. <code>RemoteServiceServlet</code> bzw. GWT RPC erfolgt
- * analog zu {@ReportImpl}. Für Details zu GWT RPC siehe dort.
+ * analog zu {@link ReportImpl}. Für Details zu GWT RPC siehe dort.
  * 
  * Diese Klasse Aggregiert sämtliche Belegungs-Informationen rund ein 
  * BusinessObjekt und verpackt diese mittelbar in eine menschenlesbare
