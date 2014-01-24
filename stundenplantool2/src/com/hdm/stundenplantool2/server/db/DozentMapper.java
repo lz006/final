@@ -313,19 +313,11 @@ public class DozentMapper {
 			String sql = "INSERT INTO Dozent (`Nachname`, `Vorname`, `Personalnummer`) VALUES ('"+dozent.getNachname()+"', '"+dozent.getVorname()+"', '"+dozent.getPersonalnummer()+"');";
 			stmt.executeUpdate(sql);
 			
-			/*
-			 *  Auslesen der nach einfügen eines neuen Dozenten in DB entstandenen "größten" ID
-			 *  @author: Herr Prof. Thies 
-			 *  @implement: Lucas Zanella 
-			 */
+			// Auslesen der nach einfügen eines neuen Dozenten in DB entstandenen "größten" ID
 			sql = "SELECT MAX(ID) AS maxid FROM Dozent;";
 			rs = stmt.executeQuery(sql);
 			
-			/*
-			 *  Setzen der ID dem hier aktuellen Semesterverband-Objekt
-			 *  @author: Herr Prof. Thies
-			 *  @implement: Lucas Zanella 
-			 */
+			// Setzen der ID dem hier aktuellen Semesterverband-Objekt
 			while(rs.next()){
 				dozent.setId(rs.getInt("maxid"));
 			}

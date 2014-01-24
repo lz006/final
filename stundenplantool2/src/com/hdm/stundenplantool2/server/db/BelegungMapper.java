@@ -588,19 +588,11 @@ public class BelegungMapper {
 			String sql = "INSERT INTO Belegung (`RaumID`, `ZeitslotID`, `LehrveranstaltungID`) VALUES ('"+belegung.getRaum().getId()+"', '"+belegung.getZeitslot().getId()+"', '"+belegung.getLehrveranstaltung().getId()+"');";
 			stmt.executeUpdate(sql);
 			
-			/*
-			 *  Auslesen der nach einfügen eines neuen Dozenten in DB entstandenen "größten" ID
-			 *  @author: Herr Prof. Thies 
-			 *  @implement: Lucas Zanella 
-			 */
+			// Auslesen der nach einfügen eines neuen Dozenten in DB entstandenen "größten" ID
 			sql = "SELECT MAX(ID) AS maxid FROM Belegung;";
 			rs = stmt.executeQuery(sql);
 			
-			/*
-			 *  Setzen der ID dem hier aktuellen Belegung-Objekt
-			 *  @author: Herr Prof. Thies
-			 *  @implement: Lucas Zanella 
-			 */
+			//  Setzen der ID dem hier aktuellen Belegung-Objekt
 			while(rs.next()){
 				belegung.setId(rs.getInt("maxid"));
 			}

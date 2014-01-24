@@ -322,19 +322,11 @@ public class StudiengangMapper {
 			String sql = "INSERT INTO Studiengang (`Bezeichnung`, `Kuerzel`) VALUES ('"+studiengang.getBezeichnung()+"', '"+studiengang.getKuerzel()+"');";
 			stmt.executeUpdate(sql);
 			
-			/*
-			 *  Auslesen der nach einfügen eines neuen Dozenten in DB entstandenen "größten" ID
-			 *  @author: Herr Prof. Thies 
-			 *  @implement: Lucas Zanella 
-			 */
+			// Auslesen der nach einfügen eines neuen Dozenten in DB entstandenen "größten" ID 
 			sql = "SELECT MAX(ID) AS maxid FROM Studiengang;";
 			rs = stmt.executeQuery(sql);
 			
-			/*
-			 *  Setzen der ID dem hier aktuellen Semesterverband-Objekt
-			 *  @author: Herr Prof. Thies
-			 *  @implement: Lucas Zanella 
-			 */
+			// Setzen der ID dem hier aktuellen Semesterverband-Objekt
 			while(rs.next()){
 				studiengang.setId(rs.getInt("maxid"));
 			}

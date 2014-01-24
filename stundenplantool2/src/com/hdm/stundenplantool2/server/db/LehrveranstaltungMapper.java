@@ -171,19 +171,11 @@ public class LehrveranstaltungMapper {
 			String sql = "INSERT INTO Lehrveranstaltung (`Umfang`, `Bezeichnung`, `Studiensemester`) VALUES ('"+lehrveranstaltung.getUmfang()+"', '"+lehrveranstaltung.getBezeichnung()+"', '"+lehrveranstaltung.getStudiensemester()+"');";
 			stmt.executeUpdate(sql);
 			
-			/*
-			 *  Auslesen der nach einfügen einer neuen Lehrveranstaltung in DB entstandenen "größten" ID
-			 *  @author: Herr Prof. Thies 
-			 *  @implement: Lucas Zanella 
-			 */
+			// Auslesen der nach einfügen einer neuen Lehrveranstaltung in DB entstandenen "größten" ID
 			sql = "SELECT MAX(ID) AS maxid FROM Lehrveranstaltung;";
 			rs = stmt.executeQuery(sql);
 			
-			/*
-			 *  Setzen der ID dem hier aktuellen Semesterverband-Objekt
-			 *  @author: Herr Prof. Thies
-			 *  @implement: Lucas Zanella 
-			 */
+			// Setzen der ID dem hier aktuellen Semesterverband-Objekt
 			while(rs.next()){
 				lehrveranstaltung.setId(rs.getInt("maxid"));
 			}
