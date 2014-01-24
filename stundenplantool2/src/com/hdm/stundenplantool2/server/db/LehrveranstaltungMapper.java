@@ -15,7 +15,13 @@ import com.hdm.stundenplantool2.shared.bo.*;
  * gelöscht werden können. Das Mapping ist bidirektional. D.h., Objekte können
  * in DB-Strukturen und DB-Strukturen in Objekte umgewandelt werden.
  * 
- * @see DozentMapper, BelegungMapper, RaumMapper, SemesterverbandMapper, StudiengangMapper, ZeitslotMapper
+ * @see DozentMapper
+ * @see BelegungMapper
+ * @see RaumMapper
+ * @see SemesterverbandMapper
+ * @see StudiengangMapper
+ * @see ZeitslotMapper
+ * 
  * @author Thies (implement: Zimmermann, Klatt, Roth)
  * @version 1.0
  */
