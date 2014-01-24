@@ -56,7 +56,6 @@ public class DBConnection {
 	 * Fall die gesamte Software neu zu starten ist. 
 	 * 
 	 * @return DAS <code>DBConncetion</code>-Objekt.
-	 * @see con
 	 */
 	public static Connection connection() {
 		// Wenn es bisher keine Conncetion zur DB gab, ... 

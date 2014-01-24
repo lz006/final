@@ -6,8 +6,8 @@ import java.util.Vector;
 /**
  * <p>
  * Ein einfacher Report, welcher das "Grundgerüst" aller Reportvarianten
- * beinhaltet. Konkrete Ausprägungen sind Studentenplan {@see Studentenplan},
- * Dozentenplan {@see Dozentenplan} und Raumplan {@see Raumplan}. Es das Serializable
+ * beinhaltet. Konkrete Ausprägungen sind Studentenplan { @see Studentenplan},
+ * Dozentenplan { @see Dozentenplan} und Raumplan { @see Raumplan}. Es das Serializable
  * Interface implmentiert, um dessen Serialisierbarkeit zu signalisieren, da Instanzen
  * dieser Klasse an den Client übermittelt werden. 
  * <p>

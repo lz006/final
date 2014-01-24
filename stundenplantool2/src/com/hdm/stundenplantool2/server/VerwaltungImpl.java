@@ -13,7 +13,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 /**
  * <p>
  * Implementierungsklasse des Interface <code>Verwaltung</code>. Diese
- * Klasse ist <em>die</em> Klasse, die neben {@link com.hdm.stundenplantool2.server.report.ReportImpl}
+ * Klasse ist <em>die</em> Klasse, die neben { @link com.hdm.stundenplantool2.server.report.ReportImpl}
  * sämtliche Applikationslogik (oder engl. Business Logic) aggregiert. Sie ist
  * wie eine Spinne, die sämtliche Zusammenhänge in ihrem Netz (in unserem Fall
  * die Daten der Applikation) überblickt und für einen geordneten Ablauf und
@@ -33,10 +33,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * Diese Klasse steht mit einer Reihe weiterer Datentypen in Verbindung. Dies
  * sind:
  * <ol>
- * <li>{@link Verwaltung}: Dies ist das <em>lokale</em> - also
+ * <li>{ @link Verwaltung}: Dies ist das <em>lokale</em> - also
  * Server-seitige - Interface, das die im System zur Verfügung gestellten
  * Funktionen deklariert.</li>
- * <li>{@link VerwaltungAsync}: <code>VerwaltungImpl</code> und
+ * <li>{ @link VerwaltungAsync}: <code>VerwaltungImpl</code> und
  * <code>Verwaltung</code> bilden nur die Server-seitige Sicht der
  * Applikationslogik ab. Diese basiert vollständig auf synchronen
  * Funktionsaufrufen. Wir müssen jedoch in der Lage sein, Client-seitige
@@ -45,8 +45,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * zusätzlichen Suffix "Async". Es steht nur mittelbar mit dieser Klasse in
  * Verbindung. Die Erstellung und Pflege der Async Interfaces wird durch das
  * Google Plugin semiautomatisch unterstützt. Weitere Informationen unter
- * {@link VerwaltungAsync}.</li>
- * <li> {@link RemoteServiceServlet}: Jede Server-seitig instantiierbare und
+ * { @link VerwaltungAsync}.</li>
+ * <li> { @link RemoteServiceServlet}: Jede Server-seitig instantiierbare und
  * Client-seitig über GWT RPC nutzbare Klasse muss die Klasse
  * <code>RemoteServiceServlet</code> implementieren. Sie legt die funktionale
  * Basis für die Anbindung von <code>VerwaltungImpl</code> an die Runtime
@@ -63,12 +63,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * Beachten Sie, dass sämtliche Methoden, die mittels GWT RPC aufgerufen werden
  * können ein <code>throws RuntimeException</code> in der
  * Methodendeklaration aufweisen. Diese Methoden dürfen also Instanzen von
- * {@link RuntimeException} auswerfen. Mit diesen Exceptions können z.B.
+ * { @link RuntimeException} auswerfen. Mit diesen Exceptions können z.B.
  * Probleme auf der Server-Seite in einfacher Weise auf die Client-Seite
  * transportiert und dort individuell behandelt werden.
  * 
  * @see Verwaltung
- * @see VeraltungAsync
+ * @see com.hdm.stundenplantool2.shared.VerwaltungAsync
  * @see RemoteServiceServlet
  * @author Thies, Moser, Sonntag, Zanella
  * @version 1

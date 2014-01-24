@@ -19,7 +19,7 @@ import com.hdm.stundenplantool2.shared.Report;
  * Form (HTML-Tabelle)
  *  
  * @see Report
- * @see ReportAsync
+ * @see com.hdm.stundenplantool2.shared.ReportAsync
  * @see RemoteServiceServlet
  * @author Thies, Moser, Sonntag, Zanella
  * @version 1
@@ -174,7 +174,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 	}
 
 	/**
-	 * Methode um alle Studiengänge mittels Methode aus der Klasse VerwaltungImpl {@see VerwaltungImpl} 
+	 * Methode um alle Studiengänge mittels Methode aus der Klasse VerwaltungImpl { @see VerwaltungImpl} 
 	 * (Diese Studiengang-Objekte enthalten keine Referenzen zu Semesterverband- und 
 	 * Lehrveranstaltungs- Objekten. Diese Methode dient nur dazu um in gewissen Situationen einen 
 	 * Performancevorteil zu erzielen)
@@ -190,7 +190,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 
 	/**
 	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts mittels Methode aus 
-	 * der Klasse VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
+	 * der Klasse VerwaltungImpl { @see VerwaltungImpl} dem Client zur Verfügung zu stellen
 	 * 
 	 * @param	sg - Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
 	 * @return	Vector mit Semesterverbänden
@@ -350,7 +350,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 
 	/**
 	 * Methode um alle Dozenten mittels Methode aus der Klasse 
-	 * VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
+	 * VerwaltungImpl { @see VerwaltungImpl} dem Client zur Verfügung zu stellen
 	 * 
 	 * @return	Vector mit Dozenten
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
@@ -519,7 +519,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 
 	/**
 	 * Methode um alle Räume mittels Methode aus der Klasse 
-	 * VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
+	 * VerwaltungImpl { @see VerwaltungImpl} dem Client zur Verfügung zu stellen
 	 * 
 	 * @return	Vector mit Räumen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese

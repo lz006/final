@@ -16,9 +16,9 @@ import com.hdm.stundenplantool2.shared.report.Studentenplan;
  * <p>
  * Synchrone Schnittstelle für eine RPC-fähige Klasse zur Erstellung von
  * Reports. Diese Schnittstelle benutzt die gleiche Realisierungsgrundlage wie
- * das Paar {@link Verwaltung} und {@link VerwaltungImpl}. Zu
- * technischen Erläuterung etwa bzgl. GWT RPC bzw. {@link RemoteServiceServlet}
- * siehe {@link Verwaltung} und {@link VerwaltungImpl}.
+ * das Paar { @link Verwaltung} und { @link VerwaltungImpl}. Zu
+ * technischen Erläuterung etwa bzgl. GWT RPC bzw. { @link RemoteServiceServlet}
+ * siehe { @link Verwaltung} und { @link VerwaltungImpl}.
  * </p>
  * <p>
  * Ein ReportGenerator bietet die Möglichkeit, eine Menge von Berichten
@@ -48,7 +48,7 @@ public interface Report extends RemoteService {
 	Studentenplan createStudentenplan(Semesterverband sv) throws RuntimeException;
 	
 	/**
-	 * Methode um alle Studiengänge mittels Methode aus der Klasse VerwaltungImpl {@see VerwaltungImpl} 
+	 * Methode um alle Studiengänge mittels Methode aus der Klasse VerwaltungImpl { @see VerwaltungImpl} 
 	 * (Diese Studiengang-Objekte enthalten keine Referenzen zu Semesterverband- und 
 	 * Lehrveranstaltungs- Objekten. Diese Methode dient nur dazu um in gewissen Situationen einen 
 	 * Performancevorteil zu erzielen)
@@ -62,7 +62,7 @@ public interface Report extends RemoteService {
 	
 	/**
 	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts mittels Methode aus 
-	 * der Klasse VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
+	 * der Klasse VerwaltungImpl { @see VerwaltungImpl} dem Client zur Verfügung zu stellen
 	 */
 	Vector<Studiengang> auslesenAlleStudiengaengeOhneSVuLV() throws RuntimeException;
 	
@@ -77,7 +77,7 @@ public interface Report extends RemoteService {
 	
 	/**
 	 * Methode um alle Dozenten mittels Methode aus der Klasse 
-	 * VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
+	 * VerwaltungImpl @see VerwaltungImpl dem Client zur Verfügung zu stellen
 	 * 
 	 * @return	Vector mit Dozenten
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
@@ -97,7 +97,7 @@ public interface Report extends RemoteService {
 	
 	/**
 	 * Methode um alle Räume mittels Methode aus der Klasse 
-	 * VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
+	 * VerwaltungImpl { @see VerwaltungImpl} dem Client zur Verfügung zu stellen
 	 * 
 	 * @return	Vector mit Räumen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
