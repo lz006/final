@@ -139,7 +139,7 @@ public class BelegungMapper {
 	          }
 		}
 		catch(SQLException e1) {
-			throw new RuntimeException(e1.getMessage());
+			throw new RuntimeException("Datenbankproblem - BelegungMapper - fbk");
 		}
 			
 		try{
