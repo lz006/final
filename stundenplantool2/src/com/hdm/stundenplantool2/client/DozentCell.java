@@ -2,7 +2,6 @@ package com.hdm.stundenplantool2.client;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.view.client.TreeViewModel.DefaultNodeInfo;
 import com.hdm.stundenplantool2.shared.bo.Dozent;
 
 /**
