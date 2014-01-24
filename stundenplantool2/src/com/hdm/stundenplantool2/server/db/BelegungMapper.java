@@ -106,7 +106,7 @@ public class BelegungMapper {
 					+ "FROM stundenplantool.Belegung JOIN stundenplantool.Raum ON Belegung.RaumID = Raum.ID "
 					+ "JOIN stundenplantool.Zeitslot ON Belegung.ZeitslotID = Zeitslot.ID JOIN stundenplantool.Lehrveranstaltung "
 					+ "ON Belegung.LehrveranstaltungID = Lehrveranstaltung.ID" 
-					+ "WHERE ID IN (" + ids.toString() + ")";
+					+ "WHERE Belegung.ID IN (" + ids.toString() + ")";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Belegung-Vectors"
