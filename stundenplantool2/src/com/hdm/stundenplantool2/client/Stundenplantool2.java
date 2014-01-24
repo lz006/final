@@ -570,7 +570,7 @@ public class Stundenplantool2 implements EntryPoint {
 	/**
 	 * Methode welche Infotext im oberen InfoPanel platziert
 	 * 
-	 * @param	String-Objekt, welches des Infotext enthält
+	 * @param	anleitung - String-Objekt, welches des Infotext enthält
 	 */
 	public void setTextToInfoPanelOben(String anleitung) {
 		visibilityInfoPanelsButton.setVisible(true);
@@ -583,7 +583,7 @@ public class Stundenplantool2 implements EntryPoint {
 	/**
 	 * Methode welche Infotext im unteren InfoPanel platziert
 	 * 
-	 * @param	String-Objekt, welches des Infotext enthält
+	 * @param	restricts - String-Objekt, welches des Infotext enthält
 	 */
 	public void setTextToInfoPanelUnten(String restricts) {
 		untenInfoPanel.clear();

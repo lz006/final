@@ -27,9 +27,9 @@ public class LehrveranstaltungCell extends AbstractCell<Lehrveranstaltung> {
 	 * <div>-Tags gesetzt. Diese Attributwerte ergeben jenen Text, welcher in den Zellen
 	 * des CellTrees schlißlich sichtbar ist.
 	 * 
-	 *  @param	Context-Objekt, welches Kontextinformationen enthält
-	 *  		Lehrveranstaltung-Objekt, welches den definierten Kind-Element-Typ enthält
-	 *  		SafeHtmlBuilder-Objekt, welches zuständig für die Erzeugung von
+	 *  @param	context - Objekt, welches Kontextinformationen enthält
+	 *  		value - Lehrveranstaltung-Objekt, welches den definierten Kind-Element-Typ enthält
+	 *  		sb - SafeHtmlBuilder-Objekt, welches zuständig für die Erzeugung von
 	 *  		anzeigbaren HTML-Tags benötigt wird
 	 */
 	public void render(Context context, Lehrveranstaltung value, SafeHtmlBuilder sb) {

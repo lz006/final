@@ -85,7 +85,7 @@ public class RaumForm extends VerticalPanel {
 	 * Komstruktor der alle notwendigen Widgets initialisiert und anordnet,
 	 * so dass das Objekt für weitere Konfigurationen bereit ist
 	 * 
-	 * @param	Referenz auf ein Proxy-Objekt. 
+	 * @param	verwaltungA - Referenz auf ein Proxy-Objekt. 
 	 */	
 	public RaumForm(VerwaltungAsync verwaltungA) {
 
@@ -112,7 +112,7 @@ public class RaumForm extends VerticalPanel {
 	 * Setzen der Referenz zum CustomTreeViewModel des CellTree und
 	 * mittelbar setzen der Infotexte
 	 * 
-	 * @param	Referenz auf ein CustomTreeViewModel-Objekt. 
+	 * @param	dtvm - Referenz auf ein CustomTreeViewModel-Objekt. 
 	 */
 	public void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
@@ -149,7 +149,7 @@ public class RaumForm extends VerticalPanel {
 	/**
 	 * Setzen der aus dem CellTree gewählten Raum (Ändern-Maske)
 	 * 
-	 * @param	Referenz auf ein Raum-Objekt. 
+	 * @param	raum - Referenz auf ein Raum-Objekt. 
 	 */
 	public void setShownRaum(Raum raum) {
 		this.shownRaum = raum;

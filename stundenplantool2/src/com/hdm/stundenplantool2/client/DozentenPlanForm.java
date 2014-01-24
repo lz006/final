@@ -69,7 +69,7 @@ public class DozentenPlanForm extends VerticalPanel {
 	 * Komstruktor der alle notwendigen Widgets initialisiert und anordnet.
 	 * Darüberhinaus werden mittelbar alle Dozenten geladen.
 	 * 
-	 * @param	Referenz auf ein Proxy-Objekt. 
+	 * @param	reportA - Referenz auf ein Proxy-Objekt. 
 	 */	
 	public DozentenPlanForm(ReportAsync reportA) {
 		this.report = reportA;
@@ -104,7 +104,7 @@ public class DozentenPlanForm extends VerticalPanel {
 					 * JavaScript-Methode aufgerufen, welche ein PopUp mit der "Ergebnistabelle"
 					 * in Vollbild anazeigt.
 					 * 
-					 * @param	String, welcher HTML-Tags enthält
+					 * @param	result - String, welcher HTML-Tags enthält
 					 */
 					public void onSuccess(Dozentenplan result) {
 						DOM.setStyleAttribute(RootPanel.getBodyElement(), "cursor",	"default");

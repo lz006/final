@@ -90,7 +90,7 @@ public class DozentForm extends VerticalPanel {
 	 * Konstruktor der alle notwendigen Widgets initialisiert und anordnet,
 	 * so dass das Objekt für weitere Konfigurationen bereit ist
 	 * 
-	 * @param	Referenz auf ein Proxy-Objekt. 
+	 * @param	verwaltungA - Referenz auf ein Proxy-Objekt. 
 	 */	
 	public DozentForm(VerwaltungAsync verwaltungA) {
 		this.verwaltung = verwaltungA;
@@ -424,7 +424,7 @@ public class DozentForm extends VerticalPanel {
 	 * Setzen der Referenz zum CustomTreeViewModel des CellTree und
 	 * mittelbar setzen der Infotexte
 	 * 
-	 * @param	Referenz auf ein CustomTreeViewModel-Objekt. 
+	 * @param	dtvm - Referenz auf ein CustomTreeViewModel-Objekt. 
 	 */
 	void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
@@ -476,7 +476,7 @@ public class DozentForm extends VerticalPanel {
 	/**
 	 * Setzen des aus dem CellTree gewählten Dozenten (Ändern-Maske)
 	 * 
-	 * @param	Referenz auf ein Dozent-Objekt. 
+	 * @param	dozent - Referenz auf ein Dozent-Objekt. 
 	 */
 	void setShownDozent(Dozent dozent) {
 		this.shownDozent = dozent;

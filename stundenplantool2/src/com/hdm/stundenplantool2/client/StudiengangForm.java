@@ -127,7 +127,7 @@ public class StudiengangForm extends VerticalPanel {
 	 * Komstruktor der alle notwendigen Widgets initialisiert und anordnet,
 	 * so dass das Objekt für weitere Konfigurationen bereit ist
 	 * 
-	 * @param	Referenz auf ein Proxy-Objekt. 
+	 * @param	verwaltungA - Referenz auf ein Proxy-Objekt. 
 	 */	
 	public StudiengangForm(VerwaltungAsync verwaltungA) {
 
@@ -266,7 +266,7 @@ public class StudiengangForm extends VerticalPanel {
 	 * Setzen der Referenz zum CustomTreeViewModel des CellTree und
 	 * mittelbar setzen der Infotexte
 	 * 
-	 * @param	Referenz auf ein CustomTreeViewModel-Objekt. 
+	 * @param	dtvm - Referenz auf ein CustomTreeViewModel-Objekt. 
 	 */
 	public void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
@@ -309,7 +309,7 @@ public class StudiengangForm extends VerticalPanel {
 	/**
 	 * Setzen der aus dem CellTree gewählten Studienganges (Ändern-Maske)
 	 * 
-	 * @param	Referenz auf ein Studiengang-Objekt. 
+	 * @param	sg - Referenz auf ein Studiengang-Objekt. 
 	 */
 	public void setShownStudiengang(Studiengang sg) {
 		this.shownStudiengang = sg;

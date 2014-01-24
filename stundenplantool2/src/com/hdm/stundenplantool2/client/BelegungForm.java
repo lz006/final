@@ -458,7 +458,7 @@ public class BelegungForm extends VerticalPanel {
 	 * in den dafür vorgesehenen Container ablegt sowie das entsprechende DropDown
 	 * (ListBox) befüllt
 	 * 
-	 *  @param	boolean welcher signalisiert, ob es sich um zusätzliche Semesterverbände,
+	 *  @param	info - boolean welcher signalisiert, ob es sich um zusätzliche Semesterverbände,
 	 *  		welche zur neuen Belegung hinzugefügt werden sollen, handelt oder nicht.
 	 */
 	public void ladenSemesterverbaende(boolean info) {

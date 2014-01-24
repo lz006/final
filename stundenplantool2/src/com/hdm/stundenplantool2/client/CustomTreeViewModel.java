@@ -189,7 +189,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Komstruktor welcher den "SelectionChangeHandler" definiert und dem 
 	 * "selectionModel" hinzufügt, so dass der CellTree-Funktionsbereit ist
 	 * 
-	 * @param	Referenz auf ein Proxy-Objekt. 
+	 * @param	verwaltungA - Referenz auf ein Proxy-Objekt. 
 	 */
 	public CustomTreeViewModel(VerwaltungAsync verwaltungA) {
 
@@ -327,7 +327,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
 	 * User ermöglichen einen Dozenten zu bearbeiten
 	 * 
-	 * @param	Referenz auf ein Dozent-Objekt, welches Gegenstand der Bearbeitung ist 
+	 * @param	dozent- Referenz auf ein Dozent-Objekt, welches Gegenstand der Bearbeitung ist 
 	 */
 	public void setSelectedDozent(Dozent dozent) {
 		spt2.clearInfoPanels();
@@ -355,7 +355,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
 	 * User ermöglichen eine Lehrveranstaltung zu bearbeiten
 	 * 
-	 * @param	Referenz auf ein Lehrveranstaltung-Objekt, welches Gegenstand der Bearbeitung ist 
+	 * @param	lehrveranstaltung - Referenz auf ein Lehrveranstaltung-Objekt, welches Gegenstand der Bearbeitung ist 
 	 */
 	public void setSelectedLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
 		spt2.clearInfoPanels();
@@ -383,7 +383,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
 	 * User ermöglichen einen Raum zu bearbeiten
 	 * 
-	 * @param	Referenz auf ein Raum-Objekt, welches Gegenstand der Bearbeitung ist 
+	 * @param	raum - Referenz auf ein Raum-Objekt, welches Gegenstand der Bearbeitung ist 
 	 */
 	public void setSelectedRaum(Raum raum) {
 		spt2.clearInfoPanels();
@@ -409,7 +409,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
 	 * User ermöglichen einen Semesterverband zu bearbeiten
 	 * 
-	 * @param	Referenz auf ein Semesterverband-Objekt, welches Gegenstand der Bearbeitung ist 
+	 * @param	semesterverband - Referenz auf ein Semesterverband-Objekt, welches Gegenstand der Bearbeitung ist 
 	 */
 	public void setSelectedSemesterverband(Semesterverband semesterverband) {
 		spt2.clearInfoPanels();
@@ -437,7 +437,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Methode welche wiederum alle notwendigen Methoden aufruft, die es dem
 	 * User ermöglichen einen Studiengang zu bearbeiten
 	 * 
-	 * @param	Referenz auf ein Studiengang-Objekt, welches Gegenstand der Bearbeitung ist 
+	 * @param	studiengang - Referenz auf ein Studiengang-Objekt, welches Gegenstand der Bearbeitung ist 
 	 */
 	public void setSelectedStudiengang(Studiengang studiengang) {
 		spt2.clearInfoPanels();
@@ -516,7 +516,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Methode welche das Interface "TreeViewModel" vorschreibt. Hier werden die Kind-Elemente
 	 * eines jeden Knoten im CellTree definiert
 	 * 
-	 * @param	Generic, welches das gegenwärtig gewählte Knoten-Element repräsentiert  
+	 * @param	value - Generic, welches das gegenwärtig gewählte Knoten-Element repräsentiert  
 	 */
 	public <T> NodeInfo<?> getNodeInfo(T value) {
 
@@ -805,7 +805,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Dozenten aktualisiert. Damit bspw. eine Namensänderung eines Dozenten auch im
 	 * CellTree ersichtlich wird
 	 * 
-	 * @param	Dozent-Objekt, welches "seine alte Version" ersetzt  
+	 * @param	dozent - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateDozent(Dozent dozent) {
 		List<Dozent> dozentList = dozentDataProvider.getList();
@@ -826,7 +826,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass ein Dozent entfernt werden muss, da dieser aus Systemsicht nicht mehr
 	 * existent ist. In Folge wird dieser auch nicht mehr im CellTree angezeigt.
 	 * 
-	 * @param	Dozent-Objekt, welches gelöscht werden soll  
+	 * @param	dozent - Objekt, welches gelöscht werden soll  
 	 */
 	public void loeschenDozent(Dozent dozent) {
 
@@ -850,7 +850,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass ein Dozent hinzugefügt werden muss, da dieser neu angelegt wurde und
 	 * folglich im CellTree angezeigt werden muss.
 	 * 
-	 * @param	Dozent-Objekt, welcher neu hinzugefügt wird  
+	 * @param	dozent - Objekt, welcher neu hinzugefügt wird  
 	 */
 	public void addDozent(Dozent dozent) {
 		if (dozentDataProvider != null) {
@@ -865,7 +865,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass eine Lehrveranstaltung entfernt werden muss, da diese aus Systemsicht nicht mehr
 	 * existent ist. In Folge wird dieser auch nicht mehr im CellTree angezeigt.
 	 * 
-	 * @param	Lehrveranstaltung-Objekt, welches gelöscht werden soll  
+	 * @param	lehrveranstaltung - Objekt, welches gelöscht werden soll  
 	 */
 	public void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
 
@@ -888,7 +888,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Lehrveranstaltung aktualisiert. Damit bspw. eine Änderung der Bezeichung einer Lehrveranstaltung 
 	 * auch im CellTree ersichtlich wird
 	 * 
-	 * @param	Lehrveranstaltung-Objekt, welches "seine alte Version" ersetzt  
+	 * @param	lehrveranstaltung - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
 		List<Lehrveranstaltung> lehrveranstaltungList = lehrveranstaltungDataProvider.getList();
@@ -909,7 +909,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass eine Lehrveranstaltung hinzugefügt werden muss, da diese neu angelegt wurde und
 	 * folglich im CellTree angezeigt werden muss.
 	 * 
-	 * @param	Lehrveranstaltung-Objekt, welcher neu hinzugefügt wird  
+	 * @param	lv - Lehrveranstaltung-Objekt, welcher neu hinzugefügt wird  
 	 */
 	public void addLehrveranstaltung(Lehrveranstaltung lv) {
 		if (lehrveranstaltungDataProvider != null) {
@@ -924,7 +924,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass ein Studiengang entfernt werden muss, da dieser aus Systemsicht nicht mehr
 	 * existent ist. In Folge wird dieser auch nicht mehr im CellTree angezeigt.
 	 * 
-	 * @param	Studiengang-Objekt, welches gelöscht werden soll  
+	 * @param	studiengang - Objekt, welches gelöscht werden soll  
 	 */
 	public void loeschenStudiengang(Studiengang studiengang) {
 
@@ -947,7 +947,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Studiengangs aktualisiert. Damit bspw. eine Änderung einer Bezeichnung auch im
 	 * CellTree ersichtlich wird
 	 * 
-	 * @param	Studiengang-Objekt, welches "seine alte Version" ersetzt  
+	 * @param	studiengang - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateStudiengang(Studiengang studiengang) {
 		List<Studiengang> studiengangList = studiengangDataProvider.getList();
@@ -968,7 +968,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass ein Studiengang hinzugefügt werden muss, da dieser neu angelegt wurde und
 	 * folglich im CellTree angezeigt werden muss.
 	 * 
-	 * @param	Studiengang-Objekt, welcher neu hinzugefügt wird  
+	 * @param	sg - Studiengang-Objekt, welcher neu hinzugefügt wird  
 	 */
 	public void addStudiengang(Studiengang sg) {
 		if (studiengangDataProvider != null) {
@@ -983,7 +983,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass ein Semesterverband entfernt werden muss, da dieser aus Systemsicht nicht mehr
 	 * existent ist. In Folge wird dieser auch nicht mehr im CellTree angezeigt.
 	 * 
-	 * @param	Semesterverband-Objekt, welches gelöscht werden soll  
+	 * @param	semesterverband - Objekt, welches gelöscht werden soll  
 	 */
 	public void loeschenSemesterverband(Semesterverband semesterverband) {
 
@@ -1006,7 +1006,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Semesterverband aktualisiert. Damit bspw. eine Änderung einer Bezeichnung auch im
 	 * CellTree ersichtlich wird
 	 * 
-	 * @param	Semesterverband-Objekt, welches "seine alte Version" ersetzt  
+	 * @param	semesterverband - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateSemesterverband(Semesterverband semesterverband) {
 		List<Semesterverband> semesterverbandList = semesterVerbandDataProvider.getList();
@@ -1027,7 +1027,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass ein Semesterverband hinzugefügt werden muss, da dieser neu angelegt wurde und
 	 * folglich im CellTree angezeigt werden muss.
 	 * 
-	 * @param	Semesterverband-Objekt, welcher neu hinzugefügt wird  
+	 * @param	sv - Semesterverband-Objekt, welcher neu hinzugefügt wird  
 	 */
 	public void addSemesterverband(Semesterverband sv) {
 		if (semesterVerbandDataProvider != null) {
@@ -1041,7 +1041,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass ein Raum entfernt werden muss, da dieser aus Systemsicht nicht mehr
 	 * existent ist. In Folge wird dieser auch nicht mehr im CellTree angezeigt.
 	 * 
-	 * @param	Raum-Objekt, welches gelöscht werden soll  
+	 * @param	raum - Objekt, welches gelöscht werden soll  
 	 */
 	public void loeschenRaum(Raum raum) {
 
@@ -1064,7 +1064,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Raumes aktualisiert. Damit bspw. eine Änderung einer Bezeichnung auch im
 	 * CellTree ersichtlich wird
 	 * 
-	 * @param	Raum-Objekt, welches "seine alte Version" ersetzt  
+	 * @param	raum - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateRaum(Raum raum) {
 		List<Raum> raumList = raumDataProvider.getList();
@@ -1085,7 +1085,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * dass ein Raum hinzugefügt werden muss, da dieser neu angelegt wurde und
 	 * folglich im CellTree angezeigt werden muss.
 	 * 
-	 * @param	Raum-Objekt, welches neu hinzugefügt wird  
+	 * @param	raum - -Objekt, welches neu hinzugefügt wird  
 	 */
 	public void addRaum(Raum raum) {
 		if (raumDataProvider != null) {
@@ -1099,7 +1099,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Methode welche dem CellTree "Auskunft" darüber gibt, ob es sich bei einem Kind-Element-Typ
 	 * um ein Blatt (leaf) handelt. Andernfalls wird ein Kind-Element als Knoten dargestellt
 	 * 
-	 * @param	Object-Instanz, da der CellTree unterschiedliche Objektdatentypen mittels seiner
+	 * @param	value - Object-Instanz, da der CellTree unterschiedliche Objektdatentypen mittels seiner
 	 * 			Zellen abbilden kann  
 	 */
 	public boolean isLeaf(Object value) {
@@ -1159,7 +1159,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Setzen der Referenz auf die Benutzeroberfläche für das
 	 * Anlegen bzw. Editieren von Belegungen
 	 * 
-	 * @param	Referenz auf eine BelegungForm-Instanz  
+	 * @param	bF - Referenz auf eine BelegungForm-Instanz  
 	 */
 	public void setBelegungForm(BelegungForm bF) {
 		this.bF = bF;
@@ -1169,7 +1169,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Setzen der Referenz auf die Benutzeroberfläche für das
 	 * Anlegen bzw. Editieren von Dozenten
 	 * 
-	 * @param	Referenz auf eine DozentForm-Instanz  
+	 * @param	dF - Referenz auf eine DozentForm-Instanz  
 	 */
 	public void setDozentForm(DozentForm dF) {
 		this.dF = dF;
@@ -1179,7 +1179,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Setzen der Referenz auf die Benutzeroberfläche für das
 	 * Anlegen bzw. Editieren von Lehrveransdtaltungen
 	 * 
-	 * @param	Referenz auf eine LehrveranstaltungForm-Instanz  
+	 * @param	lF - Referenz auf eine LehrveranstaltungForm-Instanz  
 	 */
 	public void setLehrveranstaltungForm(LehrveranstaltungForm lF) {
 		this.lF = lF;
@@ -1189,7 +1189,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Setzen der Referenz auf die Benutzeroberfläche für das
 	 * Anlegen bzw. Editieren von Studiengängen
 	 * 
-	 * @param	Referenz auf eine StudiengangForm-Instanz  
+	 * @param	sgF - Referenz auf eine StudiengangForm-Instanz  
 	 */
 	public void setStudiengangForm(StudiengangForm sgF) {
 		this.sgF = sgF;
@@ -1199,7 +1199,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Setzen der Referenz auf die Benutzeroberfläche für das
 	 * Anlegen bzw. Editieren von Semesterverbänden
 	 * 
-	 * @param	Referenz auf eine SemesterverbandForm-Instanz  
+	 * @param	svF - Referenz auf eine SemesterverbandForm-Instanz  
 	 */
 	public void setSemesterverbandForm(SemesterverbandForm svF) {
 		this.svF = svF;
@@ -1209,7 +1209,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Setzen der Referenz auf die Benutzeroberfläche für das
 	 * Anlegen bzw. Editieren von Räumen
 	 * 
-	 * @param	Referenz auf eine RaumForm-Instanz  
+	 * @param	rF - Referenz auf eine RaumForm-Instanz  
 	 */
 	public void setRaumForm(RaumForm rF) {
 		this.rF = rF;
@@ -1219,7 +1219,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * Setzen der Referenz auf einen Wurzelknoten, in diesem
 	 * Fall von einem CellTree
 	 * 
-	 * @param	Referenz auf eine TreeNode-Instanz  
+	 * @param	tn - Referenz auf eine TreeNode-Instanz  
 	 */
 	public void setRootNode(TreeNode tn) {
 		this.rootNode = tn;
@@ -1228,7 +1228,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	/**
 	 * Setzen der Referenz auf einen CellTree
 	 * 
-	 * @param	Referenz auf eine CellTree-Instanz  
+	 * @param	ct - Referenz auf eine CellTree-Instanz  
 	 */
 	public void setCellTree(CellTree ct) {
 		this.cellTree = ct;
@@ -1296,7 +1296,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	/**
 	 * Setzen der Referenz auf die Entry-Point-Klasse
 	 * 
-	 * @param	Referenz auf eine Stundenplantool2-Klasse  
+	 * @param	spt2 - Referenz auf eine Stundenplantool2-Klasse  
 	 */
 	public void setStundenplantool2(Stundenplantool2 spt2) {
 		this.spt2 = spt2;
