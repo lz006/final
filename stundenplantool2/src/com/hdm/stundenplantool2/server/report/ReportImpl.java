@@ -232,7 +232,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		dPlan.init();
 
 		// Setzen der ersten Spalte
-		dPlan.getPlan().elementAt(0).set(0, "<b>Uhrzeit/<br/>Wochentag");
+		dPlan.getPlan().elementAt(0).set(0, "<b>Wochentag/<br/>Uhrzeit");
 		dPlan.getPlan().elementAt(0).set(1, "<b>08:15 - 09:45</b>");
 		dPlan.getPlan().elementAt(0).set(2, "<b>10:00 - 11:30</b>");
 		dPlan.getPlan().elementAt(0).set(3, "<b>11:45 - 13:15</b>");
@@ -394,7 +394,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		rPlan.init();
 
 		// Setzen der ersten Spalte
-		rPlan.getPlan().elementAt(0).set(0, "<b>Uhrzeit/<br/>Wochentag");
+		rPlan.getPlan().elementAt(0).set(0, "<b>Wochentag/<br/>Uhrzeit");
 		rPlan.getPlan().elementAt(0).set(1, "<b>08:15 - 09:45</b>");
 		rPlan.getPlan().elementAt(0).set(2, "<b>10:00 - 11:30</b>");
 		rPlan.getPlan().elementAt(0).set(3, "<b>11:45 - 13:15</b>");
