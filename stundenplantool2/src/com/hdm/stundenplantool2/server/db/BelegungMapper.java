@@ -103,10 +103,11 @@ public class BelegungMapper {
 			sql = "SELECT Belegung.ID, Belegung.RaumID, Raum.Kapazitaet, Raum.Bezeichnung, Belegung.ZeitslotID, "
 					+ "Zeitslot.Anfangszeit, Zeitslot.Endzeit, Zeitslot.Wochentag, Belegung.LehrveranstaltungID, "
 					+ "Lehrveranstaltung.Umfang, Lehrveranstaltung.Bezeichnung, Lehrveranstaltung.Studiensemester "
-					+ "FROM stundenplantool.Belegung JOIN stundenplantool.Raum ON Belegung.RaumID = Raum.ID "
-					+ "JOIN stundenplantool.Zeitslot ON Belegung.ZeitslotID = Zeitslot.ID JOIN stundenplantool.Lehrveranstaltung "
-					+ "ON Belegung.LehrveranstaltungID = Lehrveranstaltung.ID" 
-					+ "WHERE Belegung.ID IN (" + ids.toString() + ")";
+					+ "FROM stundenplantool.Belegung "
+					+ "JOIN stundenplantool.Raum ON Belegung.RaumID = Raum.ID "
+					+ "JOIN stundenplantool.Zeitslot ON Belegung.ZeitslotID = Zeitslot.ID "
+					+ "JOIN stundenplantool.Lehrveranstaltung ON Belegung.LehrveranstaltungID = Lehrveranstaltung.ID " 
+					+ "WHERE stundenplantool.Belegung.ID IN (" + ids.toString() + ")";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Belegung-Vectors"
@@ -138,7 +139,7 @@ public class BelegungMapper {
 	          }
 		}
 		catch(SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByKey-1");
+			throw new RuntimeException(e1.getMessage());
 		}
 			
 		try{
