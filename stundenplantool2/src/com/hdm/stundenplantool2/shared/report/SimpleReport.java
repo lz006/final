@@ -73,7 +73,7 @@ public class SimpleReport implements Serializable{
 	/**
 	 * Setzen der Ergebnis-HTML-Tabelle
 	 * 
-	 * @param	String mit <table>-Tag
+	 * @param	htmlTable - String mit <table>-Tag
 	 */
 	public void setHtmlTable(String htmlTable) {
 		this.htmlTable = htmlTable;

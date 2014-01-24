@@ -29,7 +29,7 @@ public class Studentenplan extends SimpleReport {
 	/**
 	 * Setzen des Studienhalbjahrs
 	 * 
-	 * @param String (Studienhalbjahr)
+	 * @param Studienhalbjahr (-String)
 	 */
 	public void setStudienhalbjahr(String studienhalbjahr) {
 		this.studienhalbjahr = studienhalbjahr;
