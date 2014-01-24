@@ -170,7 +170,7 @@ public class BelegungForm extends VerticalPanel {
 	 * Komstruktor der alle notwendigen Widgets initialisiert und anordnet,
 	 * so dass das Objekt für weitere Konfigurationen bereit ist
 	 * 
-	 * @param	Referenz auf ein Proxy-Objekt. 
+	 * @param	verwaltung - Referenz auf ein Proxy-Objekt. 
 	 */
 	public BelegungForm(VerwaltungAsync verwaltung) {
 		this.verwaltung = verwaltung;
@@ -1066,8 +1066,8 @@ public class BelegungForm extends VerticalPanel {
 	 * sie einzeln addressierbar sind 
 	 * (Ändern-Maske)
 	 * 
-	 * @param	int Anzahl an gewünschten ListBoxen 
-	 * 			int Anzahl an gewünschten Buttons
+	 * @param	listboxen - int Anzahl an gewünschten ListBoxen 
+	 * 			buttons - int Anzahl an gewünschten Buttons
 	 */
 	public void dynamicWidgets(int listboxen, int buttons) {
 		lbv.clear();
@@ -1870,7 +1870,7 @@ public class BelegungForm extends VerticalPanel {
 	 * Belegung (vorrangig) ermöglicht 
 	 * (wird von CustomTreeViewModel aus aufgerufen {@link CustomTreeViewModel})
 	 * 
-	 * @param	boolean zur Angabe der Masken-Variante (true = anlegen / false = ändern)
+	 * @param	info - boolean zur Angabe der Masken-Variante (true = anlegen / false = ändern)
 	 */
 	public void aendernMaske(boolean info) {
 		

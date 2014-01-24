@@ -192,7 +192,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts mittels Methode aus 
 	 * der Klasse VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	sg- Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
+	 * @param	sg - Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
 	 * @return	Vector mit Semesterverbänden
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
