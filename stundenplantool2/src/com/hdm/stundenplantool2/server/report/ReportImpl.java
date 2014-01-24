@@ -163,7 +163,6 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		String tempHtml = new HTMLReportWriter().getHTMLString(sPlan);
 
 		// Hinzufügen eines Datums am Ende eine Reports
-		htmlSV.append("Stand: ");
 		SimpleDateFormat datumFormat = new SimpleDateFormat("dd.MM.yyyy");
 		String datum = datumFormat.format(new Date()).toString();
 		htmlSV.append(tempHtml);
