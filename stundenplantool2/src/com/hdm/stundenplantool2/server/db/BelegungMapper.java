@@ -100,25 +100,40 @@ public class BelegungMapper {
 		try{
 			// Ausführung des SQL-Querys
 			stmt = con.createStatement();
-			sql = "SELECT * FROM Belegung WHERE ID IN (" + ids.toString() + ")";
+			sql = "SELECT Belegung.ID, Belegung.RaumID, Raum.Kapazitaet, Raum.Bezeichnung, Belegung.ZeitslotID, "
+					+ "Zeitslot.Anfangszeit, Zeitslot.Endzeit, Zeitslot.Wochentag, Belegung.LehrveranstaltungID, "
+					+ "Lehrveranstaltung.Umfang, Lehrveranstaltung.Bezeichnung, Lehrveranstaltung.Studiensemester "
+					+ "FROM stundenplantool.Belegung JOIN stundenplantool.Raum ON Belegung.RaumID = Raum.ID "
+					+ "JOIN stundenplantool.Zeitslot ON Belegung.ZeitslotID = Zeitslot.ID JOIN stundenplantool.Lehrveranstaltung "
+					+ "ON Belegung.LehrveranstaltungID = Lehrveranstaltung.ID" 
+					+ "WHERE ID IN (" + ids.toString() + ")";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Belegung-Vectors"
 			while(rs.next()){
-	            Belegung belegung = new Belegung();
+				Belegung belegung = new Belegung();
 	            belegung.setId(rs.getInt("ID"));
 	            
-	            Vector<Integer> vI1 = new Vector<Integer>();
-	            vI1.add(rs.getInt("RaumID"));
-	            belegung.setRaum(RaumMapper.raumMapper().findByKey(vI1).elementAt(0));
+	            Raum raum = new Raum();
+	            raum.setId(rs.getInt("RaumID"));
+	            raum.setKapazitaet(rs.getInt("Kapazitaet"));
+	            raum.setBezeichnung(rs.getString("Bezeichnung"));
+	            belegung.setRaum(raum);
 	            
-	            Vector<Integer> vI2 = new Vector<Integer>();
-	            vI2.add(rs.getInt("ZeitslotID"));
-	            belegung.setZeitslot(ZeitslotMapper.zeitslotMapper().findByKey(vI2).elementAt(0));
+	            Zeitslot zeitslot = new Zeitslot();
+	            zeitslot.setId(rs.getInt("ZeitslotID"));
+	            zeitslot.setAnfangszeit(rs.getInt("Anfangszeit"));
+	            zeitslot.setEndzeit(rs.getInt("Endzeit"));
+	            zeitslot.setWochentag(rs.getString("Wochentag"));
+	            belegung.setZeitslot(zeitslot);
 	            
-	            Vector<Integer> vI3 = new Vector<Integer>();
-	            vI3.add(rs.getInt("LehrveranstaltungID"));
-	            belegung.setLehrveranstaltung(LehrveranstaltungMapper.lehrveranstaltungMapper().findByKey(vI3, false).elementAt(0));
+	            Lehrveranstaltung lv = new Lehrveranstaltung();
+	            lv.setId(rs.getInt("LehrveranstaltungID"));
+	            lv.setUmfang(rs.getInt("Umfang"));
+	            lv.setBezeichnung(rs.getString("Bezeichnung"));
+	            lv.setStudiensemester(rs.getInt("Studiensemester"));
+	            belegung.setLehrveranstaltung(lv);
+	            
 	            belegungen.add(belegung);  
 	          }
 		}
