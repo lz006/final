@@ -41,7 +41,7 @@ public interface Report extends RemoteService {
 	/**
 	 * Methode um einen Studentenplan anhand eines Semesterverbandes zu erstellen
 	 * 
-	 * @param	Semesterverband-Objekt, aufgrund dessen der Report/Plan erstellt 
+	 * @param	sv - Semesterverband-Objekt, aufgrund dessen der Report/Plan erstellt 
 	 * 			werden sollen
 	 * @return	Studentenplan-Objekt welches die "Ergebnis-HTML-Tabelle" enhtält
 	 */
@@ -63,19 +63,13 @@ public interface Report extends RemoteService {
 	/**
 	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts mittels Methode aus 
 	 * der Klasse VerwaltungImpl {@see VerwaltungImpl} dem Client zur Verfügung zu stellen
-	 * 
-	 * @param	Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
-	 * @return	Vector mit Semesterverbänden
-	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
-	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
-	 * 			weitergereicht. 
 	 */
 	Vector<Studiengang> auslesenAlleStudiengaengeOhneSVuLV() throws RuntimeException;
 	
 	/**
 	 * Methode um einen Dozentenplan anhand eines Dozenten zu erstellen
 	 * 
-	 * @param	Dozent-Objekt, aufgrund dessen der Report/Plan erstellt 
+	 * @param	dozent -Objekt, aufgrund dessen der Report/Plan erstellt 
 	 * 			werden sollen
 	 * @return	Dozentenplan-Objekt welches die "Ergebnis-HTML-Tabelle" enhtält
 	 */
@@ -95,7 +89,7 @@ public interface Report extends RemoteService {
 	/**
 	 * Methode um einen Raumplan anhand eines Raumes zu erstellen
 	 * 
-	 * @param	Raum-Objekt, aufgrund dessen der Report/Plan erstellt 
+	 * @param	raum - Raum-Objekt, aufgrund dessen der Report/Plan erstellt 
 	 * 			werden sollen
 	 * @return	Raumplan-Objekt welches die "Ergebnis-HTML-Tabelle" enhtält
 	 */

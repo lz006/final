@@ -52,7 +52,7 @@ public interface Verwaltung extends RemoteService {
 	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
+	 * @param	sg - Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
 	 * @return	Vector mit Semesterverbänden
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -63,7 +63,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen Semesterverband erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Semesterverband-Objekt welches erneut ausgelesen werden sollen
+	 * @param	sv - Semesterverband-Objekt welches erneut ausgelesen werden sollen
 	 * @return	Vector mit einem Semesterverband
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -85,7 +85,7 @@ public interface Verwaltung extends RemoteService {
 	 * Methode um alle Dozenten anhand eines Lehrveranstaltung-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Lehrveranstaltung-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
+	 * @param	lv - Lehrveranstaltung-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
 	 * @return	Vector mit Dozenten
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -97,7 +97,7 @@ public interface Verwaltung extends RemoteService {
 	 * Methode um alle verfügbaren Dozenten anhand Zeitslot-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Zeitslot-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
+	 * @param	lv - Zeitslot-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
 	 * @return	Vector mit Dozenten
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -108,7 +108,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen Dozent erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Dozent-Objekt welches erneut ausgelesen werden sollen
+	 * @param	dozent Dozent-Objekt welches erneut ausgelesen werden sollen
 	 * @return	Vector mit einem Dozenten
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -139,7 +139,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um eine Lehrveranstaltung erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Lehrveranstaltung-Objekt welches erneut ausgelesen werden sollen
+	 * @param	lv - Lehrveranstaltung-Objekt welches erneut ausgelesen werden sollen
 	 * @return	Vector mit einer Lehrveranstaltung
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -151,7 +151,8 @@ public interface Verwaltung extends RemoteService {
 	 * Methode um alle Lehrveranstaltungen anhand eines Semesterverband-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Semesterverband-Objekt und Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen 
+	 * @param	sv - Semesterverband-Objekt und 
+	 * 			sg - Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen 
 	 * 			ausgelesen werden sollen
 	 * @return	Vector mit Lehrveranstaltungen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
@@ -164,7 +165,7 @@ public interface Verwaltung extends RemoteService {
 	 * Methode um alle Lehrveranstaltungen anhand eines Studiengang-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen ausgelesen werden sollen
+	 * @param	sg - Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen ausgelesen werden sollen
 	 * @return	Vector mit Lehrveranstaltungen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -185,7 +186,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um eine Belegung erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Belegung-Objekt welches erneut ausgelesen werden sollen
+	 * @param	belegung - Belegung-Objekt welches erneut ausgelesen werden sollen
 	 * @return	Vector mit einer Belegung
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -197,7 +198,7 @@ public interface Verwaltung extends RemoteService {
 	 * Methode um alle Belegungen anhand eines Semesterverband-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Semesterverband-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen
+	 * @param	semesterverband - Semesterverband-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen
 	 * @return	Vector mit Belegungen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -218,7 +219,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen Studiengang erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Studiengang-Objekt welches erneut ausgelesen werden sollen
+	 * @param	studiengang - Studiengang-Objekt welches erneut ausgelesen werden sollen
 	 * @return	Vector mit einem Studiengang
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -252,7 +253,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen Raum erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Raum-Objekt welches erneut ausgelesen werden sollen
+	 * @param	raum - Raum-Objekt welches erneut ausgelesen werden sollen
 	 * @return	Vector mit einer Belegung
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -264,7 +265,7 @@ public interface Verwaltung extends RemoteService {
 	 * Methode um alle verfügbaren Räume anhand Zeitslot-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Zeitslot-Objekt aufgrund dessen die Räume ausgelesen werden sollen
+	 * @param	zeitslot - Zeitslot-Objekt aufgrund dessen die Räume ausgelesen werden sollen
 	 * @return	Vector mit Dozenten
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -288,7 +289,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen bestimmten Semesterverband zu löschen
 	 * 
-	 * @param	Semesterverband-Objekt welches gelöscht werden sollen
+	 * @param	semesterverband - Semesterverband-Objekt welches gelöscht werden sollen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
 	 * 			weitergereicht. 
@@ -298,7 +299,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen bestimmten Dozenten zu löschen
 	 * 
-	 * @param	Dozent-Objekt welches gelöscht werden sollen
+	 * @param	dozent - Dozent-Objekt welches gelöscht werden sollen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
 	 * 			weitergereicht. 
@@ -308,7 +309,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen bestimmte Lehrveranstaltung zu löschen
 	 * 
-	 * @param	Lehrveranstaltung-Objekt welches gelöscht werden sollen
+	 * @param	lehrveranstaltung - Lehrveranstaltung-Objekt welches gelöscht werden sollen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
 	 * 			weitergereicht. 
@@ -318,7 +319,8 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um eine Belegung für !einen bestimmten Semesterverband zu löschen
 	 * 
-	 * @param	Belegung-Objekt und das Semesterverband-Objekt, zudem die Referenz gelöschten werden soll bzw.
+	 * @param	belegung - Belegung-Objekt und das 
+	 * 			smesterverband - Semesterverband-Objekt, zudem die Referenz gelöschten werden soll bzw.
 	 * 			bei nur einem referenzierten Semesterverband wird die übwergebene Belegung gelöscht
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -329,7 +331,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen bestimmten Studiengang zu löschen
 	 * 
-	 * @param	Studiengang-Objekt welches gelöscht werden sollen
+	 * @param	studiengang - Studiengang-Objekt welches gelöscht werden sollen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
 	 * 			weitergereicht. 
@@ -339,7 +341,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen bestimmten Raum zu löschen
 	 * 
-	 * @param	Raum-Objekt welches gelöscht werden sollen
+	 * @param	raum - Raum-Objekt welches gelöscht werden sollen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
 	 * 			weitergereicht. 
@@ -363,7 +365,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen Semesterverband abgeändert mittels Mapper-Objekt in der DB zu überspeichern
 	 * 
-	 * @param	Semesterverband-Objekt welches geändert sollen
+	 * @param	semesterverband - Semesterverband-Objekt welches geändert sollen
 	 * @return	Semesterverband-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -376,7 +378,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen Dozent abgeändert mittels Mapper-Objekt in der DB zu überspeichern
 	 * 
-	 * @param	Dozent-Objekt welches geändert werden sollen
+	 * @param	dozent - Dozent-Objekt welches geändert werden sollen
 	 * @return	Dozent-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -389,7 +391,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um eine Lehrveranstaltung abgeändert mittels Mapper-Objekt in der DB zu überspeichern
 	 * 
-	 * @param	Lehrveranstaltung-Objekt welches geändert werden sollen
+	 * @param	lehrveranstaltung - Lehrveranstaltung-Objekt welches geändert werden sollen
 	 * @return	Lehrveranstaltung-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -402,7 +404,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einee Belegung abgeändert mittels Mapper-Objekt in der DB zu überspeichern
 	 * 
-	 * @param	Belegung-Objekt welches geändert werden sollen
+	 * @param	belegung - Belegung-Objekt welches geändert werden sollen
 	 * @return	Belegung-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -415,7 +417,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen Studiengang abgeändert mittels Mapper-Objekt in der DB zu überspeichern
 	 * 
-	 * @param	Studiengang-Objekt welches geändert werden sollen
+	 * @param	studiengang - Studiengang-Objekt welches geändert werden sollen
 	 * @return	Studiengang-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -428,7 +430,7 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen Raum abgeändert mittels Mapper-Objekt in der DB zu überspeichern
 	 * 
-	 * @param	Raum-Objekt welches geändert werden sollen
+	 * @param	raum - Raum-Objekt welches geändert werden sollen
 	 * @return	Raum-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -455,9 +457,9 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen neuen Semesterverband mittels Mapper-Objekt in der DB zu speichern
 	 * 
-	 * @param	Anzahl der Studenten des neuen Semesterverbands
-	 * 			Jahrgang des neuen Semesterverbands
-	 * 			Studiengang-Objekt dem der neue Semesterverband zugeordnet sein
+	 * @param	anzahlStudenten - Anzahl der Studenten des neuen Semesterverbands
+	 * 			jahrgang - Jahrgang des neuen Semesterverbands
+	 * 			studiengang - Studiengang-Objekt dem der neue Semesterverband zugeordnet sein
 	 * @return	Semesterverband-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -470,9 +472,10 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen neuen Dozenten mittels Mapper-Objekt in der DB zu speichern
 	 * 
-	 * @param	Vorname des Dozenten
-	 * 			Nachname des Dozenten
-	 * 			Lehrveranstaltungs-Objekte die zum Komptenzbereich des Dozenten zählen
+	 * @param	vorname - Vorname des Dozenten
+	 * 			nachname - Nachname des Dozenten
+	 * 			personalnummer - Personalnummer des Dozenten
+	 * 			lehrveranstaltungen - Lehrveranstaltungs-Objekte die zum Komptenzbereich des Dozenten zählen
 	 * @return	Dozent-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -485,10 +488,11 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen neue Lehrveranstaltung mittels Mapper-Objekt in der DB zu speichern
 	 * 
-	 * @param	Umfang also die SWS der neuen Lehrveranstaltung
-	 * 			Bezeichnung der neuen Lehrveranstaltung
-	 * 			Studiengang-Objekte zu denen siche die neue Lehrveranstaltung zählen soll
-	 * 			Dozent-Objekte die die neue Lehrveranstaltung voraussichltich halten werden
+	 * @param	umfang - Umfang also die SWS der neuen Lehrveranstaltung
+	 * 			bezeichnung - Bezeichnung der neuen Lehrveranstaltung
+	 * 			studiensemester - Studiensemester der neuen Lehrveranstaltung
+	 * 			studiengaenge - Studiengang-Objekte zu denen siche die neue Lehrveranstaltung zählen soll
+	 * 			dozenten - Dozent-Objekte die die neue Lehrveranstaltung voraussichltich halten werden
 	 * @return	Lehrveranstaltung-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -502,9 +506,10 @@ public interface Verwaltung extends RemoteService {
 	 * Methode um einen neue Lehrveranstaltung mittels Mapper-Objekt in der DB zu speichern
 	 * (Überladen der Methode "anlegenLehrveranstaltung(...)")
 	 * 
-	 * @param	Umfang also die SWS der neuen Lehrveranstaltung
-	 * 			Bezeichnung der neuen Lehrveranstaltung
-	 * 			Studiengang-Objekte zu denen siche die neue Lehrveranstaltung zählen soll
+	 * @param	umfang - Umfang also die SWS der neuen Lehrveranstaltung
+	 * 			beziechnung - Bezeichnung der neuen Lehrveranstaltung
+	 * 			studiensemester - Studiensemester der neuen Lerhveranstaltung
+	 * 			studiengaenge - Studiengang-Objekte zu denen siche die neue Lehrveranstaltung zählen soll
 	 * @return	Lehrveranstaltung-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -517,11 +522,11 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen neue Belegung mittels Mapper-Objekt in der DB zu speichern
 	 * 
-	 * @param	Lehrveranstaltung-Objekt welche Inhalt des Vorlesungstermin sein soll
-	 * 			Raum-Objekt in dem die Vorlesung stattfindet
-	 * 			Zeitsot-Objekt, welches den Zeitpunkt und die Zeitspanne der Vorlesung angibt
-	 * 			Semesterverband-Objekte, welche die Rezipienten der Belegung darstellen
-	 * 			Dozent-Objekte, welche diese Vorlesung referieren sollen
+	 * @param	lehrveranstaltung - Lehrveranstaltung-Objekt welche Inhalt des Vorlesungstermin sein soll
+	 * 			raum - Raum-Objekt in dem die Vorlesung stattfindet
+	 * 			zeitslot - Zeitsot-Objekt, welches den Zeitpunkt und die Zeitspanne der Vorlesung angibt
+	 * 			semesterverbaende - Semesterverband-Objekte, welche die Rezipienten der Belegung darstellen
+	 * 			dozenten - Dozent-Objekte, welche diese Vorlesung referieren sollen
 	 * @return	Belegung-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -534,9 +539,9 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen neuen Studiengang mittels Mapper-Objekt in der DB zu speichern
 	 * 
-	 * @param	Bezeichnung des neuen Studiengangs
-	 * 			Kürzel des neuen Studiengangs
-	 * 			Lehrveranstaltung-Objekte welche dem neuen Studiengang zugeordnet sein sollen
+	 * @param	bezeichnung - Bezeichnung des neuen Studiengangs
+	 * 			kuerzel - Kürzel des neuen Studiengangs
+	 * 			lehrveranstaltungen - Lehrveranstaltung-Objekte welche dem neuen Studiengang zugeordnet sein sollen
 	 * @return	Studiengang-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -550,8 +555,8 @@ public interface Verwaltung extends RemoteService {
 	 * Methode um einen neuen Studiengang mittels Mapper-Objekt in der DB zu speichern
 	 * (Überladen der Methode "anlegenStudiengang(...)")
 	 * 
-	 * @param	Bezeichnung des neuen Studiengangs
-	 * 			Kürzel des neuen Studiengangs
+	 * @param	bezeichnung - Bezeichnung des neuen Studiengangs
+	 * 			kuerzel - Kürzel des neuen Studiengangs
 	 * @return	Studiengang-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -564,8 +569,8 @@ public interface Verwaltung extends RemoteService {
 	/**
 	 * Methode um einen neuen Raum mittels Mapper-Objekt in der DB zu speichern
 	 * 
-	 * @param	Bezeichnung des neuen Raumes
-	 * 			Kapazität des neuen Raumes
+	 * @param	bezeichnung - Bezeichnung des neuen Raumes
+	 * 			kapazitaet - Kapazität des neuen Raumes
 	 * @return	Raum-Objekt (falls keine semantischen Fehler auftraten)
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
