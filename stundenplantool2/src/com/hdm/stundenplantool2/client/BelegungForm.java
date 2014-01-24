@@ -2331,7 +2331,7 @@ public class BelegungForm extends VerticalPanel {
 	 * Setzen der Referenz zum CustomTreeViewModel des CellTree und
 	 * mittelbar setzen der Infotexte
 	 * 
-	 * @param	Referenz auf ein CustomTreeViewModel-Objekt. 
+	 * @param	dtvm - Referenz auf ein CustomTreeViewModel-Objekt. 
 	 */
 	void setDtvm(CustomTreeViewModel dtvm) {
 		this.dtvm = dtvm;
