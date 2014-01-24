@@ -163,10 +163,13 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		String tempHtml = new HTMLReportWriter().getHTMLString(sPlan);
 
 		// Hinzufügen eines Datums am Ende eine Reports
+		htmlSV.append("Stand: ");
 		SimpleDateFormat datumFormat = new SimpleDateFormat("dd.MM.yyyy");
 		String datum = datumFormat.format(new Date()).toString();
 		htmlSV.append(tempHtml);
+		
 		htmlSV.append("<p style\"font-size:20; font-weight: bold \">");
+		htmlSV.append("Stand: ");
 		htmlSV.append(datum);
 		htmlSV.append("</p>");
 		
@@ -344,6 +347,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		String datum = datumFormat.format(new Date()).toString();
 		htmld.append(tempHtml);
 		htmld.append("<p style\"font-size:20; font-weight: bold \">");
+		htmld.append("Stand: ");
 		htmld.append(datum);
 		htmld.append("</p>");
 		
@@ -517,6 +521,7 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		String datum = datumFormat.format(new Date()).toString();
 		htmlr.append(tempHtml);
 		htmlr.append("<p style\"font-size:20; font-weight: bold \">");
+		htmlr.append("Stand: ");
 		htmlr.append(datum);
 		htmlr.append("</p>");
 
