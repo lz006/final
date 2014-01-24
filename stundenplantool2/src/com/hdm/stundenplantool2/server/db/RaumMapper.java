@@ -60,7 +60,7 @@ public class RaumMapper {
 	/**
 	 * Methode um einen Raum in der DB zu aktualisieren
 	 * 
-	 * @param	Raum-Objekt welches aktualisiert werden soll 			
+	 * @param	raum - Objekt welches aktualisiert werden soll 			
 	 * @return	Raum-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -87,7 +87,7 @@ public class RaumMapper {
 	/**
 	 * Methode um einen Raum in der DB zu aktualisieren
 	 * 
-	 * @param	Raum-Objekt welches aktualisiert werden soll 			
+	 * @param	raum - Objekt welches aktualisiert werden soll 			
 	 * @return	Raum-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -111,7 +111,7 @@ public class RaumMapper {
 	/**
 	 * Methode um einen neuen Raum in die DB zu schreiben
 	 * 
-	 * @param	Raum-Objekt welcher neu hinzukommt			
+	 * @param	raum - Objekt welcher neu hinzukommt			
 	 * @return	Raum-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -156,7 +156,7 @@ public class RaumMapper {
 	 * Methode um eine beliebige Anzahl an Räumen anhand Ihrerer ID's aus der
 	 * DB auszulesen
 	 * 
-	 * @param	id Primärschlüsselattribut(e) (->DB)
+	 * @param	keys - Primärschlüsselattribut(e) (->DB)
 	 * @return	Vector mit Räumen, die den Primärschlüsselattributen entsprechen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht

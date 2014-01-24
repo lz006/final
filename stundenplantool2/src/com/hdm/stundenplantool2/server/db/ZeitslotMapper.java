@@ -61,7 +61,7 @@ public class ZeitslotMapper {
 	 * Methode um eine beliebige Anzahl an Zeitslots anhand Ihrerer ID's aus der
 	 * DB auszulesen
 	 * 
-	 * @param	id Primärschlüsselattribut(e) (->DB)
+	 * @param	keys - Primärschlüsselattribut(e) (->DB)
 	 * @return	Vector mit Zeitslots, die den Primärschlüsselattributen entsprechen
 	 */
 	public Vector<Zeitslot> findByKey(Vector<Integer> keys) throws RuntimeException {

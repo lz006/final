@@ -63,7 +63,7 @@ public class LehrveranstaltungMapper {
 	/**
 	 * Methode um eine Lehrveranstaltung in der DB zu aktualisieren
 	 * 
-	 * @param	Lehrveranstaltung-Objekt welches aktualisiert werden soll 			
+	 * @param	lehrveranstaltung - Objekt welches aktualisiert werden soll 			
 	 * @return	Lehrveranstaltung-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -116,7 +116,7 @@ public class LehrveranstaltungMapper {
 	/**
 	 * Methode um eine Lehrveranstaltung aus der DB zu löschen
 	 * 
-	 * @param	Lehrveranstaltung-Objekt welches gelöscht werden soll
+	 * @param	lehrveranstaltung - Objekt welches gelöscht werden soll
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
@@ -150,7 +150,7 @@ public class LehrveranstaltungMapper {
 	/**
 	 * Methode um eine neue Lehrveranstaltung in die DB zu schreiben
 	 * 
-	 * @param	Lehrveranstaltung-Objekt welcher neu hinzukommt			
+	 * @param	lehrveranstaltung - Objekt welcher neu hinzukommt			
 	 * @return	Lehrveranstaltung-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -210,8 +210,8 @@ public class LehrveranstaltungMapper {
 	 * Methode um eine beliebige Anzahl an Lehrveranstaltungen anhand Ihrerer ID's aus der
 	 * DB auszulesen
 	 * 
-	 * @param	id Primärschlüsselattribut(e) (->DB)
-	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	keys - Primärschlüsselattribut(e) (->DB)
+	 * 			loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Lehrveranstaltungen, die den Primärschlüsselattributen entsprechen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -340,8 +340,8 @@ public class LehrveranstaltungMapper {
 	/**
 	 * Methode um alle Lehrveranstaltungen anhand eines Studiengang-Objekts aus der DB auszulesen
 	 * 
-	 * @param	Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen ausgelesen werden sollen
-	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	sg - Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen ausgelesen werden sollen
+	 * 			loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken) 			
 	 * @return	Vector mit Lehrveranstaltungen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -459,7 +459,7 @@ public class LehrveranstaltungMapper {
 	/**
 	 * Methode um alle Lehrveranstaltungen aus der DB auszulesen
 	 * 
-	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Lehrveranstaltungen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,

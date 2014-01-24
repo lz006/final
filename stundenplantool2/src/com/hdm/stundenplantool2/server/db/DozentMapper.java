@@ -62,8 +62,8 @@ public class DozentMapper {
 	 * Methode um eine beliebige Anzahl an Dozenten anhand Ihrerer ID's aus der
 	 * DB auszulesen
 	 * 
-	 * @param	id Primärschlüsselattribut(e) (->DB)
-	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	keys - Primärschlüsselattribut(e) (->DB)
+	 * 			loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Dozenten, die den Primärschlüsselattributen entsprechen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -155,8 +155,8 @@ public class DozentMapper {
 	/**
 	 * Methode um alle Dozenten anhand eines Lehrveranstaltung-Objekts aus der DB auszulesen
 	 * 
-	 * @param	Lehrveranstaltung-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
-	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	lv - Lehrveranstaltung-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
+	 * 			loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken) 			
 	 * @return	Vector mit Dozenten
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -236,7 +236,7 @@ public class DozentMapper {
 	/**
 	 * Methode um einen Dozent in der DB zu aktualisieren
 	 * 
-	 * @param	Dozent-Objekt welches aktualisiert werden soll 			
+	 * @param	dozent - Objekt welches aktualisiert werden soll 			
 	 * @return	Dozent-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -292,7 +292,7 @@ public class DozentMapper {
 	/**
 	 * Methode um eine neuen Dozent in die DB zu schreiben
 	 * 
-	 * @param	Dozent-Objekt welcher neu hinzukommt			
+	 * @param	dozent - Objekt welcher neu hinzukommt			
 	 * @return	Dozent-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -354,7 +354,7 @@ public class DozentMapper {
 	/**
 	 * Methode um alle Dozenten aus der DB auszulesen
 	 * 
-	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Dozenten
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -440,7 +440,7 @@ public class DozentMapper {
 	/**
 	 * Methode um einen Dozent aus der DB zu löschen
 	 * 
-	 * @param	Dozent-Objekt welches gelöscht werden soll
+	 * @param	dozent - Objekt welches gelöscht werden soll
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */

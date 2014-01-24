@@ -62,8 +62,8 @@ public class StudiengangMapper {
 	 * Methode um eine beliebige Anzahl an Studiengängen anhand Ihrerer ID's aus der
 	 * DB auszulesen
 	 * 
-	 * @param	id Primärschlüsselattribut(e) (->DB)
-	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	keys - Primärschlüsselattribut(e) (->DB)
+	 * 			loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Studiengängen, die den Primärschlüsselattributen entsprechen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -152,7 +152,7 @@ public class StudiengangMapper {
 	/**
 	 * Methode um alle Studiengänge aus der DB auszulesen
 	 * 
-	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Studiengänge
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -231,7 +231,7 @@ public class StudiengangMapper {
 	/**
 	 * Methode um eine Studiengang in der DB zu aktualisieren
 	 * 
-	 * @param	Studiengang-Objekt welches aktualisiert werden soll 			
+	 * @param	studiengang - Objekt welches aktualisiert werden soll 			
 	 * @return	Studiengang-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -271,7 +271,7 @@ public class StudiengangMapper {
 	/**
 	 * Methode um eine Studiengang aus der DB zu löschen
 	 * 
-	 * @param	Studiengang-Objekt welches gelöscht werden soll
+	 * @param	studiengang - Objekt welches gelöscht werden soll
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
@@ -300,7 +300,7 @@ public class StudiengangMapper {
 	/**
 	 * Methode um einen neuen Studiengang in die DB zu schreiben
 	 * 
-	 * @param	Studiengang-Objekt welcher neu hinzukommt			
+	 * @param	studiengang - Objekt welcher neu hinzukommt			
 	 * @return	Studiengang-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht

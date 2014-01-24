@@ -61,8 +61,8 @@ public class SemesterverbandMapper {
 	 * Methode um eine beliebige Anzahl an Semesterverbänden anhand Ihrerer ID's aus der
 	 * DB auszulesen
 	 * 
-	 * @param	id Primärschlüsselattribut(e) (->DB)
-	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	keys - Primärschlüsselattribut(e) (->DB)
+	 * 			loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Semesterverbänden, die den Primärschlüsselattributen entsprechen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -136,8 +136,8 @@ public class SemesterverbandMapper {
 	/**
 	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts aus der DB auszulesen
 	 * 
-	 * @param	Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
-	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	sg - Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
+	 * 			loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken) 			
 	 * @return	Vector mit Semesterverbänden
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -206,7 +206,7 @@ public class SemesterverbandMapper {
 	/**
 	 * Methode um alle Semesterverbände aus der DB auszulesen
 	 * 
-	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Semesterverbände
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -272,7 +272,7 @@ public class SemesterverbandMapper {
 	/**
 	 * Methode um eine Semesterverband in der DB zu aktualisieren
 	 * 
-	 * @param	Semesterverband-Objekt welches aktualisiert werden soll 			
+	 * @param	semesterverband - Objekt welches aktualisiert werden soll 			
 	 * @return	Semesterverband-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -312,7 +312,7 @@ public class SemesterverbandMapper {
 	/**
 	 * Methode um einen Semesterverband aus der DB zu löschen
 	 * 
-	 * @param	Semesterverband-Objekt welches gelöscht werden soll
+	 * @param	semesterverband - Objekt welches gelöscht werden soll
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
@@ -337,7 +337,7 @@ public class SemesterverbandMapper {
 	/**
 	 * Methode um eine neuen Semesterverband in die DB zu schreiben
 	 * 
-	 * @param	Semesterverband-Objekt welcher neu hinzukommt			
+	 * @param	semesterverband - Objekt welcher neu hinzukommt			
 	 * @return	Semesterverband-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht

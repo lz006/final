@@ -64,8 +64,8 @@ public class BelegungMapper {
 	 * Methode um eine beliebige Anzahl an Belegungen anhand Ihrerer ID's aus der
 	 * DB auszulesen
 	 * 
-	 * @param	id Primärschlüsselattribut(e) (->DB)
-	 * 			boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	keys - Primärschlüsselattribut(e) (->DB)
+	 * 			loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Belegungen, die den Primärschlüsselattributen entsprechen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -184,7 +184,7 @@ public class BelegungMapper {
 	/**
 	 * Methode um alle Belegungen aus der DB auszulesen
 	 * 
-	 * @param	boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
+	 * @param	loop - boolean zur Steuerung welche referenzierten Entitäten/Objekte geladen 
 	 * 			bzw. erzeugt werden (dient Performance-Zwecken)
 	 * @return	Vector mit Belegungen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
@@ -287,7 +287,7 @@ public class BelegungMapper {
 	/**
 	 * Methode um alle Belegungen anhand eines Raum-Objekts aus der DB auszulesen
 	 * 
-	 * @param	Raum-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @param	raum - Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -324,7 +324,7 @@ public class BelegungMapper {
 	/**
 	 * Methode um alle Belegungen anhand eines Zeitslot-Objekt aus der DB auszulesen
 	 * 
-	 * @param	Zeitslot-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @param	zs - Zeitslot-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -361,7 +361,7 @@ public class BelegungMapper {
 	/**
 	 * Methode um alle Belegungen anhand eines Dozent-Objekts aus der DB auszulesen
 	 * 
-	 * @param	Dozent-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @param	dozent - Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -398,7 +398,7 @@ public class BelegungMapper {
 	/**
 	 * Methode um alle Belegungen anhand eines Semesterverband-Objekts aus der DB auszulesen
 	 * 
-	 * @param	Semesterverband-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @param	semesterverband - Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -433,7 +433,7 @@ public class BelegungMapper {
 	/**
 	 * Methode um alle Belegungen anhand eines Lehrveranstaltung-Objekts aus der DB auszulesen
 	 * 
-	 * @param	Lehrveranstaltung-Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
+	 * @param	lehrveranstaltung - Objekt aufgrund dessen die Belegungen ausgelesen werden sollen 			
 	 * @return	Vector mit Belegungen
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -470,7 +470,7 @@ public class BelegungMapper {
 	/**
 	 * Methode um eine Belegung in der DB zu aktualisieren
 	 * 
-	 * @param	Belegung-Objekt welches aktualisiert werden soll 			
+	 * @param	belegung - Objekt welches aktualisiert werden soll 			
 	 * @return	Belegung-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
@@ -520,7 +520,7 @@ public class BelegungMapper {
 	/**
 	 * Methode um eine Belegung aus der DB zu löschen
 	 * 
-	 * @param	Belegung-Objekt welches gelöscht werden soll
+	 * @param	belegung - Objekt welches gelöscht werden soll
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
 	 */
@@ -551,7 +551,7 @@ public class BelegungMapper {
 	/**
 	 * Methode um eine neue Belegung in die DB zu schreiben
 	 * 
-	 * @param	Belegung-Objekt welches neu hinzukommt			
+	 * @param	belegung - Objekt welches neu hinzukommt			
 	 * @return	Belegung-Objekt
 	 * @throws	Bei der Kommunikation mit der DB kann es zu Komplikationen kommen,
 	 * 			die entstandene Exception wird an die aufrufende Methode weitergereicht
