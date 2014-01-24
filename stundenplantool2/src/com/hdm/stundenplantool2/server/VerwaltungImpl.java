@@ -13,7 +13,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 /**
  * <p>
  * Implementierungsklasse des Interface <code>Verwaltung</code>. Diese
- * Klasse ist <em>die</em> Klasse, die neben {@link ReportImpl}
+ * Klasse ist <em>die</em> Klasse, die neben {@link com.hdm.stundenplantool2.server.report.ReportImpl}
  * sämtliche Applikationslogik (oder engl. Business Logic) aggregiert. Sie ist
  * wie eine Spinne, die sämtliche Zusammenhänge in ihrem Netz (in unserem Fall
  * die Daten der Applikation) überblickt und für einen geordneten Ablauf und
@@ -142,7 +142,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	 * Methode um alle Semesterverbände anhand eines Studiengang-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
+	 * @param	sg - Studiengang-Objekt aufgrund dessen die Semesterverbände ausgelesen werden sollen
 	 * @return	Vector mit Semesterverbänden
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -155,7 +155,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	/**
 	 * Methode um einen Semesterverband erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Semesterverband-Objekt welches erneut ausgelesen werden sollen
+	 * @param	 sv - Semesterverband-Objekt welches erneut ausgelesen werden sollen
 	 * @return	Vector mit einem Semesterverband
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -183,7 +183,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	 * Methode um alle Dozenten anhand eines Lehrveranstaltung-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Lehrveranstaltung-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
+	 * @param	lv - Lehrveranstaltung-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
 	 * @return	Vector mit Dozenten
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -197,7 +197,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	 * Methode um alle verfügbaren Dozenten anhand Zeitslot-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Zeitslot-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
+	 * @param	lv - Zeitslot-Objekt aufgrund dessen die Dozenten ausgelesen werden sollen
 	 * @return	Vector mit Dozenten
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -255,7 +255,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	/**
 	 * Methode um einen Dozent erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Dozent-Objekt welches erneut ausgelesen werden sollen
+	 * @param	dozent - Dozent-Objekt welches erneut ausgelesen werden sollen
 	 * @return	Vector mit einem Dozenten
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -294,7 +294,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	/**
 	 * Methode um eine Lehrveranstaltung erneut anhand "sich selbst" dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Lehrveranstaltung-Objekt welches erneut ausgelesen werden sollen
+	 * @param	lv - Lehrveranstaltung-Objekt welches erneut ausgelesen werden sollen
 	 * @return	Vector mit einer Lehrveranstaltung
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
@@ -310,7 +310,8 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	 * Methode um alle Lehrveranstaltungen anhand eines Semesterverband-Objekts mittels einem 
 	 * Mapper-Objekt dem Client zur Verfügung zu stellen
 	 * 
-	 * @param	Semesterverband-Objekt und Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen 
+	 * @param	sv - Semesterverband-Objekt und 
+	 * 			sg - Studiengang-Objekt aufgrund dessen die Lehrveranstaltungen 
 	 * 			ausgelesen werden sollen
 	 * @return	Vector mit Lehrveranstaltungen
 	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese

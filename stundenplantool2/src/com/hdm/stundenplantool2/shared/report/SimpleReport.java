@@ -36,11 +36,6 @@ public class SimpleReport implements Serializable{
 	/**
 	 * Methode welche eine zweidimensionale leere Liste/Container erzeugt, die eine 7-Tage Woche
 	 * repräsentieren soll
-	 * 
-	 * @return	Vector mit Lehrveranstaltungen
-	 * @throws	Beim Aufruf der Mapper-Methode kann dort eine Exception auftreten. Diese
-	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
-	 * 			weitergereicht. 
 	 */
 	public void init() {
 		for (int i = 0; i < 8; i++) {
