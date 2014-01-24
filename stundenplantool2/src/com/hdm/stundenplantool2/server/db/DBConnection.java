@@ -87,8 +87,13 @@ public class DBConnection {
 	 * Diese statische Methode kann aufgrufen werden durch 
 	 * <code>DBConnection.closeConnection()</code>. Sie löst
 	 * eine bestehende Verbindung zur Datenbank auf.
+	 * 
+	 * @throws	RuntimeException - beim "kappen" der DB-
+	 * 			Verbindung kann ein Fehler entstehen,
+	 * 			welcher mittelbar an die aufrufende Methode
+	 * 			weitergeleitet wird
 	 */
-	public static void closeConnection() {
+	public static void closeConnection() throws RuntimeException {
 		if (con != null) {
 			try {
 				con.close();

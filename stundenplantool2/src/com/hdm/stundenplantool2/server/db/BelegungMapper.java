@@ -102,7 +102,7 @@ public class BelegungMapper {
 			stmt = con.createStatement();
 			sql = "SELECT Belegung.ID, Belegung.RaumID, Raum.Kapazitaet, Raum.Bezeichnung, Belegung.ZeitslotID, "
 					+ "Zeitslot.Anfangszeit, Zeitslot.Endzeit, Zeitslot.Wochentag, Belegung.LehrveranstaltungID, "
-					+ "Lehrveranstaltung.Umfang, Lehrveranstaltung.Bezeichnung, Lehrveranstaltung.Studiensemester "
+					+ "Lehrveranstaltung.Umfang, Lehrveranstaltung.Bezeichnung AS LBezeichnung, Lehrveranstaltung.Studiensemester "
 					+ "FROM stundenplantool.Belegung "
 					+ "JOIN stundenplantool.Raum ON Belegung.RaumID = Raum.ID "
 					+ "JOIN stundenplantool.Zeitslot ON Belegung.ZeitslotID = Zeitslot.ID "
@@ -131,7 +131,7 @@ public class BelegungMapper {
 	            Lehrveranstaltung lv = new Lehrveranstaltung();
 	            lv.setId(rs.getInt("LehrveranstaltungID"));
 	            lv.setUmfang(rs.getInt("Umfang"));
-	            lv.setBezeichnung(rs.getString("Bezeichnung"));
+	            lv.setBezeichnung(rs.getString("LBezeichnung"));
 	            lv.setStudiensemester(rs.getInt("Studiensemester"));
 	            belegung.setLehrveranstaltung(lv);
 	            
@@ -223,7 +223,7 @@ public class BelegungMapper {
 			Statement stmt = con.createStatement();
 			String sql = "SELECT Belegung.ID, Belegung.RaumID, Raum.Kapazitaet, Raum.Bezeichnung, Belegung.ZeitslotID, "
 					+ "Zeitslot.Anfangszeit, Zeitslot.Endzeit, Zeitslot.Wochentag, Belegung.LehrveranstaltungID, "
-					+ "Lehrveranstaltung.Umfang, Lehrveranstaltung.Bezeichnung, Lehrveranstaltung.Studiensemester "
+					+ "Lehrveranstaltung.Umfang, Lehrveranstaltung.Bezeichnung AS LBezeichnung, Lehrveranstaltung.Studiensemester "
 					+ "FROM stundenplantool.Belegung JOIN stundenplantool.Raum ON Belegung.RaumID = Raum.ID "
 					+ "JOIN stundenplantool.Zeitslot ON Belegung.ZeitslotID = Zeitslot.ID JOIN stundenplantool.Lehrveranstaltung "
 					+ "ON Belegung.LehrveranstaltungID = Lehrveranstaltung.ID";
@@ -250,7 +250,7 @@ public class BelegungMapper {
 	            Lehrveranstaltung lv = new Lehrveranstaltung();
 	            lv.setId(rs.getInt("LehrveranstaltungID"));
 	            lv.setUmfang(rs.getInt("Umfang"));
-	            lv.setBezeichnung(rs.getString("Bezeichnung"));
+	            lv.setBezeichnung(rs.getString("LBezeichnung"));
 	            lv.setStudiensemester(rs.getInt("Studiensemester"));
 	            belegung.setLehrveranstaltung(lv);
 	            
