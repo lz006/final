@@ -11,6 +11,7 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.cellview.client.CellTree;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -413,11 +414,11 @@ public class Stundenplantool2 implements EntryPoint {
 		dtvm.setStundenplantool2(this);
 		
 		/*
-		 *  Registrieren eines CloseHandlers, damit beim schließen des 
+		 *  Registrieren eines ClosingHandlers, damit beim schließen des 
 		 *  Fensters die Datenbankverbindung geschlossen wird.
 		 */
-		Window.addCloseHandler(new CloseHandler() {			
-			public void onClose(CloseEvent event) {
+		Window.addWindowClosingHandler(new Window.ClosingHandler() {			
+			public void onWindowClosing(ClosingEvent event) {
 				verwaltung.closeConnection(new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						Window.alert("Fehler beim Trennen der Datenbankverbindung aufgetreten");
