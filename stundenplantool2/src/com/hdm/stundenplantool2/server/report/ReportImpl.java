@@ -1,6 +1,8 @@
 package com.hdm.stundenplantool2.server.report;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -160,12 +162,14 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		// Erzeugen einer HTML-<table> aus der zweidimensionalen Liste/Container, welche eine 7-Tage Woche repräsentiert
 		String tempHtml = new HTMLReportWriter().getHTMLString(sPlan);
 
-		// Hinzufügen der HTML-<table> zum  <body>-Inhalt
+		// Hinzufügen eines Datums am Ende eine Reports
+		SimpleDateFormat datumFormat = new SimpleDateFormat("dd.MM.yyyy");
+		String datum = datumFormat.format(new Date()).toString();
 		htmlSV.append(tempHtml);
+		htmlSV.append("<p style\"font-size:20; font-weight: bold \">");
+		htmlSV.append(datum);
+		htmlSV.append("</p>");
 		
-//		htmlSV.append("<p style\"font-size:20; font-weight: bold \">");
-//		htmlSV.append(new Date().toString());
-//		htmlSV.append("</p>");
 
 		// Setzen des <body>-Inhalts in das Studentenplan-Objekt
 		sPlan.setHtmlTable(htmlSV.toString());
@@ -335,11 +339,13 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		// Erzeugen einer HTML-<table> aus der zweidimensionalen Liste/Container, welche eine 7-Tage Woche repräsentiert
 		String tempHtml = new HTMLReportWriter().getHTMLString(dPlan);
 
-		// Hinzufügen der HTML-<table> zum  <body>-Inhalt
+		// Hinzufügen eines Datums am Ende eine Reports
+		SimpleDateFormat datumFormat = new SimpleDateFormat("dd.MM.yyyy");
+		String datum = datumFormat.format(new Date()).toString();
 		htmld.append(tempHtml);
-//		htmld.append("<p style\"font-size:20; font-weight: bold \">");
-//		htmld.append(new Date().toString());
-//		htmld.append("</p>");
+		htmld.append("<p style\"font-size:20; font-weight: bold \">");
+		htmld.append(datum);
+		htmld.append("</p>");
 		
 		// Setzen des <body>-Inhalts in das Dozentenplan-Objekt
 		dPlan.setHtmlTable(htmld.toString());
@@ -504,11 +510,15 @@ public class ReportImpl extends RemoteServiceServlet implements Report {
 		// Erzeugen einer HTML-<table> aus der zweidimensionalen Liste/Container, welche eine 7-Tage Woche repräsentiert
 		String tempHtml = new HTMLReportWriter().getHTMLString(rPlan);
 
-		// Hinzufügen der HTML-<table> zum  <body>-Inhalt
+		
+		
+		// Hinzufügen eines Datums am Ende eine Reports
+		SimpleDateFormat datumFormat = new SimpleDateFormat("dd.MM.yyyy");
+		String datum = datumFormat.format(new Date()).toString();
 		htmlr.append(tempHtml);
-//		htmlr.append("<p style\"font-size:20; font-weight: bold \">");
-//		htmlr.append(new Date().toString());
-//		htmlr.append("</p>");
+		htmlr.append("<p style\"font-size:20; font-weight: bold \">");
+		htmlr.append(datum);
+		htmlr.append("</p>");
 
 		// Setzen des <body>-Inhalts in das Studentenplan-Objekt
 		rPlan.setHtmlTable(htmlr.toString());
