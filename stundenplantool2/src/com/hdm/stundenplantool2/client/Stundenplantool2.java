@@ -534,7 +534,11 @@ public class Stundenplantool2 implements EntryPoint {
 		spF = new StudentenPlanForm(report);
 		mainPanel.clear();
 		mainPanel.add(spF);
+		
 		p.setWidgetHidden(traegerInfoPanel, true);
+		visibilityInfoPanelsButton.setText("Infotext einblenden");
+		check2 = true;
+		
 		visibilityInfoPanelsButton.setVisible(false);
 	}
 
@@ -545,7 +549,11 @@ public class Stundenplantool2 implements EntryPoint {
 		dpF = new DozentenPlanForm(report);
 		mainPanel.clear();
 		mainPanel.add(dpF);
+		
 		p.setWidgetHidden(traegerInfoPanel, true);
+		visibilityInfoPanelsButton.setText("Infotext einblenden");
+		check2 = true;
+		
 		visibilityInfoPanelsButton.setVisible(false);
 	}
 
@@ -556,7 +564,11 @@ public class Stundenplantool2 implements EntryPoint {
 		rpF = new RaumPlanForm(report);
 		mainPanel.clear();
 		mainPanel.add(rpF);
+		
 		p.setWidgetHidden(traegerInfoPanel, true);
+		visibilityInfoPanelsButton.setText("Infotext einblenden");
+		check2 = true;
+		
 		visibilityInfoPanelsButton.setVisible(false);
 	}
 
