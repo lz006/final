@@ -1077,9 +1077,9 @@ public class BelegungForm extends VerticalPanel {
 		}
 		bv.clear();
 		for (int i = 0; i < buttons; i++) {
-			Button tempAendernButton = new Button("aendern");
+			Button tempAendernButton = new Button("ändern");
 			bv.add(tempAendernButton);
-			Button tempLoeschenButton = new Button("loeschen");
+			Button tempLoeschenButton = new Button("löschen");
 			bv.add(tempLoeschenButton);
 		}
 	}
