@@ -85,13 +85,13 @@ public interface VerwaltungAsync {
 
 	void loeschenDozent(Dozent dozent, AsyncCallback<Void> callback) throws RuntimeException;
 
-	void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung, AsyncCallback<Void> callback) throws RuntimeException;
 
-	void loeschenBelegungen(Belegung belegung, Semesterverband semesterverband, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	void loeschenBelegungen(Belegung belegung, Semesterverband semesterverband, AsyncCallback<Void> callback) throws RuntimeException;
 
-	void loeschenStudiengang(Studiengang studiengang, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	void loeschenStudiengang(Studiengang studiengang, AsyncCallback<Void> callback) throws RuntimeException;
 
-	void loeschenRaum(Raum raum, AsyncCallback<Void> callback) throws IllegalArgumentException;
+	void loeschenRaum(Raum raum, AsyncCallback<Void> callback) throws RuntimeException;
 	
 	/*
 	 * ***********************************************************************************************

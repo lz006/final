@@ -314,7 +314,7 @@ public interface Verwaltung extends RemoteService {
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
 	 * 			weitergereicht. 
 	 */
-	void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws IllegalArgumentException;
+	void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws RuntimeException;
 	
 	/**
 	 * Methode um eine Belegung für !einen bestimmten Semesterverband zu löschen
@@ -326,7 +326,7 @@ public interface Verwaltung extends RemoteService {
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
 	 * 			weitergereicht. 
 	 */
-	void loeschenBelegungen(Belegung belegung, Semesterverband semesterverband) throws IllegalArgumentException;
+	void loeschenBelegungen(Belegung belegung, Semesterverband semesterverband) throws RuntimeException;
 	
 	/**
 	 * Methode um einen bestimmten Studiengang zu löschen
@@ -336,7 +336,7 @@ public interface Verwaltung extends RemoteService {
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
 	 * 			weitergereicht. 
 	 */
-	void loeschenStudiengang(Studiengang studiengang) throws IllegalArgumentException;
+	void loeschenStudiengang(Studiengang studiengang) throws RuntimeException;
 	
 	/**
 	 * Methode um einen bestimmten Raum zu löschen
@@ -346,7 +346,7 @@ public interface Verwaltung extends RemoteService {
 	 * 			Exception wird bis zur Client-Methode, welche den Service in Anspruch nimmt
 	 * 			weitergereicht. 
 	 */
-	void loeschenRaum(Raum raum) throws IllegalArgumentException;
+	void loeschenRaum(Raum raum) throws RuntimeException;
 	
 	/*
 	 * ***********************************************************************************************
