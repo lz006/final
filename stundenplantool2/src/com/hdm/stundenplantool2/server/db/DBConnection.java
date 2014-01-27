@@ -100,7 +100,8 @@ public class DBConnection {
 				con = null;
 			}
 			catch (SQLException e1) {
-				throw new RuntimeException("Fehler beim Trennen der DB-Verbindung");
+				throw new RuntimeException(e1.getMessage());
+				//throw new RuntimeException("Fehler beim Trennen der DB-Verbindung");
 			}
 		}
 	}
