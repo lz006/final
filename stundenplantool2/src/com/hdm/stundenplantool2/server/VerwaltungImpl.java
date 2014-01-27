@@ -646,7 +646,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	public void loeschenSemesterverband(Semesterverband semesterverband) throws RuntimeException {
 		
 		// Ein Semesterverband kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist		
-		if (semesterverband.getBelegungen() == null) {
+		if (semesterverband.getBelegungen() == null || semesterverband.getBelegungen().size() == 0) {
 			semesterverbandMapper.delete(semesterverband);
 		}
 		else {
@@ -674,7 +674,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	public void loeschenDozent(Dozent dozent) throws RuntimeException {
 		
 		// Ein Dozent kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist		
-		if (dozent.getBelegungen() == null) {
+		if (dozent.getBelegungen() == null || dozent.getBelegungen().size() == 0) {
 			dozentMapper.delete(dozent);
 		}
 		else {			
@@ -693,7 +693,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	public void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) throws RuntimeException {
 		
 		// Ein Dozent kann nur gelöscht werden, wenn er durch keine Belegungen mehr referenziert ist		
-		if (lehrveranstaltung.getBelegungen() == null) {
+		if (lehrveranstaltung.getBelegungen() == null || lehrveranstaltung.getBelegungen().size() == 0) {
 			lehrveranstaltungMapper.delete(lehrveranstaltung);
 		}
 		else {			
