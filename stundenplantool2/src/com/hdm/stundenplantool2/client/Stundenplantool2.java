@@ -419,7 +419,7 @@ public class Stundenplantool2 implements EntryPoint {
 			public void onWindowClosing(ClosingEvent event) {
 				verwaltung.closeConnection(new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
-						Window.alert("Fehler beim Trennen der Datenbankverbindung aufgetreten");
+						Window.alert(caught.getMessage());
 					}
 					public void onSuccess(Void result) {
 						
