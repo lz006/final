@@ -745,7 +745,8 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	public void loeschenStudiengang(Studiengang studiengang) throws RuntimeException {
 		
 		// Ein Studiengang kann nur gelöscht werden, wenn er durch keine Lehrveranstaltungen und Semesterverbände mehr referenziert wird		
-		if(studiengang.getLehrveranstaltungen() == null && studiengang.getSemesterverbaende() == null) {
+		if((studiengang.getLehrveranstaltungen() == null || studiengang.getLehrveranstaltungen().size() == 0) && 
+				(studiengang.getSemesterverbaende() == null || studiengang.getSemesterverbaende().size() == 0)) {
 			studiengangMapper.delete(studiengang);
 		}
 		else {
