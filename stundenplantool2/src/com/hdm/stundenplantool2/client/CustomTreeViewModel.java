@@ -523,9 +523,6 @@ public class CustomTreeViewModel implements TreeViewModel {
 		// Wurzelknoten enthält "Editor" und "Report" als Kind-Elemente
 		if (value instanceof String && (String) value == "Root") {
 
-			unterMenuLVzuSG = false;
-			unterMenuSVzuSG = false;
-
 			dummyDataProvider = new ListDataProvider<String>();
 
 			String editor = "Editor";
@@ -540,9 +537,6 @@ public class CustomTreeViewModel implements TreeViewModel {
 		// "Editor" enthält "Anlegen" und "Verwalten" als Kind-Elemente		
 		if (value instanceof String && (String) value == "Editor") {
 
-			unterMenuLVzuSG = false;
-			unterMenuSVzuSG = false;
-
 			dummyDataProvider = new ListDataProvider<String>();
 
 			String anlegen = "Anlegen";
@@ -556,9 +550,6 @@ public class CustomTreeViewModel implements TreeViewModel {
 
 		// "Anlegen" enthält die anlegbaren BusinessObjects in String-Repräsentation als Kind-Elemente
 		if (value instanceof String && (String) value == "Anlegen") {
-
-			unterMenuLVzuSG = false;
-			unterMenuSVzuSG = false;
 
 			dummyDataProvider = new ListDataProvider<String>();
 
@@ -583,9 +574,6 @@ public class CustomTreeViewModel implements TreeViewModel {
 		if (value instanceof String && (String) value == "Verwalten") {
 
 			addOpenHandler();
-
-			unterMenuLVzuSG = false;
-			unterMenuSVzuSG = false;
 
 			dummyDataProvider = new ListDataProvider<String>();
 
@@ -661,9 +649,6 @@ public class CustomTreeViewModel implements TreeViewModel {
 		// "Dozenten" enthält Dozenten-Objekte als Kind-Elemente
 		if (value instanceof String && (String) value == "Dozenten") {
 
-			unterMenuLVzuSG = false;
-			unterMenuSVzuSG = false;
-
 			dozentDataProvider = new ListDataProvider<Dozent>();
 
 			verwaltung.auslesenAlleDozenten(new AsyncCallback<Vector<Dozent>>() {
@@ -683,9 +668,6 @@ public class CustomTreeViewModel implements TreeViewModel {
 
 		// "Räume" enthält Raum-Objekte als Kind-Elemente
 		if (value instanceof String && (String) value == "Räume") {
-
-			unterMenuLVzuSG = false;
-			unterMenuSVzuSG = false;
 
 			raumDataProvider = new ListDataProvider<Raum>();
 			verwaltung.auslesenAlleRaeume(new AsyncCallback<Vector<Raum>>() {
@@ -780,9 +762,6 @@ public class CustomTreeViewModel implements TreeViewModel {
 
 			spt2.popupInfo();
 
-			unterMenuLVzuSG = false;
-			unterMenuSVzuSG = false;
-
 			dummyDataProvider = new ListDataProvider<String>();
 
 			String a = "Studentenplan";
@@ -855,7 +834,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	public void addDozent(Dozent dozent) {
 		if (dozentDataProvider != null) {
 			dozentDataProvider.getList().add(
-					dozentDataProvider.getList().size(), dozent);
+			dozentDataProvider.getList().size(), dozent);
 			dozentDataProvider.refresh();
 		}
 	}
@@ -914,7 +893,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	public void addLehrveranstaltung(Lehrveranstaltung lv) {
 		if (lehrveranstaltungDataProvider != null) {
 			lehrveranstaltungDataProvider.getList().add(
-					lehrveranstaltungDataProvider.getList().size(), lv);
+			lehrveranstaltungDataProvider.getList().size(), lv);
 			lehrveranstaltungDataProvider.refresh();
 		}
 	}
@@ -973,7 +952,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	public void addStudiengang(Studiengang sg) {
 		if (studiengangDataProvider != null) {
 			studiengangDataProvider.getList().add(
-					studiengangDataProvider.getList().size(), sg);
+			studiengangDataProvider.getList().size(), sg);
 			studiengangDataProvider.refresh();
 		}
 	}
@@ -1089,8 +1068,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 */
 	public void addRaum(Raum raum) {
 		if (raumDataProvider != null) {
-			raumDataProvider.getList().add(raumDataProvider.getList().size(),
-					raum);
+			raumDataProvider.getList().add(raumDataProvider.getList().size(), raum);
 			raumDataProvider.refresh();
 		}
 	}

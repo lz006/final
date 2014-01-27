@@ -164,7 +164,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 	public Vector<Semesterverband> auslesenSemesterverband(Semesterverband sv) throws RuntimeException {
 		Vector<Integer> vi = new Vector<Integer>();
 		vi.add(sv.getId());
-		return semesterverbandMapper.findByKey(vi, false);
+		return semesterverbandMapper.findByKey(vi, true);
 	}
 		
 	/**
@@ -750,7 +750,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}
 		else {
 			StringBuffer eText = new StringBuffer();
-			eText.append("Bitte loeschen Sie zuerst alle Referenzen auf " + studiengang.getBezeichnung() + "\n\n");
+			eText.append("Bitte löschen Sie zuerst alle Referenzen auf " + studiengang.getBezeichnung() + "\n\n");
 			if (studiengang.getLehrveranstaltungen() != null) {
 				eText.append("Folgende Lehrveranstaltungen sind verknüpft:\n");
 				for (int i = 0; i < studiengang.getLehrveranstaltungen().size(); i++) {
@@ -783,7 +783,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			raumMapper.delete(raum);
 		}
 		else {			
-			throw new RuntimeException("Bitte löschen Sie zuerst alle Belegungen von Raum" + raum.getBezeichnung());
+			throw new RuntimeException("Bitte löschen Sie zuerst alle Belegungen von Raum " + raum.getBezeichnung());
 		}
 	}
 	

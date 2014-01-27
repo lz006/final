@@ -511,6 +511,7 @@ public class StudiengangForm extends VerticalPanel {
 					public void onSuccess(Studiengang result) {
 						Window.alert("Der Studiengang wurde erfolgreich geändert");
 						dtvm.updateStudiengang(result);
+						dtvm.setSelectedStudiengang(result);
 						speichernAnlegenButton.setEnabled(true);
 						loeschenButton.setEnabled(true);
 					}
