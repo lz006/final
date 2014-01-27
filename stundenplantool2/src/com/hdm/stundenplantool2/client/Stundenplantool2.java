@@ -226,6 +226,7 @@ public class Stundenplantool2 implements EntryPoint {
 		visibilityInfoPanelsButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				visibilityInfoPanels();
+				
 			}
 		});
 
@@ -416,7 +417,10 @@ public class Stundenplantool2 implements EntryPoint {
 		 *  Fensters die Datenbankverbindung geschlossen wird.
 		 */
 		Window.addWindowClosingHandler(new Window.ClosingHandler() {			
-			public void onWindowClosing(ClosingEvent event) {
+			public void onWindowClosing(Window.ClosingEvent closingEvent) {
+				
+				closingEvent.setMessage("Wirklich beenden?");
+				
 				verwaltung.closeConnection(new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
