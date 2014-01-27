@@ -93,7 +93,7 @@ public class SemesterverbandMapper {
 		try{
 			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM Semesterverband WHERE ID IN (" + ids.toString() + ")";
+			String sql = "SELECT * FROM Semesterverband WHERE ID IN (" + ids.toString() + ") ORDER BY Jahrgang";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Semesterverband-Vectors"
@@ -228,7 +228,7 @@ public class SemesterverbandMapper {
 		try{
 			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM Semesterverband";
+			String sql = "SELECT * FROM Semesterverband ORDER BY Jahrgang";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Semesterverband-Vectors"

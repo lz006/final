@@ -179,7 +179,7 @@ public class RaumMapper {
 		try{
 			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM Raum WHERE ID IN (" + ids.toString() + ")";
+			String sql = "SELECT * FROM Raum WHERE ID IN (" + ids.toString() + ") ORDER BY Bezeichnung";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Raum-Vectors"
@@ -215,7 +215,7 @@ public class RaumMapper {
 		try{
 			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM Raum";
+			String sql = "SELECT * FROM Raum ORDER BY Bezeichnung";
 			rs = stmt.executeQuery(sql);
 			
 			// Erstellung des "Raum-Vectors"

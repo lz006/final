@@ -237,7 +237,7 @@ public class LehrveranstaltungMapper {
 		try{
 			// Ausführung des SQL-Querys
 			stmt = con.createStatement();
-			sql = "SELECT * FROM Lehrveranstaltung WHERE ID IN (" + ids.toString() + ")";
+			sql = "SELECT * FROM Lehrveranstaltung WHERE ID IN (" + ids.toString() + ") ORDER BY Bezeichnung";
 			rs = stmt.executeQuery(sql);
 
 			// Befüllen des "Lehrveranstaltung-Vectors"	
@@ -357,7 +357,7 @@ public class LehrveranstaltungMapper {
 		try{
 			// Ausführen des SQL-Querys
 			stmt = con.createStatement();
-			sql = "SELECT * FROM Lehrveranstaltung WHERE ID IN (SELECT LehrveranstaltungID FROM Studiengangzuordnung_ZWT WHERE StudiengangID = " + sg.getId() + ")";
+			sql = "SELECT * FROM Lehrveranstaltung WHERE ID IN (SELECT LehrveranstaltungID FROM Studiengangzuordnung_ZWT WHERE StudiengangID = " + sg.getId() + ") ORDER BY Bezeichnung";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Lehrveranstaltung-Vectors"
@@ -472,7 +472,7 @@ public class LehrveranstaltungMapper {
 		try{
 			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM Lehrveranstaltung";
+			String sql = "SELECT * FROM Lehrveranstaltung ORDER BY Bezeichnung";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Lehrveranstaltung-Vectors"

@@ -95,7 +95,7 @@ public class DozentMapper {
 		try{
 			// Ausführung des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM Dozent WHERE ID IN (" + ids.toString() + ")";
+			String sql = "SELECT * FROM Dozent WHERE ID IN (" + ids.toString() + ") ORDER BY Nachname";
 			rs = stmt.executeQuery(sql);
 			
 			// Erstellung des "Dozenten-Vectors"
@@ -177,7 +177,7 @@ public class DozentMapper {
 		try{
 			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM stundenplantool.Dozent WHERE ID IN (SELECT DozentID FROM stundenplantool.Dozentenzugehörigkeit_ZWT WHERE LehrveranstaltungID = " + lv.getId() + ")";
+			String sql = "SELECT * FROM stundenplantool.Dozent WHERE ID IN (SELECT DozentID FROM stundenplantool.Dozentenzugehörigkeit_ZWT WHERE LehrveranstaltungID = " + lv.getId() + ") ORDER BY Nachname";
 			rs = stmt.executeQuery(sql);
 			
 			// Erstellung des "Dozenten-Vectors"
@@ -367,7 +367,7 @@ public class DozentMapper {
 		try{		
 			// Ausführung des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM Dozent;";
+			String sql = "SELECT * FROM Dozent ORDER BY Nachname;";
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			while(rs.next()) {

@@ -12,10 +12,10 @@ import com.hdm.stundenplantool2.shared.report.Raumplan;
 import com.hdm.stundenplantool2.shared.report.Studentenplan;
 
 /**
- * Das asynchrone Gegenstück des Interface {@link Report}. Es wird
+ * Das asynchrone Gegenstück des Interface { @link Report}. Es wird
  * semiautomatisch durch das Google Plugin erstellt und gepflegt. Daher erfolgt
  * hier keine weitere Dokumentation. Für weitere Informationen siehe das
- * synchrone Interface {@link Report}.
+ * synchrone Interface { @link Report}.
  * 
  * @author 	Thies, Moser, Sonntag, Zanella
  * @version	1

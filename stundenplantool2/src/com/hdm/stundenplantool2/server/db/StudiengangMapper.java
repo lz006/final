@@ -94,7 +94,7 @@ public class StudiengangMapper {
 		try{
 			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM Studiengang WHERE ID IN (" + ids.toString() + ")";
+			String sql = "SELECT * FROM Studiengang WHERE ID IN (" + ids.toString() + ") ORDER BY Bezeichnung";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Studiengang-Vectors"
@@ -173,7 +173,7 @@ public class StudiengangMapper {
 		try{
 			// Ausführen des SQL-Querys
 			Statement stmt = con.createStatement();
-			String sql = "SELECT * FROM Studiengang";
+			String sql = "SELECT * FROM Studiengang ORDER BY Bezeichnung";
 			rs = stmt.executeQuery(sql);
 			
 			// Befüllen des "Studiengang-Vectors"
