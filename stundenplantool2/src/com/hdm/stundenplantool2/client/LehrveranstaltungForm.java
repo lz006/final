@@ -430,7 +430,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("<b></br>Für die Bearbeitung der "
 					+ "Lehrveranstaltungsbezeichnung bitte folgende Restriktionen beachten:</b>"
 					+ "</br>Die Bezeichnung darf nicht mit einem Sonderzeichen, einem Leerzeichen oder einer Zahl beginnen!"
-					+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich am Ende der Bezeichnung, gefolgt von einer Zahl!</br>Bsp. Softwareentwicklung-2"
+					+ "</br>Eine Zahl am Ende der Bezeichnung einer Lehrveranstaltung ist erlaubt!</br>Bsp. Softwareentwicklung-2 oder Softwareentwicklung 2"
 					+ "</br>"
 					+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden!");
 			}
