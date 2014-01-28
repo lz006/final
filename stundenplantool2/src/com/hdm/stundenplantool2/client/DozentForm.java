@@ -311,9 +311,8 @@ public class DozentForm extends VerticalPanel {
 					final int row = lvTable.getRowCount();
 					if (lv.getBezeichnung().length() > 22) {
 						StringBuffer modBezeichnung = new StringBuffer();
-						modBezeichnung.append(lv.getBezeichnung().substring(0, 23));
-						modBezeichnung.append(" ");
-						modBezeichnung.append(lv.getBezeichnung().substring(23));
+						modBezeichnung.append(lv.getBezeichnung());
+						modBezeichnung.insert(23, " ");
 						lvTable.setWidget(row, 0, new Label(modBezeichnung.toString()));
 					}
 					else {
