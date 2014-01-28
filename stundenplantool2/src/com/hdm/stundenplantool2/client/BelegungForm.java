@@ -479,7 +479,7 @@ public class BelegungForm extends VerticalPanel {
 							public void onSuccess(Vector<Semesterverband> result) {
 
 								if (result == null || result.size() == 0) {
-									Window.alert("Dem Studiengang sind momentan keine Semesterverbaende zugeordnet");
+									Window.alert("Dem Studiengang sind momentan keine Semesterverbände zugeordnet");
 
 								} 
 								else {
@@ -508,7 +508,7 @@ public class BelegungForm extends VerticalPanel {
 
 							public void onSuccess(Vector<Semesterverband> result) {
 								if (result == null || result.size() == 0) {
-									Window.alert("Dem Studiengang sind momentan keine Semesterverbaende zugeordnet");
+									Window.alert("Dem Studiengang sind momentan keine Semesterverbände zugeordnet");
 									semesterverbandListBoxAnlegen.clear();
 								} 
 								else {
