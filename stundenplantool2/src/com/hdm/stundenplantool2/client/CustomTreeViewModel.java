@@ -62,7 +62,16 @@ public class CustomTreeViewModel implements TreeViewModel {
 	private ListDataProvider<Semesterverband> semesterVerbandDataProvider;
 	private ListDataProvider<Studiengang> studiengangDataProvider;
 	private ListDataProvider<String> dummyDataProvider;
-
+	
+	/**
+	 * Hilfs-Container um den richtigen Knoten zu ermitteln, dessen Kindelemente
+	 * aktualisert werden sollen
+	 */
+	private Vector<ListDataProvider<Semesterverband>> hVectorSV = new Vector<ListDataProvider<Semesterverband>>();
+	private Vector<Studiengang> hVectorSGforSV = new Vector<Studiengang>();
+	private Vector<ListDataProvider<Lehrveranstaltung>> hVectorLV = new Vector<ListDataProvider<Lehrveranstaltung>>();
+	private Vector<Studiengang> hVectorSGforLV = new Vector<Studiengang>();
+	
 	/**
 	 * Flags die zur Bestimmung dienen, wann angezeigte Studiengänge "leaf" sind,
 	 * da Studiengänge auch zu weiteren Untergliederung von Lehrveranstaltungen
@@ -641,6 +650,9 @@ public class CustomTreeViewModel implements TreeViewModel {
 							}
 						}
 					});
+			
+			hVectorLV.add(lehrveranstaltungDataProvider);
+			hVectorSGforLV.add((Studiengang)value);
 
 			return new DefaultNodeInfo<Lehrveranstaltung>(lehrveranstaltungDataProvider, new LehrveranstaltungCell(),
 					selectionModel, null);
@@ -731,6 +743,9 @@ public class CustomTreeViewModel implements TreeViewModel {
 					}
 				}
 			});
+			
+			hVectorSV.add(semesterVerbandDataProvider);
+			hVectorSGforSV.add((Studiengang)value);
 
 			return new DefaultNodeInfo<Semesterverband>(semesterVerbandDataProvider, new SemesterverbandCell(),	selectionModel, null);
 		}
@@ -848,16 +863,33 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 */
 	public void loeschenLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
 
-		int i = 0;
+		Vector<Integer> vi = new Vector<Integer>();;
+		
+		//Ermitteln des entsprechenden ListDataProviders
+		if (hVectorLV.size() != 0) {
+			for (int g = 0; g < lehrveranstaltung.getStudiengaenge().size(); g++) {
+				for (int i = 0; i < hVectorSGforLV.size(); i++) {
+					if (lehrveranstaltung.getStudiengaenge().elementAt(g).getId() == hVectorSGforLV.elementAt(i).getId()) {
+						vi.add(new Integer(i));
+					}
+				}
+			}
+		}
+		
+		// Aktualisieren der ListDataProvider
+		for (int g = 0; g < vi.size(); g++) {
+			
+			int i = 0;
 
-		for (Lehrveranstaltung d : lehrveranstaltungDataProvider.getList()) {
-			if (d.getId() == lehrveranstaltung.getId()) {
+			for (Lehrveranstaltung d : hVectorLV.elementAt(vi.elementAt(g)).getList()) {
+				if (d.getId() == lehrveranstaltung.getId()) {
 
-				lehrveranstaltungDataProvider.getList().remove(i);
-				lehrveranstaltungDataProvider.refresh();
-				break;
-			} else {
-				i++;
+					hVectorLV.elementAt(vi.elementAt(g)).getList().remove(i);
+					hVectorLV.elementAt(vi.elementAt(g)).refresh();
+					break;
+				} else {
+					i++;
+				}
 			}
 		}
 	}
@@ -870,15 +902,32 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * @param	lehrveranstaltung - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
-		List<Lehrveranstaltung> lehrveranstaltungList = lehrveranstaltungDataProvider.getList();
-		int i = 0;
-		for (Lehrveranstaltung a : lehrveranstaltungList) {
-			if (a.getId() == lehrveranstaltung.getId()) {
-				lehrveranstaltungList.set(i, lehrveranstaltung);
-				lehrveranstaltungDataProvider.refresh();
-				break;
-			} else {
-				i++;
+		
+		Vector<Integer> vi = new Vector<Integer>();;
+		
+		//Ermitteln des entsprechenden ListDataProviders
+		if (hVectorLV.size() != 0) {
+			for (int g = 0; g < lehrveranstaltung.getStudiengaenge().size(); g++) {
+				for (int i = 0; i < hVectorSGforLV.size(); i++) {
+					if (lehrveranstaltung.getStudiengaenge().elementAt(g).getId() == hVectorSGforLV.elementAt(i).getId()) {
+						vi.add(new Integer(i));
+					}
+				}
+			}
+		}
+		
+		// Aktualisieren der ListDataProvider
+		for (int g = 0; g < vi.size(); g++) {
+			List<Lehrveranstaltung> lehrveranstaltungList = hVectorLV.elementAt(g).getList();
+			int i = 0;
+			for (Lehrveranstaltung a : lehrveranstaltungList) {
+				if (a.getId() == lehrveranstaltung.getId()) {
+					lehrveranstaltungList.set(i, lehrveranstaltung);
+					hVectorLV.elementAt(g).refresh();
+					break;
+				} else {
+					i++;
+				}
 			}
 		}
 	}
@@ -891,10 +940,26 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * @param	lv - Lehrveranstaltung-Objekt, welcher neu hinzugefügt wird  
 	 */
 	public void addLehrveranstaltung(Lehrveranstaltung lv) {
-		if (lehrveranstaltungDataProvider != null) {
-			lehrveranstaltungDataProvider.getList().add(
-			lehrveranstaltungDataProvider.getList().size(), lv);
-			lehrveranstaltungDataProvider.refresh();
+		
+		Vector<Integer> vi = new Vector<Integer>();;
+		
+		//Ermitteln des entsprechenden ListDataProviders
+		if (hVectorLV.size() != 0) {
+			for (int g = 0; g < lv.getStudiengaenge().size(); g++) {
+				for (int i = 0; i < hVectorSGforLV.size(); i++) {
+					if (lv.getStudiengaenge().elementAt(g).getId() == hVectorSGforLV.elementAt(i).getId()) {
+						vi.add(new Integer(i));
+					}
+				}
+			}
+		}
+		
+		// Aktualisieren der ListDataProvider
+		for (int g = 0; g < vi.size(); g++) {
+			if (hVectorLV.elementAt(g) != null) {
+				hVectorLV.elementAt(g).getList().add(hVectorLV.elementAt(g).getList().size(), lv);
+				hVectorLV.elementAt(g).refresh();
+			}
 		}
 	}
 
@@ -966,13 +1031,26 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 */
 	public void loeschenSemesterverband(Semesterverband semesterverband) {
 
+		int g = 0;
+		
+		//Ermitteln des entsprechenden ListDataProviders
+		if (hVectorSV.size() != 0) {
+			for (int i = 0; i < hVectorSGforSV.size(); i++) {
+				if (semesterverband.getStudiengang().getId() == hVectorSGforSV.elementAt(i).getId()) {
+					g = i;
+					break;
+				}
+			}
+		}
+		
 		int i = 0;
 
-		for (Semesterverband sv : semesterVerbandDataProvider.getList()) {
+		// Aktualisieren des ListDataProviders
+		for (Semesterverband sv : hVectorSV.elementAt(g).getList()) {
 			if (sv.getId() == semesterverband.getId()) {
 
-				semesterVerbandDataProvider.getList().remove(i);
-				semesterVerbandDataProvider.refresh();
+				hVectorSV.elementAt(g).getList().remove(i);
+				hVectorSV.elementAt(g).refresh();
 				break;
 			} else {
 				i++;
@@ -988,12 +1066,26 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * @param	semesterverband - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateSemesterverband(Semesterverband semesterverband) {
-		List<Semesterverband> semesterverbandList = semesterVerbandDataProvider.getList();
+		
+		int g = 0;
+		
+		//Ermitteln des entsprechenden ListDataProviders
+		if (hVectorSV.size() != 0) {
+			for (int i = 0; i < hVectorSGforSV.size(); i++) {
+				if (semesterverband.getStudiengang().getId() == hVectorSGforSV.elementAt(i).getId()) {
+					g = i;
+					break;
+				}
+			}
+		}
+		
+		// Aktualisieren des ListDataProviders
+		List<Semesterverband> semesterverbandList = hVectorSV.elementAt(g).getList();
 		int i = 0;
-		for (Semesterverband sv : semesterVerbandDataProvider.getList()) {
+		for (Semesterverband sv : semesterverbandList) {
 			if (sv.getId() == semesterverband.getId()) {
 				semesterverbandList.set(i, semesterverband);
-				semesterVerbandDataProvider.refresh();
+				hVectorSV.elementAt(g).refresh();
 				break;
 			} else {
 				i++;
@@ -1009,9 +1101,23 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * @param	sv - Semesterverband-Objekt, welcher neu hinzugefügt wird  
 	 */
 	public void addSemesterverband(Semesterverband sv) {
-		if (semesterVerbandDataProvider != null) {
-			semesterVerbandDataProvider.getList().add(semesterVerbandDataProvider.getList().size(), sv);
-			semesterVerbandDataProvider.refresh();
+		
+		int g = 0;
+		
+		//Ermitteln des entsprechenden ListDataProviders
+		if (hVectorSV.size() != 0) {
+			for (int i = 0; i < hVectorSGforSV.size(); i++) {
+				if (sv.getStudiengang().getId() == hVectorSGforSV.elementAt(i).getId()) {
+					g = i;
+					break;
+				}
+			}
+		}
+		
+		// Aktualisieren des ListDataProviders
+		if (hVectorSV.elementAt(g) != null) {
+			hVectorSV.elementAt(g).getList().add(hVectorSV.elementAt(g).getList().size(), sv);
+			hVectorSV.elementAt(g).refresh();
 		}
 	}
 
