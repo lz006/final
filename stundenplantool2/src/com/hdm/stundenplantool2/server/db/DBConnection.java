@@ -94,14 +94,19 @@ public class DBConnection {
 	 * 			weitergeleitet wird
 	 */
 	public static void closeConnection() throws RuntimeException {
-		if (con != null) {
-			try {
-				con.close();
-				con = null;
+		try {
+			if (con != null && (!con.isClosed())) {
+				try {
+					con.close();
+					con = null;
+				}
+				catch (SQLException e1) {
+					throw new RuntimeException("Fehler beim Trennen der DB-Verbindung aufgetreten: " + e1.getMessage());
+				}
 			}
-			catch (SQLException e1) {
-				throw new RuntimeException("Fehler beim Trennen der DB-Verbindung aufgetreten: " + e1.getMessage());
-			}
+		}
+		catch (SQLException e1) {
+			throw new RuntimeException("Fehler beim Trennen der DB-Verbindung aufgetreten: " + e1.getMessage());
 		}
 	}
 }
