@@ -1082,7 +1082,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		
 		//Prüfung ob die Bezeichnung der Lehrveranstaltung syntaktisch korrekt ist
-		if (!lehrveranstaltung.getBezeichnung().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
+		if (!lehrveranstaltung.getBezeichnung().matches("[^,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
 			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen in der Bezeichnung!");
 		}
 		
