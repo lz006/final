@@ -1575,7 +1575,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new IllegalArgumentException("Das Kürzel darf nicht nur aus Zahlen bestehen!");
 		}
 		
-		if (!studiengang.getKuerzel().matches("[A-Z]{2,4}|[A-Z]{2,4}[-][1-20]")) {
+		if (!studiengang.getKuerzel().matches("[A-Z]{2,4}|[A-Z]{2,4}[-]([0-9]|[1][0-9]|[2][0])")) {
 			throw new IllegalArgumentException("Das Kürzel muss anfangs 2 bis 4 Großbuchstaben enthalten und darf am Ende eine Zahl"
 					+ " von 1 bis 20 mit vorhergehendem Bindestrich enthalten\nUmlaute sind nicht gestattet");
 		}
@@ -2289,7 +2289,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		}		
 		
 		// Prüfung ob das Kürzel den Restriktionen entspricht
-		if (!kuerzel.matches("[A-Z]{2,4}|[A-Z]{2,4}[-][1-20]")) {
+		if (!kuerzel.matches("[A-Z]{2,4}|[A-Z]{2,4}[-]([0-9]|[1][0-9]|[2][0])")) {
 			throw new IllegalArgumentException("Das Kürzel muss anfangs 2 bis 4 Großbuchstaben enthalten und darf am Ende eine Zahl"
 					+ " von 1 bis 20 mit vorhergehendem Bindestrich enthalten\nUmlaute sind nicht gestattet");
 		}
