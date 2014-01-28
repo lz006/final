@@ -956,6 +956,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 		
 		// Aktualisieren der ListDataProvider
 		for (int g = 0; g < vi.size(); g++) {
+			
 			if (hVectorLV.elementAt(g) != null) {
 				hVectorLV.elementAt(g).getList().add(hVectorLV.elementAt(g).getList().size(), lv);
 				hVectorLV.elementAt(g).refresh();
