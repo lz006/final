@@ -309,7 +309,16 @@ public class DozentForm extends VerticalPanel {
 					
 					//...wird im FlexTable ein Eintrag gesetzt und...
 					final int row = lvTable.getRowCount();
-					lvTable.setWidget(row, 0, new Label(lv.getBezeichnung()));
+					if (lv.getBezeichnung().length() > 22) {
+						StringBuffer modBezeichnung = new StringBuffer();
+						modBezeichnung.append(lv.getBezeichnung().substring(0, 23));
+						modBezeichnung.append(" ");
+						modBezeichnung.append(lv.getBezeichnung().substring(23));
+						lvTable.setWidget(row, 0, new Label(modBezeichnung.toString()));
+					}
+					else {
+						lvTable.setWidget(row, 0, new Label(lv.getBezeichnung()));
+					}
 					
 					//...ein Button, mit dem der User die LV wieder entfernen kann
 					Button loeschenButton = new Button("X");
