@@ -73,6 +73,14 @@ public class CustomTreeViewModel implements TreeViewModel {
 	private Vector<Studiengang> hVectorSGforLV = new Vector<Studiengang>();
 	
 	/**
+	 * Hilfs-Container um den richtigen Studiengang-Knoten zu ermitteln, um diese 
+	 * aktualisieren zu können. Da Studiengänge zur weiteren Strukturierung von
+	 * Lehrveranstaltungen und Semesterverbänden dienen
+	 */
+	private ListDataProvider<Studiengang> studiengangForLVDataProvider = null;
+	private ListDataProvider<Studiengang> studiengangForSVDataProvider = null;
+	
+	/**
 	 * Flags die zur Bestimmung dienen, wann angezeigte Studiengänge "leaf" sind,
 	 * da Studiengänge auch zu weiteren Untergliederung von Lehrveranstaltungen
 	 * und Semesterverbände benutzt werden
@@ -612,7 +620,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 			unterMenuLVzuSG = true;
 			unterMenuSVzuSG = false;
 
-			studiengangDataProvider = new ListDataProvider<Studiengang>();
+			studiengangForLVDataProvider = new ListDataProvider<Studiengang>();
 			verwaltung.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
 				public void onFailure(Throwable t) {
 					Window.alert(t.toString());
@@ -620,12 +628,12 @@ public class CustomTreeViewModel implements TreeViewModel {
 
 				public void onSuccess(Vector<Studiengang> studiengaenge) {
 					for (Studiengang studiengang : studiengaenge) {
-						studiengangDataProvider.getList().add(studiengang);
+						studiengangForLVDataProvider.getList().add(studiengang);
 					}
 				}
 			});
 
-			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider, new StudiengangCell(), selectionModel, null);
+			return new DefaultNodeInfo<Studiengang>(studiengangForLVDataProvider, new StudiengangCell(), selectionModel, null);
 		}
 
 		/*
@@ -706,7 +714,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 			unterMenuLVzuSG = false;
 			unterMenuSVzuSG = true;
 
-			studiengangDataProvider = new ListDataProvider<Studiengang>();
+			studiengangForSVDataProvider = new ListDataProvider<Studiengang>();
 			verwaltung.auslesenAlleStudiengaengeOhneSVuLV(new AsyncCallback<Vector<Studiengang>>() {
 				public void onFailure(Throwable t) {
 					Window.alert(t.toString());
@@ -714,12 +722,12 @@ public class CustomTreeViewModel implements TreeViewModel {
 
 				public void onSuccess(Vector<Studiengang> studiengaenge) {
 					for (Studiengang studiengang : studiengaenge) {
-						studiengangDataProvider.getList().add(studiengang);
+						studiengangForSVDataProvider.getList().add(studiengang);
 					}
 				}
 			});
 
-			return new DefaultNodeInfo<Studiengang>(studiengangDataProvider, new StudiengangCell(), selectionModel, null);
+			return new DefaultNodeInfo<Studiengang>(studiengangForSVDataProvider, new StudiengangCell(), selectionModel, null);
 		}
 
 		/*
@@ -855,9 +863,10 @@ public class CustomTreeViewModel implements TreeViewModel {
 	}
 
 	/**
-	 * Methode welche die List des "lehrveranstaltungDataProviders" dahingehend aktualisiert,
+	 * Methode welche die Listen aller "lehrveranstaltungDataProvider" dahingehend aktualisiert,
 	 * dass eine Lehrveranstaltung entfernt werden muss, da diese aus Systemsicht nicht mehr
-	 * existent ist. In Folge wird dieser auch nicht mehr im CellTree angezeigt.
+	 * existent ist. In Folge wird dieser auch nicht mehr im CellTree angezeigt. Eine LV wird 
+	 * wenn sie mehreren Studiengängen zugeordnet ist, mehrfach im CellTree gelistet)
 	 * 
 	 * @param	lehrveranstaltung - Objekt, welches gelöscht werden soll  
 	 */
@@ -867,9 +876,9 @@ public class CustomTreeViewModel implements TreeViewModel {
 		
 		//Ermitteln des entsprechenden ListDataProviders
 		if (hVectorLV.size() != 0) {
-			for (int g = 0; g < lehrveranstaltung.getStudiengaenge().size(); g++) {
-				for (int i = 0; i < hVectorSGforLV.size(); i++) {
-					if (lehrveranstaltung.getStudiengaenge().elementAt(g).getId() == hVectorSGforLV.elementAt(i).getId()) {
+			for (int g = 0; g < hVectorSGforLV.size(); g++) {
+				for (int i = 0; i < lehrveranstaltung.getStudiengaenge().size(); i++) {
+					if (lehrveranstaltung.getStudiengaenge().elementAt(i).getId() == hVectorSGforLV.elementAt(g).getId()) {
 						vi.add(new Integer(i));
 					}
 				}
@@ -895,34 +904,24 @@ public class CustomTreeViewModel implements TreeViewModel {
 	}
 
 	/**
-	 * Methode welche die List des "lehrveranstaltungDataProviders" hinsichtlich einer geänderten
+	 * Methode welche die Listen aller "lehrveranstaltungDataProvider" hinsichtlich einer geänderten
 	 * Lehrveranstaltung aktualisiert. Damit bspw. eine Änderung der Bezeichung einer Lehrveranstaltung 
-	 * auch im CellTree ersichtlich wird
+	 * auch im CellTree ersichtlich wird. (Eine LV wird wenn sie mehreren Studiengängen zugeordnet ist,
+	 * mehrfach im CellTree gelistet)
 	 * 
 	 * @param	lehrveranstaltung - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
 		
-		Vector<Integer> vi = new Vector<Integer>();;
-		
-		//Ermitteln des entsprechenden ListDataProviders
-		if (hVectorLV.size() != 0) {
-			for (int g = 0; g < lehrveranstaltung.getStudiengaenge().size(); g++) {
-				for (int i = 0; i < hVectorSGforLV.size(); i++) {
-					if (lehrveranstaltung.getStudiengaenge().elementAt(g).getId() == hVectorSGforLV.elementAt(i).getId()) {
-						vi.add(new Integer(i));
-					}
-				}
-			}
-		}
-		
-		// Aktualisieren der ListDataProvider
-		for (int g = 0; g < vi.size(); g++) {
-			List<Lehrveranstaltung> lehrveranstaltungList = hVectorLV.elementAt(g).getList();
+		// Löschen der LV aus allen LV-ListDataProvider
+		for (int g = 0; g < hVectorLV.size(); g++) {
+			
 			int i = 0;
-			for (Lehrveranstaltung a : lehrveranstaltungList) {
-				if (a.getId() == lehrveranstaltung.getId()) {
-					lehrveranstaltungList.set(i, lehrveranstaltung);
+
+			for (Lehrveranstaltung d : hVectorLV.elementAt(g).getList()) {
+				if (d.getId() == lehrveranstaltung.getId()) {
+
+					hVectorLV.elementAt(g).getList().remove(i);
 					hVectorLV.elementAt(g).refresh();
 					break;
 				} else {
@@ -930,12 +929,35 @@ public class CustomTreeViewModel implements TreeViewModel {
 				}
 			}
 		}
+		
+		Vector<Integer> vi2 = new Vector<Integer>();;
+		
+		// Ermitteln der entsprechenden ListDataProvider
+		if (hVectorLV.size() != 0) {
+			for (int g = 0; g < hVectorSGforLV.size(); g++) {
+				for (int i = 0; i < lehrveranstaltung.getStudiengaenge().size(); i++) {
+					if (lehrveranstaltung.getStudiengaenge().elementAt(i).getId() == hVectorSGforLV.elementAt(g).getId()) {
+						vi2.add(new Integer(i));
+					}
+				}
+			}
+		}
+		
+		// Aktualisieren der ListDataProvider
+		for (int g = 0; g < vi2.size(); g++) {
+			
+			if (hVectorLV.elementAt(g) != null) {
+				hVectorLV.elementAt(g).getList().add(hVectorLV.elementAt(g).getList().size(), lehrveranstaltung);
+				hVectorLV.elementAt(g).refresh();
+			}
+		}
 	}
 
 	/**
-	 * Methode welche die List des "lehrveranstaltungDataProviders" dahingehend aktualisiert,
+	 * Methode welche die Listen aller "lehrveranstaltungDataProvider" dahingehend aktualisiert,
 	 * dass eine Lehrveranstaltung hinzugefügt werden muss, da diese neu angelegt wurde und
-	 * folglich im CellTree angezeigt werden muss.
+	 * folglich im CellTree angezeigt werden muss. (Eine LV wird wenn sie mehreren Studiengängen 
+	 * zugeordnet ist, mehrfach im CellTree gelistet)
 	 * 
 	 * @param	lv - Lehrveranstaltung-Objekt, welcher neu hinzugefügt wird  
 	 */
@@ -943,11 +965,11 @@ public class CustomTreeViewModel implements TreeViewModel {
 		
 		Vector<Integer> vi = new Vector<Integer>();;
 		
-		//Ermitteln des entsprechenden ListDataProviders
+		//Ermitteln der entsprechenden ListDataProvider
 		if (hVectorLV.size() != 0) {
-			for (int g = 0; g < lv.getStudiengaenge().size(); g++) {
-				for (int i = 0; i < hVectorSGforLV.size(); i++) {
-					if (lv.getStudiengaenge().elementAt(g).getId() == hVectorSGforLV.elementAt(i).getId()) {
+			for (int g = 0; g < hVectorSGforLV.size(); g++) {
+				for (int i = 0; i < lv.getStudiengaenge().size(); i++) {
+					if (lv.getStudiengaenge().elementAt(i).getId() == hVectorSGforLV.elementAt(g).getId()) {
 						vi.add(new Integer(i));
 					}
 				}
@@ -965,7 +987,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	}
 
 	/**
-	 * Methode welche die List des "studiengangDataProviders" dahingehend aktualisiert,
+	 * Methode welche die Listen aller "studiengangDataProvider" dahingehend aktualisiert,
 	 * dass ein Studiengang entfernt werden muss, da dieser aus Systemsicht nicht mehr
 	 * existent ist. In Folge wird dieser auch nicht mehr im CellTree angezeigt.
 	 * 
@@ -978,6 +1000,16 @@ public class CustomTreeViewModel implements TreeViewModel {
 		for (Studiengang sg : studiengangDataProvider.getList()) {
 			if (sg.getId() == studiengang.getId()) {
 
+				if (studiengangForSVDataProvider != null) {
+					studiengangForSVDataProvider.getList().remove(i);
+					studiengangForSVDataProvider.refresh();
+				}
+				
+				if (studiengangForLVDataProvider != null) {
+					studiengangForLVDataProvider.getList().remove(i);
+					studiengangForLVDataProvider.refresh();
+				}
+				
 				studiengangDataProvider.getList().remove(i);
 				studiengangDataProvider.refresh();
 				break;
@@ -988,17 +1020,40 @@ public class CustomTreeViewModel implements TreeViewModel {
 	}
 
 	/**
-	 * Methode welche die List des "studiengangDataProviders" hinsichtlich eines geänderten
+	 * Methode welche die Listen aller "studiengangDataProvider" hinsichtlich eines geänderten
 	 * Studiengangs aktualisiert. Damit bspw. eine Änderung einer Bezeichnung auch im
 	 * CellTree ersichtlich wird
 	 * 
 	 * @param	studiengang - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateStudiengang(Studiengang studiengang) {
+		
+		List<Studiengang> studiengangForSVList = null;
+		List<Studiengang> studiengangForLVList = null;
+		
+		if (studiengangForSVDataProvider != null) {
+			studiengangForSVList = studiengangForSVDataProvider.getList();
+		}
+		
+		if (studiengangForLVDataProvider != null) {
+			studiengangForLVList = studiengangForLVDataProvider.getList();
+		}
+		
 		List<Studiengang> studiengangList = studiengangDataProvider.getList();
 		int i = 0;
 		for (Studiengang sg : studiengangDataProvider.getList()) {
 			if (sg.getId() == studiengang.getId()) {
+				
+				if (studiengangForSVList != null) {
+					studiengangForSVList.set(i, studiengang);
+					studiengangForSVDataProvider.refresh();
+				}
+				
+				if (studiengangForLVList != null) {
+					studiengangForLVList.set(i, studiengang);
+					studiengangForLVDataProvider.refresh();
+				}
+				
 				studiengangList.set(i, studiengang);
 				studiengangDataProvider.refresh();
 				break;
@@ -1009,7 +1064,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 	}
 
 	/**
-	 * Methode welche die List des "studiengangDataProviders" dahingehend aktualisiert,
+	 * Methode welche die Listen aller "studiengangDataProvider" dahingehend aktualisiert,
 	 * dass ein Studiengang hinzugefügt werden muss, da dieser neu angelegt wurde und
 	 * folglich im CellTree angezeigt werden muss.
 	 * 
@@ -1019,7 +1074,19 @@ public class CustomTreeViewModel implements TreeViewModel {
 		if (studiengangDataProvider != null) {
 			studiengangDataProvider.getList().add(
 			studiengangDataProvider.getList().size(), sg);
-			studiengangDataProvider.refresh();
+			studiengangDataProvider.refresh();			
+		}
+		
+		if (studiengangForSVDataProvider != null) {
+			studiengangForSVDataProvider.getList().add(
+			studiengangForSVDataProvider.getList().size(), sg);
+			studiengangForSVDataProvider.refresh();	
+		}
+		
+		if (studiengangForLVDataProvider != null) {
+			studiengangForLVDataProvider.getList().add(
+			studiengangForLVDataProvider.getList().size(), sg);
+			studiengangForLVDataProvider.refresh();	
 		}
 	}
 

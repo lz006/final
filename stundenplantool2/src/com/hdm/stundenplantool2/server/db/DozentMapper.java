@@ -150,10 +150,10 @@ public class DozentMapper {
 					}
 					
 			}
-			}
-			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem - dm fbk: " + e1.getMessage());				
-			}
+		}
+		catch (SQLException e1) {
+			throw new RuntimeException("Datenbankbankproblem - dm fbk: " + e1.getMessage());				
+		}
 		
 		return dozenten;
 	}

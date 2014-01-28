@@ -747,7 +747,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 								 */
 								public void onSuccess(Lehrveranstaltung result) {
 									Window.alert("Lehrveranstaltung wurde erfolgreich angelegt");
-									dtvm.addLehrveranstaltung(shownLehrveranstaltung);
+									dtvm.addLehrveranstaltung(result);
 									clearForm();
 									speichernAnlegenButton.setEnabled(true);
 								}
