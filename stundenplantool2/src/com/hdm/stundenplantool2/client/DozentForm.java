@@ -449,7 +449,9 @@ public class DozentForm extends VerticalPanel {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("<b></br>Für die Bearbeitung des Vornamen einer/ eines Dozentin/ "
 						+ "Dozenten bitte folgende Restriktionen beachten:</b>"
 						+ "</br>Der Vorname darf keine Zahlen und Sonderzeichen enthalten und nicht mit einem Leerzeichen beginnen!"
-						+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich.</br>Bsp. Karl-Heinz");
+						+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich.</br>Bsp. Karl-Heinz"
+						+ "</br>"
+						+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden");
 			}
 		});
 
@@ -459,7 +461,9 @@ public class DozentForm extends VerticalPanel {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("<b></br>Für die Bearbeitung des Nachnamen einer/ eines Dozentin/ "
 						+ "Dozenten bitte folgende Restriktionen beachten:</b>"
 						+ "</br>Der Nachname darf keine Zahlen und Sonderzeichen enthalten und nicht mit einem Leerzeichen beginnen!"
-						+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich.</br>Bsp. Häfner-Reuss");
+						+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich.</br>Bsp. Häfner-Reuss"
+						+ "</br>"
+						+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden");
 			}
 		});
 

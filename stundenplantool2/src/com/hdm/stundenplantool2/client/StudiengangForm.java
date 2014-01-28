@@ -288,7 +288,9 @@ public class StudiengangForm extends VerticalPanel {
 				dtvm.getStundenplantool2().setTextToInfoPanelUnten("<b></br>Für die Bearbeitung der Studiengangsbezeichnung "
 					+ "bitte folgende Restriktionen beachten:</b>"
 					+ "</br>Die Bezeichnung muss mindestens aus 5 Buchstaben  bestehen!"
-					+ "</br>Bsp. Musik");
+					+ "</br>Bsp. Musik"
+					+ "</br>"
+					+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden");
 								
 			}
 		});
