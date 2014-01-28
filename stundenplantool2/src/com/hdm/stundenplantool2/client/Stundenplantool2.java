@@ -297,7 +297,7 @@ public class Stundenplantool2 implements EntryPoint {
 		image = new Image();
 		
 		// Setzen der Quelle des Titelbilds
-		image.setUrl("http://www.abload.de/img/widmlogo-frei8qjj3.png");
+		image.setUrl("http://www.pm-graphics.com/1.png");
 		
 		// Setzen der Größe des Titelbilds
 		image.setHeight("5em");
