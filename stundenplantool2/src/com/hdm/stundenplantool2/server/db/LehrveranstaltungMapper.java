@@ -113,7 +113,7 @@ public class LehrveranstaltungMapper {
 			}		
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankproblem - LehrveranstaltungMapper.update-1");		
+			throw new RuntimeException("Datenbankproblem - LehrveranstaltungMapper.update-1: " + e1.getMessage());		
 		}
 		
 		return lehrveranstaltung;
@@ -148,7 +148,7 @@ public class LehrveranstaltungMapper {
 						
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 		}
 								
 	}
@@ -197,7 +197,7 @@ public class LehrveranstaltungMapper {
 			}
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 		}
 		
 		return lehrveranstaltung;
@@ -251,7 +251,7 @@ public class LehrveranstaltungMapper {
 	          }
 		}
 			catch(SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-1 - fa");
+				throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-1 - fa: " + e1.getMessage());
 			}
 		
 		
@@ -277,7 +277,7 @@ public class LehrveranstaltungMapper {
 			}
 		}
 		catch(SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-2 - fa");
+			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-2 - fa: " + e1.getMessage());
 		}	
 		
 		try {			
@@ -303,7 +303,7 @@ public class LehrveranstaltungMapper {
 			}
 		}
 		catch(SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-3 - fa");
+			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-3 - fa: " + e1.getMessage());
 		}		
 		
 		try {
@@ -329,7 +329,7 @@ public class LehrveranstaltungMapper {
 			}		
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-4 - fa");				
+			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-4 - fa: " + e1.getMessage());				
 		}
 		
 		return lehrveranstaltungen;
@@ -371,7 +371,7 @@ public class LehrveranstaltungMapper {
 	          }
 		}
 		catch(SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-1 - fbsg");
+			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-1 - fbsg: " + e1.getMessage());
 		}
 				
 		try{			
@@ -396,7 +396,7 @@ public class LehrveranstaltungMapper {
 			}
 		}
 		catch(SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-2 - fbsg");
+			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-2 - fbsg: " + e1.getMessage());
 		}	
 		
 		try {			
@@ -422,7 +422,7 @@ public class LehrveranstaltungMapper {
 			}
 		}
 		catch(SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-3 - fbsg");
+			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-3 - fbsg: " + e1.getMessage());
 		}		
 		
 		try {
@@ -448,7 +448,7 @@ public class LehrveranstaltungMapper {
 			}
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-4 - fbsg");				
+			throw new RuntimeException("Datenbankbankproblem - LehrveranstaltungMapper.findByKey-4 - fbsg: " + e1.getMessage());				
 		}
 		
 		return lehrveranstaltungen;
@@ -547,7 +547,7 @@ public class LehrveranstaltungMapper {
 			}
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");				
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());				
 		}
 		
 		return lehrveranstaltungen;

@@ -84,7 +84,7 @@ public class RaumMapper {
 		}			
 		
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");	
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());	
 		}
 		
 		return raum;
@@ -109,7 +109,7 @@ public class RaumMapper {
 			
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 		}
 	}
 	
@@ -142,7 +142,7 @@ public class RaumMapper {
 			}		
 		}		
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 		}
 		
 		return raum;
@@ -193,7 +193,7 @@ public class RaumMapper {
 			
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");				
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());				
 		}
 		return raeume;
 	}
@@ -229,7 +229,7 @@ public class RaumMapper {
 			
 			}
 			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");				
+				throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());				
 			}
 		return raeume;
 	}

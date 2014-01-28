@@ -134,7 +134,7 @@ public class SemesterverbandMapper {
 		
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");				
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());				
 		}		
 		return semesterverbaende;
 	}
@@ -203,7 +203,7 @@ public class SemesterverbandMapper {
 		
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");				
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());				
 		}
 		
 		return semesterverbaende;
@@ -270,7 +270,7 @@ public class SemesterverbandMapper {
 					
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");				
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());				
 		}		
 		return semesterverbaende;		
 	}
@@ -309,7 +309,7 @@ public class SemesterverbandMapper {
 			}
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");			
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());			
 		}
 		
 		return semesterverband;
@@ -336,7 +336,7 @@ public class SemesterverbandMapper {
 						
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 		}		
 	}
 	
@@ -378,7 +378,7 @@ public class SemesterverbandMapper {
 			}
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 		}
 		
 		return semesterverband;

@@ -139,7 +139,7 @@ public class BelegungMapper {
 	          }
 		}
 		catch(SQLException e1) {
-			throw new RuntimeException("Datenbankproblem - BelegungMapper - fbk");
+			throw new RuntimeException("Datenbankproblem - BelegungMapper - fbk: " + e1.getMessage());
 		}
 			
 		try{
@@ -167,7 +167,7 @@ public class BelegungMapper {
 			}
 		}
 		catch(SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByKey-2");
+			throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByKey-2: " + e1.getMessage());
 		}		
 		
 		try{
@@ -197,7 +197,7 @@ public class BelegungMapper {
 			//con.close();
 			}
 			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByKey-3");				
+				throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByKey-3: " + e1.getMessage());				
 			}
 		
 		return belegungen;
@@ -300,7 +300,7 @@ public class BelegungMapper {
 		
 		}
 		catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");				
+				throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());				
 		}
 		
 	return belegungen;
@@ -335,7 +335,7 @@ public class BelegungMapper {
 			}
 		
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");			
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());			
 		}
 		if (vi.size() > 0) {
 			return this.findByKey(vi, true);
@@ -372,7 +372,7 @@ public class BelegungMapper {
 			}
 			
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");			
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());			
 		}
 		if (vi.size() > 0) {
 			return this.findByKey(vi, true);
@@ -409,7 +409,7 @@ public class BelegungMapper {
 			}
 		
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");			
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());			
 		}
 		if (vi.size() > 0) {
 			return this.findByKey(vi, true);
@@ -444,7 +444,7 @@ public class BelegungMapper {
 			}
 		
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");			
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());			
 		}
 		if (vi.size() > 0) {
 			return this.findByKey(vi, true);
@@ -481,7 +481,7 @@ public class BelegungMapper {
 			}
 			
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByLehrveranstaltung");			
+			throw new RuntimeException("Datenbankbankproblem - BelegungMapper.findByLehrveranstaltung: " + e1.getMessage());			
 		}
 		if (vi.size() > 0) {
 			return this.findByKey(vi, true);
@@ -533,7 +533,7 @@ public class BelegungMapper {
 			
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");		
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());		
 		}
 		
 		return belegung;
@@ -566,7 +566,7 @@ public class BelegungMapper {
 				
 			}
 			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");
+				throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 			}
 		}
 	
@@ -614,7 +614,7 @@ public class BelegungMapper {
 			}		
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 		}
 		
 		return belegung;

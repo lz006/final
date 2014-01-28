@@ -152,7 +152,7 @@ public class DozentMapper {
 			}
 			}
 			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem - dm fbk");				
+				throw new RuntimeException("Datenbankbankproblem - dm fbk: " + e1.getMessage());				
 			}
 		
 		return dozenten;
@@ -233,7 +233,7 @@ public class DozentMapper {
 
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - dm fbl");				
+			throw new RuntimeException("Datenbankbankproblem - dm fbl: " + e1.getMessage());				
 		}
 		
 		return dozenten;
@@ -289,7 +289,7 @@ public class DozentMapper {
 
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - DozentMapper.update");
+			throw new RuntimeException("Datenbankbankproblem - DozentMapper.update: " + e1.getMessage());
 		}
 		
 		return dozent;
@@ -343,7 +343,7 @@ public class DozentMapper {
 		
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 		}
 		
 		return dozent;
@@ -427,7 +427,7 @@ public class DozentMapper {
 
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem - dm fa");		
+			throw new RuntimeException("Datenbankbankproblem - dm fa: " + e1.getMessage());		
 		}
 		
 				
@@ -462,7 +462,7 @@ public class DozentMapper {
 				
 			}
 			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");
+				throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 			}
 		}
 	}

@@ -148,7 +148,7 @@ public class StudiengangMapper {
 			}
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem sgm fbk");				
+			throw new RuntimeException("Datenbankbankproblem sgm fbk: " + e1.getMessage());				
 		}
 		
 		return studiengaenge;
@@ -227,7 +227,7 @@ public class StudiengangMapper {
 			}
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem sgm fa");				
+			throw new RuntimeException("Datenbankbankproblem sgm fa: " + e1.getMessage());				
 		}
 		
 		return studiengaenge;
@@ -267,7 +267,7 @@ public class StudiengangMapper {
 			}
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");		
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());		
 		}
 		
 		return studiengang;
@@ -297,7 +297,7 @@ public class StudiengangMapper {
 				stmt.executeUpdate(sql);						
 			}
 			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");
+				throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 			}
 		}
 	}
@@ -339,7 +339,7 @@ public class StudiengangMapper {
 			}
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());
 		}
 		
 		return studiengang;

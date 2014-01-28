@@ -104,7 +104,7 @@ public class ZeitslotMapper {
 
 		}
 			catch (SQLException e1) {
-				throw new RuntimeException("Datenbankbankproblem");				
+				throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());				
 			}
 		return zeitslots;
 	}
@@ -138,7 +138,7 @@ public class ZeitslotMapper {
 	          }		
 		}
 		catch (SQLException e1) {
-			throw new RuntimeException("Datenbankbankproblem");				
+			throw new RuntimeException("Datenbankbankproblem: " + e1.getMessage());				
 		}
 		return zeitslots;
 	}
