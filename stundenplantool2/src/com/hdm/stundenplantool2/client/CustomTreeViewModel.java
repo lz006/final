@@ -1134,30 +1134,47 @@ public class CustomTreeViewModel implements TreeViewModel {
 	 * @param	semesterverband - Objekt, welches "seine alte Version" ersetzt  
 	 */
 	public void updateSemesterverband(Semesterverband semesterverband) {
+				
+		int i = 0;
+
+		// Aktualisieren des ListDataProviders
+		if (hVectorSV.size() != 0) {
+			for (int g = 0; g < hVectorSV.size(); g++) {
+				i = 0;
+				boolean deleted = false;
+				for (Semesterverband sv : hVectorSV.elementAt(g).getList()) {
+					if (sv.getId() == semesterverband.getId()) {
+
+						hVectorSV.elementAt(g).getList().remove(i);
+						hVectorSV.elementAt(g).refresh();
+						deleted = true;
+						break;
+					} else {
+						i++;
+					}
+				}
+				if (deleted) {
+					break;
+				}
+			}
+		}
 		
-		int g = 0;
+		int j = 0;
 		
 		//Ermitteln des entsprechenden ListDataProviders
 		if (hVectorSV.size() != 0) {
-			for (int i = 0; i < hVectorSGforSV.size(); i++) {
-				if (semesterverband.getStudiengang().getId() == hVectorSGforSV.elementAt(i).getId()) {
-					g = i;
+			for (int k = 0; k < hVectorSGforSV.size(); k++) {
+				if (semesterverband.getStudiengang().getId() == hVectorSGforSV.elementAt(k).getId()) {
+					j = k;
 					break;
 				}
 			}
 		}
 		
 		// Aktualisieren des ListDataProviders
-		List<Semesterverband> semesterverbandList = hVectorSV.elementAt(g).getList();
-		int i = 0;
-		for (Semesterverband sv : semesterverbandList) {
-			if (sv.getId() == semesterverband.getId()) {
-				semesterverbandList.set(i, semesterverband);
-				hVectorSV.elementAt(g).refresh();
-				break;
-			} else {
-				i++;
-			}
+		if (hVectorSV.elementAt(j) != null) {
+			hVectorSV.elementAt(j).getList().add(hVectorSV.elementAt(j).getList().size(), semesterverband);
+			hVectorSV.elementAt(j).refresh();
 		}
 	}
 

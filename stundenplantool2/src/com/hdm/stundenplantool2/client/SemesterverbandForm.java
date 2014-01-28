@@ -251,6 +251,7 @@ public class SemesterverbandForm extends VerticalPanel {
 				loeschenButton.setEnabled(false);
 
 				shownSemesterverband.setJahrgang(jahrgangTextBox.getText());
+				shownSemesterverband.setStudiengang(studiengangVector.elementAt(studiengangListBox.getSelectedIndex()));
 				try {
 					shownSemesterverband.setAnzahlStudenten(Integer.parseInt(anzahlStudentenTextBox.getText()));
 				} catch (NumberFormatException e) {
