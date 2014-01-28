@@ -597,44 +597,39 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		 *  "Besetzte Räume" und "Räume" deren Kapazität nicht ausreichend für die Stundentenanzahl des 
 		 *  gewählten Semesterverbands ist, aus allen Räumen herausfiltern		
 		 */
-		if (besetzteRaeumeVector.size() > 0) {
-			Vector<Raum> alleRaeumeVector = raumMapper.findAll();
-			if (alleRaeumeVector.size() != besetzteRaeumeVector.size()) {
-				for (int i = 0; i < alleRaeumeVector.size(); i++) {
-					boolean check = false;
-					for (int j = 0; j < besetzteRaeumeVector.size(); j++) {
-						if (alleRaeumeVector.elementAt(i).getId() == besetzteRaeumeVector.elementAt(j).getId()) {
-							check = true;
-							break;
-						}
-					}
-					if (!check) {
-						freieRaeumeVector.add(alleRaeumeVector.elementAt(i));
+		
+		Vector<Raum> alleRaeumeVector = raumMapper.findAll();
+		if (alleRaeumeVector.size() != besetzteRaeumeVector.size()) {
+			for (int i = 0; i < alleRaeumeVector.size(); i++) {
+				boolean check = false;
+				for (int j = 0; j < besetzteRaeumeVector.size(); j++) {
+					if (alleRaeumeVector.elementAt(i).getId() == besetzteRaeumeVector.elementAt(j).getId()) {
+						check = true;
+						break;
 					}
 				}
-				for (int i = 0; i < freieRaeumeVector.size(); i++) {
-					if (freieRaeumeVector.elementAt(i).getKapazitaet() >= studentenzahl) {
-						passendeRaeumeVector.add(freieRaeumeVector.elementAt(i));
-					}
-				}
-				if (passendeRaeumeVector.size() > 0) {
-					return passendeRaeumeVector;
-				}
-				else {
-					throw new RuntimeException("Kein Raum verfügbar\nBitte wählen Sie einen anderen Zeitslot\n"
-							+ "bzw. die Kapazitäten der verfügbaren Räume ist zu gering");
+				if (!check) {
+					freieRaeumeVector.add(alleRaeumeVector.elementAt(i));
 				}
 			}
+			for (int i = 0; i < freieRaeumeVector.size(); i++) {
+				if (freieRaeumeVector.elementAt(i).getKapazitaet() >= studentenzahl) {
+					passendeRaeumeVector.add(freieRaeumeVector.elementAt(i));
+				}
+			}
+			if (passendeRaeumeVector.size() > 0) {
+				return passendeRaeumeVector;
+			}
 			else {
-				throw new RuntimeException("Kein Raum verfügbar\nBitte wählen Sie einen anderen Zeitslot");
+				throw new RuntimeException("Kein Raum verfügbar\nBitte wählen Sie einen anderen Zeitslot\n"
+						+ "bzw. die Kapazitäten der verfügbaren Räume ist zu gering");
 			}
 		}
 		else {
-			return raumMapper.findAll();
+			throw new RuntimeException("Kein Raum verfügbar\nBitte wählen Sie einen anderen Zeitslot");
 		}
-		
-	}
-	
+	}		
+			
 	/*
 	 * ***********************************************************************************************
 	 * ABSCHNITT, Ende: Methoden um dem Client die geforderten BusinessObjects zu übermitteln
