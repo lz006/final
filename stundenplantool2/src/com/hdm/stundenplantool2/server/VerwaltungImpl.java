@@ -1663,7 +1663,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		
 		// Prüfung ob die Kapazität größer 0 ist
 		if (raum.getKapazitaet() == 0) {
-			throw new IllegalArgumentException("Die Kapazität darf nicht 0 sein");
+			throw new IllegalArgumentException("Die Kapazität darf nicht 0 sein ");
 		}
 		
 		// Prüfung ob die Kapazität kleiner 1.000 ist
