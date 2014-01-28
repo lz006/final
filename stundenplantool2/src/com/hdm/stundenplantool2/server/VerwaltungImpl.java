@@ -613,7 +613,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 					}
 				}
 				for (int i = 0; i < freieRaeumeVector.size(); i++) {
-					if (freieRaeumeVector.elementAt(i).getKapazitaet() < studentenzahl) {
+					if (freieRaeumeVector.elementAt(i).getKapazitaet() >= studentenzahl) {
 						passendeRaeumeVector.add(freieRaeumeVector.elementAt(i));
 					}
 				}
