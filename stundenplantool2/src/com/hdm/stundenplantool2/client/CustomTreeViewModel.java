@@ -879,7 +879,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 			for (int g = 0; g < hVectorSGforLV.size(); g++) {
 				for (int i = 0; i < lehrveranstaltung.getStudiengaenge().size(); i++) {
 					if (lehrveranstaltung.getStudiengaenge().elementAt(i).getId() == hVectorSGforLV.elementAt(g).getId()) {
-						vi.add(new Integer(i));
+						vi.add(new Integer(g));
 					}
 				}
 			}
@@ -930,25 +930,25 @@ public class CustomTreeViewModel implements TreeViewModel {
 			}
 		}
 		
-		Vector<Integer> vi2 = new Vector<Integer>();;
+		Vector<Integer> vi = new Vector<Integer>();;
 		
-		// Ermitteln der entsprechenden ListDataProvider
+		//Ermitteln der entsprechenden ListDataProvider
 		if (hVectorLV.size() != 0) {
 			for (int g = 0; g < hVectorSGforLV.size(); g++) {
 				for (int i = 0; i < lehrveranstaltung.getStudiengaenge().size(); i++) {
 					if (lehrveranstaltung.getStudiengaenge().elementAt(i).getId() == hVectorSGforLV.elementAt(g).getId()) {
-						vi2.add(new Integer(i));
+						vi.add(new Integer(g));
 					}
 				}
 			}
 		}
 		
 		// Aktualisieren der ListDataProvider
-		for (int g = 0; g < vi2.size(); g++) {
+		for (int g = 0; g < vi.size(); g++) {
 			
-			if (hVectorLV.elementAt(g) != null) {
-				hVectorLV.elementAt(g).getList().add(hVectorLV.elementAt(g).getList().size(), lehrveranstaltung);
-				hVectorLV.elementAt(g).refresh();
+			if (hVectorLV.elementAt(vi.elementAt(g)) != null) {
+				hVectorLV.elementAt(vi.elementAt(g)).getList().add(hVectorLV.elementAt(vi.elementAt(g)).getList().size(), lehrveranstaltung);
+				hVectorLV.elementAt(vi.elementAt(g)).refresh();
 			}
 		}
 	}
@@ -970,7 +970,7 @@ public class CustomTreeViewModel implements TreeViewModel {
 			for (int g = 0; g < hVectorSGforLV.size(); g++) {
 				for (int i = 0; i < lv.getStudiengaenge().size(); i++) {
 					if (lv.getStudiengaenge().elementAt(i).getId() == hVectorSGforLV.elementAt(g).getId()) {
-						vi.add(new Integer(i));
+						vi.add(new Integer(g));
 					}
 				}
 			}
@@ -979,9 +979,9 @@ public class CustomTreeViewModel implements TreeViewModel {
 		// Aktualisieren der ListDataProvider
 		for (int g = 0; g < vi.size(); g++) {
 			
-			if (hVectorLV.elementAt(g) != null) {
-				hVectorLV.elementAt(g).getList().add(hVectorLV.elementAt(g).getList().size(), lv);
-				hVectorLV.elementAt(g).refresh();
+			if (hVectorLV.elementAt(vi.elementAt(g)) != null) {
+				hVectorLV.elementAt(vi.elementAt(g)).getList().add(hVectorLV.elementAt(vi.elementAt(g)).getList().size(), lv);
+				hVectorLV.elementAt(vi.elementAt(g)).refresh();
 			}
 		}
 	}
