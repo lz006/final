@@ -311,8 +311,9 @@ public class DozentForm extends VerticalPanel {
 					final int row = lvTable.getRowCount();
 					if (lv.getBezeichnung().length() > 22) {
 						StringBuffer modBezeichnung = new StringBuffer();
-						modBezeichnung.append(lv.getBezeichnung());
-						modBezeichnung.insert(23, " ");
+						modBezeichnung.append(lv.getBezeichnung().substring(0, 23));
+						modBezeichnung.append(" ");
+						modBezeichnung.append(lv.getBezeichnung().substring(23));
 						lvTable.setWidget(row, 0, new Label(modBezeichnung.toString()));
 					}
 					else {
@@ -346,7 +347,17 @@ public class DozentForm extends VerticalPanel {
 			if ((LVvonNeuerDozent != null) && (LVvonNeuerDozent.size() > 0)) {
 				for (Lehrveranstaltung lv : LVvonNeuerDozent) {
 					final int row = lvTable.getRowCount();
-					lvTable.setWidget(row, 0, new Label(lv.getBezeichnung()));
+					
+					if (lv.getBezeichnung().length() > 22) {
+						StringBuffer modBezeichnung = new StringBuffer();
+						modBezeichnung.append(lv.getBezeichnung().substring(0, 23));
+						modBezeichnung.append(" ");
+						modBezeichnung.append(lv.getBezeichnung().substring(23));
+						lvTable.setWidget(row, 0, new Label(modBezeichnung.toString()));
+					}
+					else {
+						lvTable.setWidget(row, 0, new Label(lv.getBezeichnung()));
+					}
 
 					Button loeschenButton = new Button("X");
 					loeschenButton.addClickHandler(new ClickHandler() {
