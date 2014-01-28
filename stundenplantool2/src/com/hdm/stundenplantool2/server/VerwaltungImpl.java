@@ -858,7 +858,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		Vector<Semesterverband> sgNachSV = this.auslesenSemesterverbaendeNachStudiengang(semesterverband.getStudiengang());
 		
 		for (Semesterverband sv : sgNachSV) {
-			if (semesterverband.getJahrgang() == sv.getJahrgang() && semesterverband.getId() != sv.getId()) {
+			if (semesterverband.getJahrgang().equals(sv.getJahrgang()) && semesterverband.getId() != sv.getId()) {
 				throw new IllegalArgumentException("Dieser Semesterverband existiert bereits");
 			}
 		}
@@ -1812,7 +1812,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		Vector<Semesterverband> sgNachSV = this.auslesenSemesterverbaendeNachStudiengang(studiengang);
 		
 		for (Semesterverband sv : sgNachSV) {
-			if (jahrgang == sv.getJahrgang()) {
+			if (jahrgang.equals(sv.getJahrgang())) {
 				throw new IllegalArgumentException("Dieser Semesterverband existiert bereits");
 			}
 		}
