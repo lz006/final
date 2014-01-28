@@ -941,6 +941,11 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		if ((dozent.getVorname() == null ||dozent.getVorname().length() == 0) || (dozent.getNachname() == null || dozent.getNachname().length() == 0)) {
 			throw new IllegalArgumentException("Bitte geben Sie Vor- und Nachname an");
 		}
+		
+		// Prüfung ob Vor- oder Nachname je nicht länger als 45 Zeichen sind
+		if (dozent.getVorname().length() > 45 || dozent.getVorname().length() > 45) {
+			throw new IllegalArgumentException("Der Vor- und Nachname darf je nicht mehr als 45 Zeichen enthalten");
+		}
 			
 		// Prüfung ob am Ende der Vor- oder Nachnamens ein Leerzeichen ist				
 		if (dozent.getVorname().substring(0, 1).equals(" ") || dozent.getVorname().lastIndexOf(" ") == dozent.getVorname().length() - 1 ||
@@ -1071,6 +1076,11 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		//Prüfung ob die Bezeichnung der Lehrveranstaltung syntaktisch korrekt ist
 		if (!lehrveranstaltung.getBezeichnung().matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
 			throw new IllegalArgumentException("Es befinden sich nicht erlaubte Zeichen in der Bezeichnung!");
+		}
+		
+		// Prüfung ob Bezeichnung nicht länger als 45 Zeichen ist
+		if (lehrveranstaltung.getBezeichnung().length() > 45) {
+			throw new IllegalArgumentException("Die Bezeichnung darf nicht mehr als 45 Zeichen enthalten");
 		}
 		
 		//Prüfung ob die Bezeichnung der Lehrveranstaltung syntaktisch korrekt ist
@@ -1555,6 +1565,12 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new IllegalArgumentException("Bitte geben Sie eine Bezeichnung und das Kürzel an");
 		}
 		
+		// Prüfung ob Bezeichnung nicht länger als 45 Zeichen ist
+		if (bezeichnung.length() > 45) {
+			throw new IllegalArgumentException("Die Bezeichnung darf nicht mehr als 45 Zeichen enthalten");
+		}
+		
+		// Prüfung ob im Kürzel nur Zahlen angegeben wurden
 		if (studiengang.getKuerzel().matches("[0-9]*")) {
 			throw new IllegalArgumentException("Das Kürzel darf nicht nur aus Zahlen bestehen!");
 		}
@@ -1837,6 +1853,10 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 			throw new IllegalArgumentException("Es dürfen sich vor dem Vor-bzw.Nachname keine Leerzeichen befinden");
 		}
 		
+		// Prüfung ob Vor- oder Nachname je nicht länger als 45 Zeichen sind
+		if (vorname.length() > 45 || nachname.length() > 45) {
+			throw new IllegalArgumentException("Der Vor- und Nachname darf je nicht mehr als 45 Zeichen enthalten");
+		}		
 		
 		// Prüfung des Vor- und Nachnamens auf Zahlen und bestimmte Sonderzeichen, diese sind nicht erlaubt		
 		if (!vorname.matches("[^0-9\\,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*") || 
@@ -1896,6 +1916,11 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		if (bezeichnung == null || bezeichnung.length() == 0) {
 			throw new IllegalArgumentException("Bitten geben Sie eine Bezeichnung an");
 		}
+		
+		// Prüfung ob Bezeichnung nicht länger als 45 Zeichen ist
+		if (bezeichnung.length() > 45) {
+			throw new IllegalArgumentException("Die Bezeichnung darf nicht mehr als 45 Zeichen enthalten");
+		}	
 		
 		//Prüfung ob die Bezeichnung der Lehrveranstaltung syntaktisch korrekt ist
 		if (!bezeichnung.matches("[^,\\_\\+\\*\\/\\=\\}\\{\\[\\]\\%\\$\\§\\\"\\!\\^\\°\\<\\>\\|\\;\\:\\#\\~\\@\\€\\?\\(\\)\\²\\³]*")) {
@@ -2257,6 +2282,11 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		if ((tempBezeichnung.length() == 0) || (tempKuerzel.length() == 0)) {
 			throw new IllegalArgumentException("Bitte geben Sie die Bezeichnung und das Kürzel an");
 		}
+		
+		// Prüfung ob Bezeichnung nicht länger als 45 Zeichen ist
+		if (tempBezeichnung.length() > 45) {
+			throw new IllegalArgumentException("Die Bezeichnung darf nicht mehr als 45 Zeichen enthalten");
+		}		
 		
 		// Prüfung ob das Kürzel den Restriktionen entspricht
 		if (!kuerzel.matches("[A-Z]{2,4}|[A-Z]{2,4}[-][1-20]")) {
