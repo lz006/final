@@ -59,24 +59,30 @@ public class DBConnection {
 	 */
 	public static Connection connection() {
 		// Wenn es bisher keine Conncetion zur DB gab, ... 
-		if ( con == null ) {
-			try {
-				// Ersteinmal muss der passende DB-Treiber geladen werden
-				DriverManager.registerDriver(new AppEngineDriver());
+		try {
+			if ( con == null || con.isClosed() ) {
+				try {
+					// Ersteinmal muss der passende DB-Treiber geladen werden
+					DriverManager.registerDriver(new AppEngineDriver());
 
-				/*
-				 * Dann erst kann uns der DriverManager eine Verbindung mit den oben
-				 * in der Variable url angegebenen Verbindungsinformationen aufbauen.
-				 * 
-				 * Diese Verbindung wird dann in der statischen Variable con 
-				 * abgespeichert und fortan verwendet.
-				 */
-				con = DriverManager.getConnection(url);
-			} 
-			catch (SQLException e1) {
-				con = null;
-				e1.printStackTrace();
+					/*
+					 * Dann erst kann uns der DriverManager eine Verbindung mit den oben
+					 * in der Variable url angegebenen Verbindungsinformationen aufbauen.
+					 * 
+					 * Diese Verbindung wird dann in der statischen Variable con 
+					 * abgespeichert und fortan verwendet.
+					 */
+					con = DriverManager.getConnection(url);
+				} 
+				catch (SQLException e1) {
+					con = null;
+					e1.printStackTrace();
+				}
 			}
+		}
+		catch (SQLException e1) {
+			con = null;
+			e1.printStackTrace();
 		}
 		
 		// Zurückgegeben der Verbindung

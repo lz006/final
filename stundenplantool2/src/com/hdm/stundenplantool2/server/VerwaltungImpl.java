@@ -575,6 +575,9 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 		// Erstellung eines Containers um alle freien Räume aufzunehmen
 		Vector<Raum> freieRaeumeVector = new Vector<Raum>();
 		
+		// Erstellung eines Containers um alle passenden (bez. Kapazität u Zeitslot) Räume aufzunehmen
+		Vector<Raum> passendeRaeumeVector = new Vector<Raum>();
+		
 		// Variable um die Studentenanzahl festzuhalten	
 		int studentenzahl = 0;
 		
@@ -600,7 +603,7 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 				for (int i = 0; i < alleRaeumeVector.size(); i++) {
 					boolean check = false;
 					for (int j = 0; j < besetzteRaeumeVector.size(); j++) {
-						if ((alleRaeumeVector.elementAt(i).getKapazitaet() < studentenzahl) || (alleRaeumeVector.elementAt(i).getId() == besetzteRaeumeVector.elementAt(j).getId())) {
+						if (alleRaeumeVector.elementAt(i).getId() == besetzteRaeumeVector.elementAt(j).getId()) {
 							check = true;
 							break;
 						}
@@ -609,8 +612,18 @@ public class VerwaltungImpl extends RemoteServiceServlet implements Verwaltung {
 						freieRaeumeVector.add(alleRaeumeVector.elementAt(i));
 					}
 				}
-				
-				return freieRaeumeVector;
+				for (int i = 0; i < freieRaeumeVector.size(); i++) {
+					if (freieRaeumeVector.elementAt(i).getKapazitaet() < studentenzahl) {
+						passendeRaeumeVector.add(freieRaeumeVector.elementAt(i));
+					}
+				}
+				if (passendeRaeumeVector.size() > 0) {
+					return passendeRaeumeVector;
+				}
+				else {
+					throw new RuntimeException("Kein Raum verfügbar\nBitte wählen Sie einen anderen Zeitslot\n"
+							+ "bzw. die Kapazitäten der verfügbaren Räume ist zu gering");
+				}
 			}
 			else {
 				throw new RuntimeException("Kein Raum verfügbar\nBitte wählen Sie einen anderen Zeitslot");
