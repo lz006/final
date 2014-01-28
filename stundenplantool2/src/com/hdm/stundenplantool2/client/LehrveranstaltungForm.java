@@ -432,7 +432,7 @@ public class LehrveranstaltungForm extends VerticalPanel {
 					+ "</br>Die Bezeichnung darf nicht mit einem Sonderzeichen, einem Leerzeichen oder einer Zahl beginnen!"
 					+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich am Ende der Bezeichnung, gefolgt von einer Zahl!</br>Bsp. Softwareentwicklung-2"
 					+ "</br>"
-					+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden");
+					+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden!");
 			}
 		});
 	}

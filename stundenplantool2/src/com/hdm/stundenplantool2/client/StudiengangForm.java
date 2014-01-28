@@ -290,7 +290,7 @@ public class StudiengangForm extends VerticalPanel {
 					+ "</br>Die Bezeichnung muss mindestens aus 5 Buchstaben  bestehen!"
 					+ "</br>Bsp. Musik"
 					+ "</br>"
-					+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden");
+					+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden!");
 								
 			}
 		});

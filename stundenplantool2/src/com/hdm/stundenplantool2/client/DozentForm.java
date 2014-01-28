@@ -451,7 +451,7 @@ public class DozentForm extends VerticalPanel {
 						+ "</br>Der Vorname darf keine Zahlen und Sonderzeichen enthalten und nicht mit einem Leerzeichen beginnen!"
 						+ "</br>Einzig erlaubtes Sonderzeichen ist ein Bindestrich.</br>Bsp. Karl-Heinz"
 						+ "</br>"
-						+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden");
+						+ "</br>Max. dürfen 45 Zeichen eingetragen/ verwendet werden!");
 			}
 		});
 
