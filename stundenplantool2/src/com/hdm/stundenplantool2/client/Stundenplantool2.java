@@ -32,7 +32,6 @@ public class Stundenplantool2 implements EntryPoint {
 	/**
 	 * Referenz auf das Proxy-Objekte um mit dem Server kommunizieren zu können
 	 */
-
 	private final VerwaltungAsync fuerMatze = GWT.create(Verwaltung.class);
 	private final ReportAsync report = GWT.create(Report.class);
 	
