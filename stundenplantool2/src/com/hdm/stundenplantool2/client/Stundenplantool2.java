@@ -35,6 +35,8 @@ public class Stundenplantool2 implements EntryPoint {
 	private final VerwaltungAsync verwaltung = GWT.create(Verwaltung.class);
 	private final ReportAsync report = GWT.create(Report.class);
 	
+	// weil lulu es wünscht
+	
 	/**
 	 * CellTree welcher dauerhaft auf der linken Seite der Benutzeroberfläche
 	 * dem User zur Navigation durch die Funktionen des "Stundentools2" dient

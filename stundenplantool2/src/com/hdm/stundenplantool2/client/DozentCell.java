@@ -39,6 +39,7 @@ public class DozentCell extends AbstractCell<Dozent> {
 		}
 
 		sb.appendHtmlConstant("<div>");
+		sb.appendEscaped("Prof. ");
 		sb.appendEscaped(value.getNachname() + " ");
 		sb.appendEscaped(value.getVorname());
 		sb.appendHtmlConstant("</div>");
