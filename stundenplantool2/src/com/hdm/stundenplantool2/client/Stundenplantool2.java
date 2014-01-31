@@ -32,7 +32,7 @@ public class Stundenplantool2 implements EntryPoint {
 	/**
 	 * Referenz auf das Proxy-Objekte um mit dem Server kommunizieren zu können
 	 */
-	private final VerwaltungAsync verwaltung = GWT.create(Verwaltung.class);
+	private final VerwaltungAsync verwaltungAA = GWT.create(Verwaltung.class);
 	private final ReportAsync report = GWT.create(Report.class);
 	
 	// weil lulu es wünscht
@@ -280,7 +280,7 @@ public class Stundenplantool2 implements EntryPoint {
 		mainPanel.add(welcomeLabel);
 		
 		// Initialisierung eines Objekts vom Typ "TreeViewModel"
-		dtvm = new CustomTreeViewModel(verwaltung);
+		dtvm = new CustomTreeViewModel(verwaltungAA);
 		
 		// Initialisierung des CellTrees
 		cellTree = new CellTree(dtvm, "Root");
@@ -422,7 +422,7 @@ public class Stundenplantool2 implements EntryPoint {
 				
 				closingEvent.setMessage("Wirklich beenden?");
 				
-				verwaltung.closeConnection(new AsyncCallback<Void>() {
+				verwaltungAA.closeConnection(new AsyncCallback<Void>() {
 					public void onFailure(Throwable caught) {
 						Window.alert(caught.getMessage());
 					}
@@ -476,7 +476,7 @@ public class Stundenplantool2 implements EntryPoint {
 	 * Methode welche das Dozent-Formular in den Hauptbereich läd
 	 */
 	public void setDozentFormToMain() {
-		dF = new DozentForm(verwaltung);
+		dF = new DozentForm(verwaltungAA);
 		dtvm.setDozentForm(dF);
 		mainPanel.clear();
 		mainPanel.add(dF);
@@ -486,7 +486,7 @@ public class Stundenplantool2 implements EntryPoint {
 	 * Methode welche das Belegung-Formular in den Hauptbereich läd
 	 */
 	public void setBelegungFormToMain() {
-		bF = new BelegungForm(verwaltung);
+		bF = new BelegungForm(verwaltungAA);
 		dtvm.setBelegungForm(bF);
 		mainPanel.clear();
 		mainPanel.add(bF);
@@ -496,7 +496,7 @@ public class Stundenplantool2 implements EntryPoint {
 	 * Methode welche das Lehrveranstaltung-Formular in den Hauptbereich läd
 	 */
 	public void setLehrveranstaltungFormToMain() {
-		lF = new LehrveranstaltungForm(verwaltung);
+		lF = new LehrveranstaltungForm(verwaltungAA);
 		dtvm.setLehrveranstaltungForm(lF);
 		mainPanel.clear();
 		mainPanel.add(lF);
@@ -506,7 +506,7 @@ public class Stundenplantool2 implements EntryPoint {
 	 * Methode welche das Studiengang-Formular in den Hauptbereich läd
 	 */
 	public void setStudiengangFormToMain() {
-		sgF = new StudiengangForm(verwaltung);
+		sgF = new StudiengangForm(verwaltungAA);
 		dtvm.setStudiengangForm(sgF);
 		mainPanel.clear();
 		mainPanel.add(sgF);
@@ -516,7 +516,7 @@ public class Stundenplantool2 implements EntryPoint {
 	 * Methode welche das Semesterverband-Formular in den Hauptbereich läd
 	 */
 	public void setSemesterverbandFormToMain() {
-		svF = new SemesterverbandForm(verwaltung);
+		svF = new SemesterverbandForm(verwaltungAA);
 		dtvm.setSemesterverbandForm(svF);
 		mainPanel.clear();
 		mainPanel.add(svF);
@@ -526,7 +526,7 @@ public class Stundenplantool2 implements EntryPoint {
 	 * Methode welche das Raum-Formular in den Hauptbereich läd
 	 */
 	public void setRaumFormToMain() {
-		rF = new RaumForm(verwaltung);
+		rF = new RaumForm(verwaltungAA);
 		dtvm.setRaumForm(rF);
 		mainPanel.clear();
 		mainPanel.add(rF);
